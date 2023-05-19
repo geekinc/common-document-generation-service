@@ -1,38 +1,89 @@
-.App {
-  text-align: center;
+
+.column-left {
+    padding: 20px;
+    float: left;
+    width: 33%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.column-right {
+    padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.row-height {
+  height: 100vh;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.column-header {
+    height: 5vh;
+}
+.column-scroll {
+  height: 87vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  top: 2em;
 }
 
-.App-link {
-  color: #61dafb;
+.submit-button {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+
+.container-fluid {
+}
+
+/*.column-scroll {*/
+/*    overflow-y: auto;*/
+/*    height: 90vh;*/
+/*}*/
+
+.row-height {
+    height: 100vh;
+}
+
+/*.column-left {*/
+/*    border-right: 1px solid #dedede;*/
+/*}*/
+
+.submit-button {
+    margin-top: 10px;
+}
+
+.copy-button {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+}
+
+.card-result {
+    width: 18rem;
+    margin-bottom: 10px;
+    max-height: 275px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card-logo {
+    float: right;
+    width: 4em;
+}
+
+.card-link-footer {
+    margin: unset;
+}
+
+.left-aligned {
+    text-align: left;
+}
+
+.download-csv {
+    position: fixed;
+    right: 25px;
+    top: 15px;
 }
