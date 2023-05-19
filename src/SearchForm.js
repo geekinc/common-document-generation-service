@@ -87,7 +87,7 @@ const SearchForm = () => {
         event.preventDefault();
         try {
             setIsLoading(true);
-            const response = await fetch('http://localhost:5000/api/search', {
+            const response = await fetch('https://ty9vcdxik7.execute-api.us-east-1.amazonaws.com/prod/api/search', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
