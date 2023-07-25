@@ -11,17 +11,24 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Papa from 'papaparse';
 
-
 import './App.css';
-
 
 const SearchForm = () => {
     const [results, setResults] = useState(null);
     const [totalEntries, setTotalEntries] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
+    const queryParameters = new URLSearchParams(window.location.search);
+    const customer = queryParameters.get("customer");
+
+    console.log(customer);
+
+    // HOWTO create keys: https://knowledge.apollo.io/hc/en-us/articles/4415734629773-Configure-Access-to-the-Apollo-REST-API
+
     const [payload, setPayload] = useState({
-        api_key: "iAw6Qq-w9nmZsCYvcLGW1g",
+        // api_key: "iAw6Qq-w9nmZsCYvcLGW1g",   // ben@dynamicoutboundsales.com
+        // api_key: "mDSuNyxv-x5wNgRnyKei5g",      // keiran@my-jobologi.co.uk
+        api_key: "UVf7TXPMwh0Shx66Uk0PwQ",      // joe@toriiconsulting.com
         person_titles: ["Safety Manager", "Safety Supervisor"],
         person_locations : ["Canada"],
         organization_num_employees_ranges: ['1,10', '11,20', '21,50', '51,100'],
@@ -87,7 +94,8 @@ const SearchForm = () => {
         event.preventDefault();
         try {
             setIsLoading(true);
-            const response = await fetch('https://ty9vcdxik7.execute-api.us-east-1.amazonaws.com/prod/api/search', {
+            // const response = await fetch('https://ty9vcdxik7.execute-api.us-east-1.amazonaws.com/prod/api/search', {
+            const response = await fetch('http://localhost:3000/dev/api/search', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)

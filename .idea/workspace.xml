@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="abe94d3a-d248-48f8-bb41-83aacf9d5806" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverless/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/serverless/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverless/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/serverless/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverless/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/serverless/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverless/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/serverless/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverless/serverless.yml" beforeDir="false" afterPath="$PROJECT_DIR$/serverless/serverless.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SearchForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SearchForm.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,11 +40,15 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/BenInkster/Documents/repo/dynamic_outbound_sales/apollo-search&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/BenInkster/Documents/repo/Auto-GPT&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2022.1.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.1.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -47,7 +62,31 @@
       <updated>1684356179072</updated>
       <workItem from="1684356182865" duration="15352000" />
       <workItem from="1684447152718" duration="4013000" />
-      <workItem from="1684483891525" duration="3683000" />
+      <workItem from="1684483891525" duration="4825000" />
+      <workItem from="1684811486199" duration="1230000" />
+      <workItem from="1684871714729" duration="1508000" />
+      <workItem from="1685036522838" duration="10000" />
+      <workItem from="1685556073321" duration="4278000" />
+      <workItem from="1685724437691" duration="466000" />
+      <workItem from="1685725058799" duration="295000" />
+      <workItem from="1685725373206" duration="650000" />
+      <workItem from="1685986475052" duration="9998000" />
+      <workItem from="1686590524472" duration="1313000" />
+      <workItem from="1686676998221" duration="587000" />
+      <workItem from="1686871649747" duration="1901000" />
+      <workItem from="1687303221905" duration="1891000" />
+      <workItem from="1687383847417" duration="9047000" />
+      <workItem from="1687540160694" duration="133000" />
+      <workItem from="1687540328136" duration="2725000" />
+      <workItem from="1687983556038" duration="3939000" />
+      <workItem from="1688171436822" duration="693000" />
+      <workItem from="1688744473382" duration="1349000" />
+      <workItem from="1689001953664" duration="4341000" />
+      <workItem from="1689199147434" duration="3138000" />
+      <workItem from="1689788634332" duration="13000" />
+      <workItem from="1690063155435" duration="58000" />
+      <workItem from="1690063241590" duration="1206000" />
+      <workItem from="1690308391395" duration="1617000" />
     </task>
     <servers />
   </component>

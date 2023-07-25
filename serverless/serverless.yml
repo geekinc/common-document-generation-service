@@ -1,5 +1,8 @@
 service: apollo-search-api
 
+plugins:
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs12.x
@@ -15,4 +18,11 @@ functions:
       - http:
           path: /api/search
           method: post
+          cors: true
+  apollo:
+    handler: app.handler
+    events:
+      - http:
+          path: /api/apollo
+          method: get
           cors: true
