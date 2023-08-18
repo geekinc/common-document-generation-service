@@ -19,7 +19,11 @@ const SearchForm = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const queryParameters = new URLSearchParams(window.location.search);
-    const customer = queryParameters.get("customer");
+    let customer = queryParameters.get("customer");
+
+    if(typeof(customer) !== 'string') {
+        customer = 'unspecified';
+    }
 
     console.log(customer);
 
@@ -29,6 +33,7 @@ const SearchForm = () => {
         // api_key: "iAw6Qq-w9nmZsCYvcLGW1g",   // ben@dynamicoutboundsales.com
         // api_key: "mDSuNyxv-x5wNgRnyKei5g",      // keiran@my-jobologi.co.uk
         api_key: "UVf7TXPMwh0Shx66Uk0PwQ",      // joe@toriiconsulting.com
+        customer: customer,
         person_titles: ["Safety Manager", "Safety Supervisor"],
         person_locations : ["Canada"],
         organization_num_employees_ranges: ['1,10', '11,20', '21,50', '51,100'],
@@ -83,6 +88,13 @@ const SearchForm = () => {
             .catch(err => console.error('Could not copy text: ', err));
     };
 
+    const callParent = () => {
+        window.parent.postMessage({
+            'func': 'parentFunc',
+            'message': 'Message text from iframe.'
+        }, "app.dynamicsales.com");
+    }
+
     const extractTotalEntries = (data) => {
         if (data && data.pagination && data.pagination.total_entries) {
             return data.pagination.total_entries;
@@ -94,8 +106,9 @@ const SearchForm = () => {
         event.preventDefault();
         try {
             setIsLoading(true);
-            const response = await fetch('https://ty9vcdxik7.execute-api.us-east-1.amazonaws.com/prod/api/search', {
+            // const response = await fetch('https://ty9vcdxik7.execute-api.us-east-1.amazonaws.com/prod/api/search', {
             // const response = await fetch('http://localhost:3000/dev/api/search', {
+            const response = await fetch('http://localhost:3000/dev/api/local-search', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -272,8 +285,12 @@ const SearchForm = () => {
                             </Card>
 
                         </Accordion>
-                        <Button variant="secondary" className="copy-button" onClick={copyPayloadToClipboard}>
-                            Copy Details
+                        {/*<Button variant="secondary" className="copy-button" onClick={copyPayloadToClipboard}>*/}
+                        {/*    Copy Details*/}
+                        {/*</Button>*/}
+
+                        <Button variant="secondary" className="copy-button" onClick={callParent}>
+                            Call Parent
                         </Button>
 
                         <Button variant="primary" type="submit" className="submit-button">
