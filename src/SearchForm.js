@@ -89,6 +89,7 @@ const SearchForm = () => {
     };
 
     const callParent = () => {
+        console.log('callParent - from inside iframe');
         window.parent.postMessage({
             'func': 'parentFunc',
             'message': 'Message text from iframe.'
