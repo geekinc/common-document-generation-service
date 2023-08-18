@@ -20,7 +20,8 @@
     "axios": "^0.21.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "serverless": "^1.60.0"
+    "serverless": "^1.60.0",
+    "serverless-offline": "^6.7.0"
   },
   "devDependencies": {
     "serverless-offline": "^12.0.4"
