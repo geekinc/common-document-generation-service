@@ -92,7 +92,7 @@ const SearchForm = () => {
         window.parent.postMessage({
             'func': 'parentFunc',
             'message': 'Message text from iframe.'
-        }, "app.dynamicsales.com");
+        }, "*");
     }
 
     const extractTotalEntries = (data) => {
