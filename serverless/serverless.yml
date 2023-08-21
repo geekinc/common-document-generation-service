@@ -26,3 +26,17 @@ functions:
           path: /api/apollo
           method: get
           cors: true
+  local-search:
+    handler: app.handler
+    events:
+      - http:
+          path: /api/local-search
+          method: post
+          cors: true
+  local-upsert-query:
+    handler: app.handler
+    events:
+      - http:
+          path: /api/local-upsert-query
+          method: post
+          cors: true

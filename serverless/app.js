@@ -2,21 +2,52 @@ const awsServerlessExpress = require('aws-serverless-express');
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const staticData = require('../data/response.json')
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post('/api/search', async (req, res) => {
+// app.post('/api/search', async (req, res) => {
+//     console.log(req.body);
+//     try {
+//         const response = await axios.post('https://api.apollo.io/v1/mixed_people/search', req.body);
+//         res.send(response.data);
+//     } catch (error) {
+//         console.error(`Error: ${error}`);
+//         res.status(500).send('There was an error processing your request');
+//     }
+// });
+
+app.post('/api/local-search/', async (req, res) => {
     console.log(req.body);
+
+    // Call upsert function to save the query server-side
     try {
-        const response = await axios.post('https://api.apollo.io/v1/mixed_people/search', req.body);
-        res.send(response.data);
+        const response = await axios.post('http://localhost:3000/dev/api/local-upsert-query', req.body);
+        // res.send(response.data);
+        console.log(response.data);
+        // Return static results
+        await res.send(staticData);
     } catch (error) {
         console.error(`Error: ${error}`);
         res.status(500).send('There was an error processing your request');
     }
+
+
 });
+
+app.post('/api/local-upsert-query', async (req, res) => {
+    console.log('upsert customer query');
+
+    // This method should store the customer query
+    // The reasoning is this: if there is a current query, the system can continue to execute it in the background
+    // and rehydrate the prospect list for that particular customer on a regular basis
+
+    res.send({'result': 'processing', 'customer': req.body.customer});
+});
+
+
 
 app.get('/api/apollo', async (req, res) => {
     console.log(req.body);

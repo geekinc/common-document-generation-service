@@ -176,7 +176,7 @@ const SearchForm = () => {
     }
 
     return (
-        <Container fluid className="container-fluid">
+        <Container fluid className="container-fluid" style={{backgroundColor: "#f2f7fa"}}>
             <ToastContainer />
             <Form onSubmit={handleFormSubmit}  className="">
                 <Row className="row-height">
