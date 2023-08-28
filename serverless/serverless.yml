@@ -1,3 +1,5 @@
+frameworkVersion: "1.67.0"
+
 service: apollo-search-api
 
 plugins:
