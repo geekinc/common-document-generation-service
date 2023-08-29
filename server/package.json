@@ -24,7 +24,6 @@
     "serverless-offline-sqs": "^4.1.1"
   },
   "dependencies": {
-    "@shopify/shopify-api": "^3.0.1",
     "aws-amplify": "^4.1.0",
     "axios": "^0.27.2",
     "copy-webpack-plugin": "^6.3.2",
@@ -32,7 +31,7 @@
     "lambda-warmer": "^1.2.1",
     "moment": "^2.29.1",
     "nodemailer": "^6.7.2",
-    "serverless": "^3.0.0",
+    "serverless": "^3.25.1",
     "serverless-dotenv-plugin": "^2.4.2",
     "serverless-webpack": "^5.6.0",
     "tedious": "^12.2.0",
