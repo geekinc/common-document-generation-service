@@ -1,4 +1,4 @@
-frameworkVersion: "1.83.2"
+frameworkVersion: "2.4.0"
 
 service: search-api-dynamic
 
@@ -13,9 +13,9 @@ plugins:
 useDotenv: true
 provider:
   name: aws
+  runtime: nodejs16.x
   endpointType: edge
   versionFunctions: true
-  runtime: nodejs14.x
   stage: ${opt:stage, "dev"}
   region: ${opt:region, "ca-central-1"}
   iamRoleStatements:
