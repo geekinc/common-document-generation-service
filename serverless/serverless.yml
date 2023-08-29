@@ -1,4 +1,3 @@
-frameworkVersion: "1.67.0"
 
 service: apollo-search-api
 
@@ -41,4 +40,18 @@ functions:
       - http:
           path: /api/local-upsert-query
           method: post
+          cors: true
+  armpit:
+    handler: app.handler
+    events:
+      - http:
+          path: /api/armpit
+          method: get
+          cors: true
+  armpit2:
+    handler: app.handler
+    events:
+      - http:
+          path: /api/armpit/{count}
+          method: get
           cors: true

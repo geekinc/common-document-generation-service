@@ -61,9 +61,31 @@ app.get('/api/apollo', async (req, res) => {
     }
 });
 
+app.get('/api/armpit', async (req, res) => {
+    console.log('oxter');
+    console.log(req.params);
+    try {
+        res.send('oxter');
+    } catch (error) {
+        console.error(`Error: ${error}`);
+        res.status(500).send('There was an error processing your request');
+    }
+});
+
+app.get('/api/armpit/:count', async (req, res) => {
+    console.log('oxter');
+    console.log(req.params);
+    try {
+        res.send('oxter');
+    } catch (error) {
+        console.error(`Error: ${error}`);
+        res.status(500).send('There was an error processing your request');
+    }
+});
+
 const server = awsServerlessExpress.createServer(app);
 
 exports.handler = (event, context) => {
-    console.log(`EVENT: ${JSON.stringify(event)}`);
+    // console.log(`EVENT: ${JSON.stringify(event)}`);
     awsServerlessExpress.proxy(server, event, context);
 };
