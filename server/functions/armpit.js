@@ -7,8 +7,9 @@ import response from "../lib/response-lib";
 export async function main(event, context) {
     console.log("armpit", event);
     console.log(event.pathParameters);
+    let count = event.pathParameters.count;
     try {
-        return response.success("armpit");
+        return response.success(count || "armpit");
     } catch (exception) {
         return response.failure();
     } finally {
