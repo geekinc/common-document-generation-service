@@ -1,4 +1,4 @@
-frameworkVersion: "3.34.0"
+frameworkVersion: "1.83.2"
 
 service: search-api-dynamic
 
