@@ -1,3 +1,5 @@
+frameworkVersion: "3.34.0"
+
 service: search-api-dynamic
 
 package:
