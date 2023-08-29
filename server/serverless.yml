@@ -1,4 +1,4 @@
-frameworkVersion: "3.25.1"
+frameworkVersion: "3.34.0"
 
 service: search-api-dynamic
 
@@ -7,7 +7,6 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin
 
-useDotenv: true
 provider:
   name: aws
   runtime: nodejs16.x
