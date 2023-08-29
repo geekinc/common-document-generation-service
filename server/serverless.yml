@@ -15,7 +15,7 @@ provider:
   name: aws
   endpointType: edge
   versionFunctions: true
-  runtime: nodejs16.x
+  runtime: nodejs14.x
   stage: ${opt:stage, "dev"}
   region: ${opt:region, "ca-central-1"}
   iamRoleStatements:
