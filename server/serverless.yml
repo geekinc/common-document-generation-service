@@ -1,4 +1,4 @@
-service: evrbed-api
+service: search-api-dynamic
 
 package:
   individually: true
@@ -24,34 +24,10 @@ provider:
 
 functions:
 
-  createCustomer:
-    handler: functions/shopify/createCustomer.main
+  armpit:
+    handler: functions/armpit.main
     events:
       - http:
-          path: customer/create
-          method: post
-          cors: true
-
-  queryCustomer:
-    handler: functions/shopify/queryCustomer.main
-    events:
-      - http:
-          path: customer/query
+          path: armpit/{count}
           method: get
-          cors: true
-
-  updateCustomer:
-    handler: functions/shopify/updateMattressConfiguration.main
-    events:
-      - http:
-          path: customer/mattressConfiguration/update
-          method: post
-          cors: true
-
-  createCart:
-    handler: functions/shopify/createCart.main
-    events:
-      - http:
-          path: customer/cart/create
-          method: post
           cors: true

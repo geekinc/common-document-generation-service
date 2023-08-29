@@ -2,7 +2,7 @@ const awsServerlessExpress = require('aws-serverless-express');
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-const staticData = require('../data/response.json')
+const staticData = require('./data/response.json')
 
 const app = express();
 app.use(cors());

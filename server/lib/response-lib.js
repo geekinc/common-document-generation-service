@@ -1,0 +1,34 @@
+export default {
+    success: (body) => buildResponse(200, body),
+    successtext: (body) => buildTextResponse(200, body),
+    failure: (body) => buildResponse(500, body),
+    badrequest: (body) => buildResponse(400, body),
+    unauthorized: (body) => buildResponse(401, body),
+    notfound: (body) => buildResponse(404, body),
+    redirect: (location) => buildResponse(302, undefined, {Location: location})
+};
+
+function buildResponse(statusCode, body, headers = {}) {
+    console.log("body", body);
+    return {
+        statusCode: statusCode,
+        headers: {
+            ...headers,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true
+        },
+        body: JSON.stringify(body)
+    };
+}
+
+function buildTextResponse(statusCode, body, headers = {}) {
+    return {
+        statusCode: statusCode,
+        headers: {
+            ...headers,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true
+        },
+        body: body
+    };
+}
