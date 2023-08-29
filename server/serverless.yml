@@ -1,9 +1,6 @@
-frameworkVersion: "2.4.0"
+frameworkVersion: "3.25.1"
 
 service: search-api-dynamic
-
-package:
-  individually: true
 
 plugins:
   - serverless-bundle
@@ -14,10 +11,8 @@ useDotenv: true
 provider:
   name: aws
   runtime: nodejs16.x
-  endpointType: edge
   versionFunctions: true
   stage: ${opt:stage, "dev"}
-  region: ${opt:region, "ca-central-1"}
   iamRoleStatements:
     - Effect: Allow
       Action:
