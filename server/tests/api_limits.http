@@ -1,0 +1,4 @@
+GET https://api.apollo.io/v1/auth/health?api_key=iAw6Qq-w9nmZsCYvcLGW1g
+Accept: application/json
+
+###

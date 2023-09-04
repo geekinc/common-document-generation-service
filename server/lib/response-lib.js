@@ -1,6 +1,7 @@
 export default {
     success: (body) => buildResponse(200, body),
     successtext: (body) => buildTextResponse(200, body),
+    successcsv: (body) => buildRawResponse(200, body, {"Content-Type": "text/csv"}),
     failure: (body) => buildResponse(500, body),
     badrequest: (body) => buildResponse(400, body),
     unauthorized: (body) => buildResponse(401, body),
@@ -9,7 +10,6 @@ export default {
 };
 
 function buildResponse(statusCode, body, headers = {}) {
-    console.log("body", body);
     return {
         statusCode: statusCode,
         headers: {
@@ -21,7 +21,7 @@ function buildResponse(statusCode, body, headers = {}) {
     };
 }
 
-function buildTextResponse(statusCode, body, headers = {}) {
+function buildRawResponse(statusCode, body, headers = {}) {
     return {
         statusCode: statusCode,
         headers: {
@@ -30,5 +30,20 @@ function buildTextResponse(statusCode, body, headers = {}) {
             "Access-Control-Allow-Credentials": true
         },
         body: body
+    };
+}
+
+function buildTextResponse(statusCode, body, headers = {}) {
+    let response = {
+        response: body
+    };
+    return {
+        statusCode: statusCode,
+        headers: {
+            ...headers,
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": true
+        },
+        body: JSON.stringify(response)
     };
 }
