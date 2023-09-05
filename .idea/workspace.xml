@@ -6,12 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="abe94d3a-d248-48f8-bb41-83aacf9d5806" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/functions/armpit.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/lib/response-lib.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/serverless.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/serverless-bak.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +145,7 @@
       <workItem from="1692476048809" duration="16175000" />
       <workItem from="1693440285983" duration="1812000" />
       <workItem from="1693596512614" duration="27923000" />
+      <workItem from="1693871433078" duration="1343000" />
     </task>
     <servers />
   </component>
