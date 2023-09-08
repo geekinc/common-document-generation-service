@@ -28,6 +28,7 @@ functions:
       - http:
           path: enrich-email
           method: post
+          cors: true
 
   search-prospects:
     handler: functions/apollo/search-prospects.main
@@ -36,6 +37,7 @@ functions:
       - http:
           path: search-prospects
           method: post
+          cors: true
 
   put-stored-profile:
     handler: functions/stored-profiles/put-stored-profile.main
@@ -44,6 +46,7 @@ functions:
       - http:
           path: stored-profile
           method: put
+          cors: true
 
   post-stored-profile:
     handler: functions/stored-profiles/post-stored-profile.main
@@ -52,6 +55,7 @@ functions:
       - http:
           path: stored-profile
           method: post
+          cors: true
 
   get-stored-profile:
     handler: functions/stored-profiles/get-stored-profile.main
@@ -60,6 +64,7 @@ functions:
       - http:
           path: stored-profile/{customer}
           method: get
+          cors: true
 
   armpit:
     handler: functions/armpit.main
@@ -67,3 +72,4 @@ functions:
       - http:
           path: armpit/{count}
           method: get
+          cors: true
