@@ -2066,12 +2066,7 @@ button:disabled {
     border: none
 }
 
-/*!
- * TOAST UI Calendar
- * @version 1.13.0 | Wed Dec 23 2020
- * @author NHN FE Development Lab <dl_javascript@nhn.com>
- * @license MIT
- */
+
 .tui-full-calendar-layout {
     height: 100%;
     position: relative
@@ -3451,12 +3446,7 @@ input[type=checkbox].tui-full-calendar-checkbox-round+span {
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAAXNSR0IArs4c6QAAAQpJREFUKBVjYCARMCKrNzU1tf/3718lUMwQiP8yMjKeYWJi6j516tRhExOThjNnzjTANQAFqv///98CVHQPSO8A0ixATa5AtjyQPgDETmfPngULMpiZmbn//fu3BSg4B6ggCyjxG8hm8PT0ZH/9+vUJoJgTiA8CTCACqDgXaOJ9Xl7eTJhikDhQcSVQsQGITT8A9rSxsfF/mJVApzWCQgPGd3BwYPny5cstoNOuAZ3rAwoJOAAqviAqKtoOEwAaxPr58+dpQL4iEGeAxJFt2AfkOwA1PQTSu4Em/gGyPYC0EpCuAdraCtIADiWgQCPQOmdmZmYHoNgVoCJfIB0CpG8DI84BphgoRjoAAAzgdELI91E5AAAAAElFTkSuQmCC)
 }
 
-/*!
- * TOAST UI Date Picker
- * @version 4.1.0
- * @author NHN. FE Development Lab <dl_javascript@nhn.com>
- * @license MIT
- */
+
 .tui-calendar {
     position: relative;
     background-color: #fff;
@@ -3994,12 +3984,6 @@ input[type=checkbox].tui-full-calendar-checkbox-round+span {
     margin-left: 5px
 }
 
-/*!
- * TOAST UI Time Picker
- * @version 2.0.3
- * @author NHN FE Development Lab <dl_javascript@nhn.com>
- * @license MIT
- */
 .tui-timepicker * {
     -webkit-box-sizing: border-box;
     box-sizing: border-box
@@ -4788,7 +4772,7 @@ input[type=checkbox].tui-full-calendar-checkbox-round+span {
     color: #fff
 }
 
-.pricing-table__plan-upgrade__upgrade-btn.--recommended: hover {
+.pricing-table__plan-upgrade__upgrade-btn.--recommended:hover {
     background-color:#249151
 }
 
@@ -6067,17 +6051,7 @@ input[type=checkbox].tui-full-calendar-checkbox-round+span {
     cursor: pointer
 }
 
-/*!
-  * ==========================================================================
-  * **************************** HIGHLEVEL STYLES ****************************
-  * ==========================================================================
-  */
-/*!
- * Bootstrap v4.0.0 (https://getbootstrap.com)
- * Copyright 2011-2018 The Bootstrap Authors
- * Copyright 2011-2018 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
+
 :root {
     --blue: #188bf6;
     --indigo: #6610f2;
@@ -43608,9 +43582,6 @@ body[data-theme=default-dark-v1] .launchpad-progress-incomplete {
     height: 25px
 }
 
-/*
-! tailwindcss v3.2.1 | MIT License | https://tailwindcss.com
-*/
 *,:after,:before {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -43830,7 +43801,7 @@ img,video {
 [multiple]:focus,[type=date]:focus,[type=datetime-local]:focus,[type=email]:focus,[type=month]:focus,[type=number]:focus,[type=password]:focus,[type=search]:focus,[type=tel]:focus,[type=text]:focus,[type=time]:focus,[type=url]:focus,[type=week]:focus,select:focus,textarea:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
-    --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+    --tw-ring-inset: var(--tw-empty);
     --tw-ring-offset-width: 0px;
     --tw-ring-offset-color: #fff;
     --tw-ring-color: #2563eb;
@@ -43935,7 +43906,7 @@ select {
 [type=checkbox]:focus,[type=radio]:focus {
     outline: 2px solid transparent;
     outline-offset: 2px;
-    --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
+    --tw-ring-inset: var(--tw-empty);
     --tw-ring-offset-width: 2px;
     --tw-ring-offset-color: #fff;
     --tw-ring-color: #2563eb;

@@ -155,15 +155,17 @@ const ClientForm = () => {
         try {
             const response = await fetch(API_URL + '/search-prospects/', {
                 method: 'POST',
-                mode: 'cors',
                 body: JSON.stringify(payload)
             });
+            console.log(response);
+
             if (response.status === 404) {
                 console.log('404 error');
             } else {
                 data = await response.json()
             }
         } catch (e) {
+            console.error(e);
             data = [];
         }
 
@@ -743,7 +745,7 @@ const ClientForm = () => {
                         <div>
                             <div className="form-group">
                                 <div  className="d-flex justify-content-center" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
-                                    <h2>Total Entries: {searchResponse.total_entries.toLocaleString()}</h2>
+                                    <h2>Total Entries: {searchResponse?.total_entries?.toLocaleString()}</h2>
                                 </div>
                             </div>
                         </div>
@@ -753,7 +755,7 @@ const ClientForm = () => {
                             <div className="form-group">
                                 <div className="d-flex justify-content-center" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
                                     <div className="spinner-border" style={{width: "3rem", height: "3rem"}} role="status">
-                                        <span class="sr-only">Loading...</span>
+                                        <span className="sr-only">Loading...</span>
                                     </div>
                                 </div>
                             </div>

@@ -34,18 +34,9 @@
 .container-fluid {
 }
 
-/*.column-scroll {*/
-/*    overflow-y: auto;*/
-/*    height: 90vh;*/
-/*}*/
-
 .row-height {
     height: 100vh;
 }
-
-/*.column-left {*/
-/*    border-right: 1px solid #dedede;*/
-/*}*/
 
 .submit-button {
     margin-top: 10px;
