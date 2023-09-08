@@ -1,4 +1,4 @@
-import response from "../lib/response-lib";
+import response from "../../lib/response-lib";
 import { json2csv } from 'json-2-csv';
 import { parse_host } from 'tld-extract';
 const axios = require('axios');
@@ -7,7 +7,7 @@ const keys = [
     "mDSuNyxv-x5wNgRnyKei5g",
     "gs_ytoBmZht7mm8fWN_IoQ",
     "jq3u7hN8I69TEe0J7eRwEQ",
-//    "G2OFJe7sBsI3ZALHLv4R2g",
+//    "G2OFJe7sBsI3ZALHLv4R2g",  // Dead api key
     "wJTpegcDY2mTzi8l2eLKAw"
 ];
 let currentKey = 0;

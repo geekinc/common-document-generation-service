@@ -21,13 +21,48 @@ provider:
 functions:
 
   enrich-email:
-    handler: functions/enrich-email.main
+    handler: functions/apollo/enrich-email.main
     timeout: 900
     events:
       - http:
           path: enrich-email
           method: post
           cors: true
+
+  search-prospects:
+    handler: functions/apollo/search-prospects.main
+    timeout: 900
+    events:
+      - http:
+          path: search-prospects
+          method: post
+          cors: true
+
+  put-stored-profile:
+    handler: functions/stored-profiles/put-stored-profile.main
+    timeout: 900
+    events:
+      - http:
+          path: stored-profile
+          method: put
+          cors: true
+
+  post-stored-profile:
+    handler: functions/stored-profiles/post-stored-profile.main
+    timeout: 900
+    events:
+      - http:
+          path: stored-profile
+          method: post
+          cors: true
+
+  get-stored-profile:
+    handler: functions/stored-profiles/get-stored-profile.main
+    timeout: 900
+    events:
+      - http:
+          path: stored-profile/{customer}
+          method: get
 
   armpit:
     handler: functions/armpit.main
