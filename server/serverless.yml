@@ -63,6 +63,7 @@ functions:
       - http:
           path: stored-profile/{customer}
           method: get
+          cors: true
 
   armpit:
     handler: functions/armpit.main
