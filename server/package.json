@@ -16,8 +16,7 @@
     "aws-sdk": "^2.844.0",
     "serverless-bundle": "^5.2.0",
     "serverless-jest-plugin": "^0.3.0",
-    "serverless-offline": "^9.3.1",
-    "serverless-webpack": "^5.13.0"
+    "serverless-offline": "^9.3.1"
   },
   "dependencies": {
     "aws-amplify": "^4.1.0",
@@ -25,6 +24,7 @@
     "dotenv": "^16.0.0",
     "json-2-csv": "^4.1.0",
     "moment": "^2.29.1",
+    "mysql2": "^3.6.0",
     "serverless": "^3.25.1",
     "serverless-dotenv-plugin": "^2.4.2",
     "serverless-mysql": "^1.5.5",

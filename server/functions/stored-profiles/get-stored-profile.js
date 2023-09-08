@@ -2,6 +2,7 @@ import response from "../../lib/response-lib";
 import { logger } from '../../lib/logger-lib';
 
 const mysql = require('serverless-mysql')({
+    library: require('mysql2'),
     config: {
         host     : process.env.rds_host,
         database : process.env.rds_database,
