@@ -1,263 +1,420 @@
 // src/ClientForm.js
-import React, { useState } from 'react';
-import { Accordion, Card, Button, Form } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { FaLinkedin } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import CurrencyInput from 'react-currency-input-field';
-import { ToastContainer, toast } from 'react-toastify';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
-import { faRemove } from '@fortawesome/free-solid-svg-icons'
+import {faEdit, faRefresh} from '@fortawesome/free-solid-svg-icons'
 import { faArrowsH } from '@fortawesome/free-solid-svg-icons'
-
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-
-
-import { DataGrid, GridColDef, GridValueGetterParams, GridRenderCellParams } from '@mui/x-data-grid';
-
-
-import 'react-toastify/dist/ReactToastify.css';
-
-import './App.css';
 import _ from "underscore";
 
+import './App.css';
+
+// const API_URL = 'http://localhost:3000/dev';
+const API_URL = 'https://4btojh14c6.execute-api.us-east-1.amazonaws.com/prod';
+
 const ClientForm = () => {
-    const [profileDescription, setProfileDescription] = React.useState('testing');
-    const [profileState, setProfileState] = React.useState('testing');
-    const [profileJobTitles, setProfileJobTitles] = React.useState([]);
-    const [profileLocations, setProfileLocations] = React.useState([]);
-    const [profileIndustries, setProfileIndustries] = React.useState([]);
-    const [profileEmployeeCounts, setProfileEmployeeCounts] = React.useState([]);
-    const [profileRevenueMin, setProfileRevenueMin] = React.useState('0');
-    const [profileRevenueMax, setProfileRevenueMax] = React.useState('0');
-    const [profileTag, setProfileTag] = React.useState('');
-    const [profileFrequencyCount, setProfileFrequencyCount] = React.useState(0);
-    const [profileFrequency, setProfileFrequency] = React.useState('day');
-    const [icpRows, setIcpRows] = React.useState([]);
 
+    //  variable declarations ------------------------------------------------------------------------------------------
+    const blankProfile = {
+        id: '',
+        new: false,
+        customer: '',
+        description: '',
+        state: 'editing',
+        jobTitles: [],
+        locations: [],
+        industries: [],
+        employeeCounts: [],
+        revenueMin: '0',
+        revenueMax: '0',
+        tag: '',
+        frequencyCount: 0,
+        frequency: 'day'
+    }
+    const [var_editing, set_editing] = useState(-1);
+    const [customer, setCustomer] = React.useState('');
+    const [profile, setProfile] = React.useState(blankProfile);
+    const [profiles, setProfiles] = React.useState([]);
+    const [jobTitles, setJobTitles] = React.useState([]);
+    const [locations, setLocations] = React.useState([]);
+    const [industries, setIndustries] = React.useState([]);
+    const [employees, setEmployees] = React.useState([]);
 
-    const _ = require('underscore');
+    const [searchResponse, setSearchResponse] = React.useState(null);
 
-    let jobTitles = require('./data/jobTitles.json');
-    jobTitles = _.uniq(jobTitles, 'name');
-    jobTitles = jobTitles.sort((a, b) => {
-        if (a.name.length < b.name.length) {
-            return -1;
+    // modal variables
+    const [show, setShow] = useState(false);
+    const handleClose = () => {
+        setShow(false);
+        setSearchResponse(null);
+    }
+    const handleShow = () => setShow(true);
+
+    //  event listeners ------------------------------------------------------------------------------------------------
+
+    // Run on page load
+    useEffect( ()=> {
+        // Determine which customer this impacts
+        const queryParameters = new URLSearchParams(window.location.search);
+        let id = queryParameters.get("customer");
+        if(typeof(id) !== 'string') {
+            setCustomer('');
+        } else {
+            setCustomer(id);
         }
-    });
 
-    // Set up static locations array
-    let locations = require('./data/locations.json');
-    locations = _.uniq(locations, 'name');
-    locations = locations.sort((a, b) => {
-        if (a.name.length < b.name.length) {
-            return -1;
+        // Fetch the job titles
+        let jobs = require('./data/jobTitles.json');
+        jobs = _.uniq(jobs, 'name');
+        jobs = jobs.sort((a, b) => {
+            if (a.name.length < b.name.length) {
+                return -1;
+            }
+            return 1;
+        });
+        setJobTitles(jobs.map(job => job.name));
+
+        // Fetch locations
+        let locales = require('./data/locations.json');
+        locales = _.uniq(locales, 'name');
+        locales = locales.sort((a, b) => {
+            if (a.name.length < b.name.length) {
+                return -1;
+            }
+            return 1;
+        });
+        setLocations(locales.map(locale => locale.name));
+
+        // Fetch industries
+        let verticals = require('./data/industries.json');
+        verticals = _.uniq(verticals, 'name');
+        verticals = verticals.sort((a, b) => {
+            if (a.name.length < b.name.length) {
+                return -1;
+            }
+            return 1;
+        });
+        setIndustries(verticals.map(vertical => vertical.name));
+
+        // Fetch employees
+        setEmployees([
+            '1-10',
+            '11-20',
+            '21-50',
+            '51-100',
+            '101-200',
+            '201-500',
+            '501-1000',
+            '1001-2000',
+            '2001-5000',
+            '5001-10000',
+            '10001+'
+        ]);
+
+    },[]);
+
+    // Kick off the API calls once we have a customer id
+    useEffect( ()=> {
+        // Fetch the stored profiles
+        console.log(customer);
+        API_get_profiles().then((data) => {
+            if (data.length > 0) {
+                setProfiles(data);
+            }
+        });
+    },[customer]);
+
+
+    //  API calls ------------------------------------------------------------------------------------------------------
+
+    async function API_get_profiles(){
+        localStorage.setItem('activetime',Math.floor(Date.now() / 1000));
+        let data = [];
+        try {
+            const response = await fetch(API_URL + '/stored-profile/' + customer, {
+                method: 'GET'
+            });
+            console.log(response);
+            if (response.status === 404) {
+                console.log('404 error');
+            } else {
+                data = await response.json()
+            }
+        } catch (e) {
+            data = [];
         }
-    });
+        return data;
+    }
 
-    let industries = require('./data/industries.json');
-    industries = _.uniq(industries, 'name');
-    industries = industries.sort((a, b) => {
-        if (a.name.length < b.name.length) {
-            return -1;
+    async function API_search_prospects(payload){
+        localStorage.setItem('activetime',Math.floor(Date.now() / 1000));
+        let data = [];
+        try {
+            const response = await fetch(API_URL + '/search-prospects/', {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify(payload)
+            });
+            if (response.status === 404) {
+                console.log('404 error');
+            } else {
+                data = await response.json()
+            }
+        } catch (e) {
+            data = [];
         }
-    });
 
-    let employees = ['1-10', '11-20', '21-50', '51-100', '101-200', '201-500', '501-1000', '1001-2000', '2001-5000', '5001-10000', '10001+'];
+        setSearchResponse(data);
+        return data;
+    }
 
-    const columns = [
-        {
-            field: 'hydratorName',
-            headerName: 'Name',
-            type: 'string',
-            flex: 1
-        },
-        {
-            field: 'state',
-            headerName: 'State',
-            type: 'string',
-            flex: 1
-        },
-        {
-            field: 'actions',
-            headerName: 'Actions',
-            flex: 0.5,
-            renderCell: (params) => (
-                <strong>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        tabIndex={params.hasFocus ? 0 : -1}
-                        className="btn btn-primary btn-sm"
-                    >
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                    <Button
-                        variant="contained"
-                        size="small"
-                        tabIndex={params.hasFocus ? 0 : -1}
-                        onClick={(e) => handleRemoveProfileClick(e)}
-                        className="btn btn-primary btn-sm"
-                    >
-                        <FontAwesomeIcon icon={faRemove} />
-                    </Button>
-                </strong>
-            ),
-        },
-    ];
 
-    let rows = [
-        { id: 1, hydratorName: 'North American Prospects', state: 'Testing', lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, hydratorName: 'Safety Managers', state: 'Testing', lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, hydratorName: 'Experiment', state: 'Testing', lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-    ];
+    //  event functions ------------------------------------------------------------------------------------------------
 
     const handleProfileDescriptionChange = (data) => {
-        setProfileDescription(data);
+        setProfile({ ...profile, description: data });
     };
 
     const handleProfileStateChange = (event, newState) => {
         if (newState !== null) {
-            setProfileState(newState);
+            setProfile({ ...profile, state: newState });
         }
     };
 
     const handleProfileJobTitlesChange = (event, data) => {
-        setProfileJobTitles(data);
+        setProfile({ ...profile, jobTitles: data });
     };
 
     const handleProfileLocationsChange = (event, data) => {
-        setProfileLocations(data);
+        setProfile({ ...profile, locations: data });
     };
 
     const handleProfileIndustriesChange = (event, data) => {
-        setProfileIndustries(data);
+        setProfile({ ...profile, industries: data });
     };
 
     const handleProfileEmployeeCountsChange = (event, data) => {
-        setProfileEmployeeCounts(data);
+        setProfile({ ...profile, employeeCounts: data });
     };
 
     const handleProfileRevenueMinChange = (data) => {
-        setProfileRevenueMin(data);
+        setProfile({ ...profile, revenueMin: data });
     };
 
     const handleProfileRevenueMaxChange = (data) => {
-        setProfileRevenueMax(data);
+        setProfile({ ...profile, revenueMax: data });
     };
 
     const handleProfileTagChange = (data) => {
-        setProfileTag(data);
+        setProfile({ ...profile, tag: data });
     };
 
     const handleProfileFrequencyChange = (event, data) => {
         if (data !== null) {
-            setProfileFrequency(data);
+            setProfile({ ...profile, frequency: data });
         }
     };
 
     const handleProfileFrequencyCountChange = (data) => {
-        setProfileFrequencyCount(data);
+        setProfile({ ...profile, frequencyCount: data });
     };
 
     const handleAddClick = (event) => {
-        setIcpRows([...icpRows, { id: 4, hydratorName: 'This is a test of the emergency', state: 'Testing', lastName: 'Lannister', firstName: 'Jaime', age: 45 }]);
+        if (var_editing >= 0) {
+            let shouldContinue = window.confirm("You will lose any unsaved changes.  Are you sure you want to continue?");
+            if (!shouldContinue) {
+                return;
+            }
+        }
+
+        // Load the blank values into the working state variables
+        let localProfile = blankProfile;
+        localProfile.new = true;
+        setProfile(localProfile);
+
+        // Need to add indexing to highlight the new entry
+        set_editing(true);
+        // setProfiles([...profiles, blankProfile]);
     };
 
-    const handleRemoveProfileClick = (event) => {
-        console.log(event);
+    function refreshData() {
+        setProfile(blankProfile);
+        set_editing(-1);
+        API_get_profiles().then((data) => {
+            if (data.length > 0) {
+                setProfiles(data);
+            }
+        });
+    }
+
+    const handleRefreshClick = (event) => {
+        if (var_editing >= 0) {
+            let shouldContinue = window.confirm("You will lose any unsaved changes.  Are you sure you want to continue?");
+            if (!shouldContinue) {
+                return;
+            }
+        }
+        refreshData();
+    };
+
+    const handleCloseClick = (event) => {
+        let shouldContinue = window.confirm("You will lose any unsaved changes.  Are you sure you want to continue?");
+        if (!shouldContinue) {
+            return;
+        }
+        setProfile(blankProfile);
+        set_editing(-1);
+    }
+
+    const handleEditProfileClick = (event, index) => {
+
+        // Load the saved values into the working state variables
+        let localProfile = profiles[index];
+        localProfile.jobTitles = (localProfile.job_title !== "") ? localProfile.job_title.split('|') : [];
+        localProfile.locations = (localProfile.location !== "") ? localProfile.location.split('|') : [];
+        localProfile.industries = (localProfile.industry !== "") ? localProfile.industry.split('|') : [];
+        localProfile.employeeCounts = (localProfile.number_of_employees !== "") ? localProfile.number_of_employees.split('|') : [];
+        localProfile.revenueMin = (localProfile.company_revenue_min !== "") ? localProfile.company_revenue_min : '0';
+        localProfile.revenueMax = (localProfile.company_revenue_max !== "") ? localProfile.company_revenue_max : '0';
+        localProfile.frequencyCount = (localProfile.hydration_frequency !== "") ? localProfile.hydration_frequency : 0;
+        localProfile.frequency = (localProfile.hydration_period !== "") ? localProfile.hydration_period : 'day';
+        localProfile.tag = (localProfile.prospect_tag !== "") ? localProfile.prospect_tag : '';
+        setProfile(localProfile);
+
+        set_editing(index);
+    };
+
+    const handleTestClick = (event) => {
+        // Trigger the test
+        let payload = {
+            id: profile.id,
+            customer: customer,
+            description: profile.description,
+            state: profile.state,
+            job_title: profile.jobTitles,
+            location: profile.locations,
+            industry: profile.industries,
+            number_of_employees: profile.employeeCounts,
+            company_revenue_min: profile.revenueMin,
+            company_revenue_max: profile.revenueMin,
+            prospect_tag: profile.tag,
+            hydration_frequency: profile.frequencyCount,
+            hydration_period: profile.frequency
+        };
+
+        // Apply the search
+        API_search_prospects(payload);
+
+        // Show modal
+        setShow(true);
     };
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+        set_editing(-1);
         try {
-            // setIsLoading(true);
-            // const response = await fetch('https://ty9vcdxik7.execute-api.us-east-1.amazonaws.com/prod/api/search', {
-            // const response = await fetch('http://localhost:3000/dev/api/search', {
-            // const response = await fetch('http://localhost:3000/dev/api/local-search', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(payload)
-            // });
-            // const data = await response.json();
-
-            const queryParameters = new URLSearchParams(window.location.search);
-            let customer = queryParameters.get("customer") || '123456789';
-            let query ={
-                icp_name: profileDescription,
-                state: profileState,
+            let payload = {
+                id: profile.id,
                 customer: customer,
-                person_titles: profileJobTitles,
-                person_locations : profileLocations,
-                organization_num_employees_ranges: profileEmployeeCounts,
-                contact_email_status: ["verified"],
-                revenue_range: {"max": profileRevenueMax, "min": profileRevenueMin},
-                organization_industry_tag_ids: profileIndustries,
-                frequency: {"count": profileFrequencyCount, "period": profileFrequency},
-                tag: profileTag,
-                per_page: 200,
-                page: 1
+                description: profile.description,
+                state: profile.state,
+                job_title: profile.jobTitles,
+                location: profile.locations,
+                industry: profile.industries,
+                number_of_employees: profile.employeeCounts,
+                company_revenue_min: profile.revenueMin,
+                company_revenue_max: profile.revenueMin,
+                prospect_tag: profile.tag,
+                hydration_frequency: profile.frequencyCount,
+                hydration_period: profile.frequency
+            };
+
+            // Save the profile - put if new, post if existing
+            let method = 'POST';
+            if (profile.new) {
+                method = 'PUT';
             }
+            console.log(payload);
+            const response = await fetch(API_URL + '/stored-profile', {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            console.log(response);
 
-            console.log(query);
 
-            // setIsLoading(false);
-            // setResults(data);  // set the results state with the data received
-            // setTotalEntries(extractTotalEntries(data));
+            refreshData();
         } catch (error) {
             console.error('Error:', error);
-            // setIsLoading(false);
         }
     };
 
     return (
-        <section data-v-029f7e9f="" id="agency_location" className="hl_wrapper--inner hl_agency hl_agency-location--details" style={{backgroundColor: "#f2f7fa"}}>
-            <div data-v-029f7e9f="" className="container-fluid">
-                <div data-v-029f7e9f="" className="mt-3">
+        <section id="agency_location" className="hl_wrapper--inner hl_agency hl_agency-location--details" style={{backgroundColor: "#f2f7fa"}}>
+            <div className="container-fluid">
+                <div className="mt-3">
 
                 </div>
-                <div data-v-029f7e9f="" className="row">
-                    <div data-v-029f7e9f="" className="col-lg-6">
-                        <div data-v-029f7e9f="" className="card">
-                            <div data-v-029f7e9f="" className="card-header">
-                                <h2 data-v-029f7e9f="">Ideal Customer Profile (ICP)</h2>
-                                <div>
-                                    <button data-v-029f7e9f="" type="button" className="btn btn-secondary btn-sm">Cancel</button>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button data-v-029f7e9f="" type="button" className="btn btn-primary btn-sm">Save</button>
-                                </div>
+                <div className="row">
+                    <div className="col-lg-6">
+                        <Form onSubmit={handleFormSubmit}>
+                            <div className="card">
+                            <div className="card-header">
+                                <h2>Ideal Customer Profile (ICP)</h2>
+                                { (var_editing >= 0) &&
+                                    <div>
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary btn-sm"
+                                            onClick={handleCloseClick}
+                                        >Close</button>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary btn-sm"
+                                        >Save</button>
+                                    </div>
+                                }
                             </div>
-                            <div data-v-029f7e9f="" className="card-body">
-                                <Form onSubmit={handleFormSubmit}  className="">
-                                <div data-v-029f7e9f="" className="tab-content">
-                                    <div data-v-029f7e9f="" id="prospect" role="tabpanel" aria-labelledby="prospect-tab" className="tab-pane fade show active" style={{padding: "0px"}}>
+                            <div className="card-body">
+                                <div className="tab-content">
+                                    <div id="prospect" role="tabpanel" aria-labelledby="prospect-tab" className="tab-pane fade show active" style={{padding: "0px"}}>
                                         <div style={{padding: "15px"}}>
 
 
                                             <div className="form-group">
-                                                <span data-v-56639245="" className="text-sm font-medium text-gray-700">
+                                                <span className="text-sm font-medium text-gray-700">
                                                     ICP Description
                                                 </span>
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
-                                                    <input data-v-7d86ee8a="" value={profileDescription} onChange={e => handleProfileDescriptionChange(e.target.value)} type="text" data-lpignore="true" autoComplete="msgsndr1" placeholder="Short description of your Ideal Customer Profile" className="hl-text-input shadow-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 block w-full sm:text-sm border-gray-300 rounded disabled:opacity-50 text-gray-800" name="msgsndr1" maxLength="" />
+                                                <div  className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
+                                                    <input
+                                                        disabled={!(var_editing >= 0)}
+
+                                                        value={profile.description}
+                                                        onChange={e => handleProfileDescriptionChange(e.target.value)}
+                                                        type="text"
+                                                        data-lpignore="true"
+                                                        autoComplete="msgsndr1"
+                                                        placeholder="Short description of your Ideal Customer Profile"
+                                                        className="hl-text-input  focus:ring-curious-blue-500 focus:border-curious-blue-500 block w-full sm:text-sm border-gray-300 rounded disabled:opacity-50 text-gray-800"
+                                                        name="msgsndr1"
+                                                        maxLength=""
+                                                    />
 
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <span data-v-56639245="" className="text-sm font-medium text-gray-700">
+                                                <span className="text-sm font-medium text-gray-700">
                                                     Profile State
                                                 </span>
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
+                                                <div  className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
                                                     <ToggleButtonGroup
+                                                        disabled={!(var_editing >= 0)}
                                                         color="primary"
-                                                        value={profileState}
+                                                        value={profile.state}
                                                         exclusive
                                                         size="small"
                                                         onChange={handleProfileStateChange}
@@ -270,19 +427,19 @@ const ClientForm = () => {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr5" data-lpignore="true" data-vv-as="Job title">
-                                                    <div data-v-7d86ee8a="" className="flex space-x-3">
-                                                        <span data-v-7d86ee8a="" htmlFor="msgsndr5" className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Job Title</span>
+                                                <div className="hl-text-input-container msgsndr5" data-lpignore="true" data-vv-as="Job title">
+                                                    <div className="flex space-x-3">
+                                                        <span htmlFor="msgsndr5" className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Job Title</span>
                                                     </div>
-                                                    <div data-v-7d86ee8a="" className="relative rounded-md shadow-sm">
+                                                    <div  className="relative rounded-md ">
                                                         <Autocomplete
+                                                            disabled={!(var_editing >= 0)}
                                                             multiple
                                                             limitTags={2}
                                                             id="multiple-limit-tags"
                                                             options={jobTitles}
-                                                            value={profileJobTitles}
+                                                            value={profile.jobTitles}
                                                             onChange={handleProfileJobTitlesChange}
-                                                            getOptionLabel={(option) => option.name}
                                                             defaultValue={[]}
                                                             className="w-full"
                                                             renderInput={(params) => (
@@ -294,18 +451,18 @@ const ClientForm = () => {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr6" data-lpignore="true" data-vv-as="Location">
-                                                    <div data-v-7d86ee8a="" className="flex space-x-3">
-                                                        <span data-v-7d86ee8a="" htmlFor="msgsndr6" className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Location(s)</span>
+                                                <div  className="hl-text-input-container msgsndr6" data-lpignore="true" data-vv-as="Location">
+                                                    <div  className="flex space-x-3">
+                                                        <span  htmlFor="msgsndr6" className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Location(s)</span>
                                                     </div>
                                                     <Autocomplete
+                                                        disabled={!(var_editing >= 0)}
                                                         multiple
                                                         limitTags={2}
                                                         id="multiple-limit-tags"
                                                         options={locations}
-                                                        value={profileLocations}
+                                                        value={profile.locations}
                                                         onChange={handleProfileLocationsChange}
-                                                        getOptionLabel={(option) => option.name}
                                                         defaultValue={[]}
                                                         className="w-full"
                                                         renderInput={(params) => (
@@ -315,18 +472,18 @@ const ClientForm = () => {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr6" data-lpignore="true" data-vv-as="Location">
-                                                    <div data-v-7d86ee8a="" className="flex space-x-3">
-                                                        <span data-v-7d86ee8a="" htmlFor="msgsndr6" className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Industry</span>
+                                                <div  className="hl-text-input-container msgsndr6" data-lpignore="true" data-vv-as="Location">
+                                                    <div  className="flex space-x-3">
+                                                        <span  htmlFor="msgsndr6" className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Industry</span>
                                                     </div>
                                                     <Autocomplete
+                                                        disabled={!(var_editing >= 0)}
                                                         multiple
                                                         limitTags={2}
                                                         id="multiple-limit-tags"
                                                         options={industries}
-                                                        value={profileIndustries}
+                                                        value={profile.industries}
                                                         onChange={handleProfileIndustriesChange}
-                                                        getOptionLabel={(option) => option.name}
                                                         defaultValue={[]}
                                                         className="w-full"
                                                         renderInput={(params) => (
@@ -336,16 +493,17 @@ const ClientForm = () => {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr6" data-lpignore="true" data-vv-as="Location">
-                                                    <div data-v-7d86ee8a="" className="flex space-x-3">
-                                                        <span data-v-7d86ee8a="" htmlFor="msgsndr6" className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Number of Employees</span>
+                                                <div  className="hl-text-input-container msgsndr6" data-lpignore="true" data-vv-as="Location">
+                                                    <div  className="flex space-x-3">
+                                                        <span  htmlFor="msgsndr6" className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Number of Employees</span>
                                                     </div>
                                                     <Autocomplete
+                                                        disabled={!(var_editing >= 0)}
                                                         multiple
                                                         limitTags={2}
                                                         id="multiple-limit-tags"
                                                         options={employees}
-                                                        value={profileEmployeeCounts}
+                                                        value={profile.employeeCounts}
                                                         onChange={handleProfileEmployeeCountsChange}
                                                         getOptionLabel={(option) => option}
                                                         defaultValue={[]}
@@ -357,20 +515,28 @@ const ClientForm = () => {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <span data-v-56639245="" className="text-sm font-medium text-gray-700">
+                                                <span className="text-sm font-medium text-gray-700">
                                                     Company Revenue
                                                 </span>
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
-                                                    <div data-v-7d86ee8a="" className="flex space-x-3">
+                                                <div  className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
+                                                    <div  className="flex space-x-3">
 
                                                     </div>
-                                                    <div data-v-7d86ee8a="" className="relative rounded-md">
+                                                    <div  className="relative rounded-md">
                                                         <div className="input-group">
                                                             <div className="input-group col-md-5">
                                                                 <div className="input-group-prepend">
                                                                     <span className="input-group-text">$</span>
                                                                 </div>
-                                                                <input type="text" value={profileRevenueMin} onChange={e => handleProfileRevenueMinChange(e.target.value)} style={{ fontSize: "0.875rem", lineHeight: "1.25rem"}} className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800" aria-label="Amount (to the nearest dollar)" />
+                                                                <input
+                                                                    disabled={!(var_editing >= 0)}
+                                                                    type="text"
+                                                                    value={profile.revenueMin}
+                                                                    onChange={e => handleProfileRevenueMinChange(e.target.value)}
+                                                                    style={{ fontSize: "0.875rem", lineHeight: "1.25rem"}}
+                                                                    className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800"
+                                                                    aria-label="Amount (to the nearest dollar)"
+                                                                />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">.00</span>
                                                                 </div>
@@ -380,7 +546,15 @@ const ClientForm = () => {
                                                                 <div className="input-group-prepend">
                                                                     <span className="input-group-text">$</span>
                                                                 </div>
-                                                                <input type="text" value={profileRevenueMax} onChange={e => handleProfileRevenueMaxChange(e.target.value)} style={{ fontSize: "0.875rem", lineHeight: "1.25rem"}} className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800" aria-label="Amount (to the nearest dollar)" />
+                                                                <input
+                                                                    disabled={!(var_editing >= 0)}
+                                                                    type="text"
+                                                                    value={profile.revenueMax}
+                                                                    onChange={e => handleProfileRevenueMaxChange(e.target.value)}
+                                                                    style={{ fontSize: "0.875rem", lineHeight: "1.25rem"}}
+                                                                    className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800"
+                                                                    aria-label="Amount (to the nearest dollar)"
+                                                                />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text">.00</span>
                                                                 </div>
@@ -391,40 +565,53 @@ const ClientForm = () => {
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <span data-v-56639245="" className="text-sm font-medium text-gray-700">
+                                                <span className="text-sm font-medium text-gray-700">
                                                     Prospect Tag
                                                 </span>
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
-                                                    <div data-v-7d86ee8a="" className="flex space-x-3">
+                                                <div  className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
+                                                    <div  className="flex space-x-3">
 
                                                     </div>
-                                                    <div data-v-7d86ee8a="" className="relative rounded-md shadow-sm">
-                                                        <input data-v-7d86ee8a="" value={profileTag} onChange={e => handleProfileTagChange(e.target.value)} type="text" data-lpignore="true" autoComplete="msgsndr1" placeholder="Tag Added to Prospect" className="hl-text-input shadow-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 block w-full sm:text-sm border-gray-300 rounded disabled:opacity-50 text-gray-800" name="msgsndr1" maxLength="" />
+                                                    <div  className="relative rounded-md ">
+                                                        <input
+                                                            disabled={!(var_editing >= 0)}
+                                                            value={profile.tag}
+                                                            onChange={e => handleProfileTagChange(e.target.value)}
+                                                            type="text"
+                                                            data-lpignore="true"
+                                                            autoComplete="msgsndr1"
+                                                            placeholder="Tag Added to Prospect"
+                                                            className="hl-text-input  focus:ring-curious-blue-500 focus:border-curious-blue-500 block w-full sm:text-sm border-gray-300 rounded disabled:opacity-50 text-gray-800"
+                                                            name="msgsndr1"
+                                                            maxLength=""
+                                                        />
 
                                                     </div>
 
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <span data-v-56639245="" className="text-sm font-medium text-gray-700">
+                                                <span className="text-sm font-medium text-gray-700">
                                                     Hydration Frequency
                                                 </span>
-                                                <div data-v-7d86ee8a="" className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
+                                                <div  className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
                                                     <TextField
+                                                        disabled={!(var_editing >= 0)}
                                                         type="number"
                                                         id="outlined-basic"
                                                         size="small"
                                                         onChange={(e) => handleProfileFrequencyCountChange(e.target.value)}
-                                                        value={profileFrequencyCount}
+                                                        value={profile.frequencyCount}
                                                     />
 
                                                     <span style={{paddingLeft: '1rem', paddingRight: '1rem'}}>per</span>
 
                                                     <ToggleButtonGroup
+                                                        disabled={!(var_editing >= 0)}
                                                         color="primary"
                                                         exclusive
                                                         size="small"
-                                                        value={profileFrequency}
+                                                        value={profile.frequency}
                                                         onChange={handleProfileFrequencyChange}
                                                         aria-label="profileState"
                                                     >
@@ -438,43 +625,74 @@ const ClientForm = () => {
 
                                         </div>
 
-                                        <button data-v-029f7e9f="" type="submit" className="btn btn-primary float-right">Test Now</button>
+                                        { (var_editing >= 0) &&
+                                            <button
+                                                disabled={!(var_editing >= 0)}
+                                                onClick={handleTestClick}
+                                                type="button"
+                                                className={"btn float-right" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
+                                            >Test Now</button>
+                                        }
                                     </div>
 
                                 </div>
-                                </Form>
                             </div>
 
 
                         </div>
+                        </Form>
                     </div>
-                    <div data-v-029f7e9f="" className="col-lg-6">
-                        <div data-v-029f7e9f="" className="card">
-                            <div data-v-029f7e9f="" className="card-header">
-                                <h2 data-v-029f7e9f="">Stored Profiles</h2>
-                                <button data-v-029f7e9f="" type="button" className="btn btn-primary btn-sm" onClick={handleAddClick}>+</button>
+                    <div className="col-lg-6">
+                        <div className="card">
+                            <div className="card-header d-flex">
+                                <h2 className="mr-auto">Stored Profiles</h2>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary btn-sm"
+                                    style={{marginRight: '1rem'}}
+                                    onClick={handleAddClick}
+                                >New</button>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary btn-sm"
+                                    onClick={handleRefreshClick}
+                                ><FontAwesomeIcon icon={faRefresh} /></button>
                             </div>
-                            <div data-v-029f7e9f="" className="card-body">
-                                <div data-v-8f0d508e="" data-v-029f7e9f="" className="tab-content">
-                                    <div data-v-8f0d508e="" id="note" role="tabpanel" aria-labelledby="note-tab" className="tab-pane fade show active">
-                                        <div data-v-8f0d508e="" className="form-group">
-                                            <div data-v-89f68d3c="" data-v-8f0d508e="" className="">
-                                                {icpRows.length > 0 &&
-                                                    <DataGrid
-                                                        rows={icpRows}
-                                                        columns={columns}
-                                                        initialState={{
-                                                            pagination: {
-                                                                paginationModel: {
-                                                                    pageSize: 10,
-                                                                },
-                                                            },
-                                                        }}
-                                                        pageSizeOptions={[10]}
-                                                        disableRowSelectionOnClick
-                                                    />
+                            <div className="card-body">
+                                <div className="tab-content">
+                                    <div id="note" role="tabpanel" aria-labelledby="note-tab" className="tab-pane fade show active">
+                                        <div className="form-group">
+                                            <div className="">
+                                                {profiles.length > 0 &&
+                                                    <table className={"table table-striped"}>
+                                                        <thead className={"thead-light"}>
+                                                            <tr>
+                                                                <th scope={"col"}><strong>Description</strong></th>
+                                                                <th scope={"col"}><strong>Status</strong></th>
+                                                                <th className={"text-right"} scope={"col"}><strong>Actions</strong></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {profiles.map((item, i) =>
+                                                            <tr key={i} className={(var_editing === i) ? 'table-primary': ''}>
+                                                                <td>{item.description}</td>
+                                                                <td>{item.state.toUpperCase()}</td>
+                                                                <td className={"text-right"}>
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        size="small"
+                                                                        tabIndex={i}
+                                                                        onClick={(e) => handleEditProfileClick(e, i)}
+                                                                        className="btn btn-primary btn-sm"
+                                                                    ><FontAwesomeIcon icon={faEdit} />
+                                                                    </Button>
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                        </tbody>
+                                                    </table>
                                                 }
-                                                {icpRows.length === 0 &&
+                                                {profiles.length === 0 &&
                                                     <div>No stored profiles</div>
                                                 }
                                             </div>
@@ -486,21 +704,21 @@ const ClientForm = () => {
                             </div>
                         </div>
 
-                        {/*<div data-v-029f7e9f="" className="card">*/}
-                        {/*    <div data-v-029f7e9f="" className="card-header">*/}
-                        {/*        <h2 data-v-029f7e9f="">Activity</h2>*/}
+                        {/*<div className="card">*/}
+                        {/*    <div className="card-header">*/}
+                        {/*        <h2 >Activity</h2>*/}
                         {/*    </div>*/}
-                        {/*    <div data-v-029f7e9f="" className="card-body">*/}
-                        {/*        <ul data-v-029f7e9f="" role="tablist" className="nav nav-tabs activity-tab">*/}
-                        {/*            <li data-v-029f7e9f="" className="nav-item"><a data-v-029f7e9f="" id="note-tab" data-toggle="tab" href="#note" role="tab" aria-controls="note" aria-selected="false" className="nav-link active">Details</a></li>*/}
+                        {/*    <div className="card-body">*/}
+                        {/*        <ul role="tablist" className="nav nav-tabs activity-tab">*/}
+                        {/*            <li className="nav-item"><a id="note-tab" data-toggle="tab" href="#note" role="tab" aria-controls="note" aria-selected="false" className="nav-link active">Details</a></li>*/}
                         {/*        </ul>*/}
-                        {/*        <div data-v-8f0d508e="" data-v-029f7e9f="" className="tab-content">*/}
-                        {/*            <div data-v-8f0d508e="" id="note" role="tabpanel" aria-labelledby="note-tab" className="tab-pane fade show active">*/}
-                        {/*                <div data-v-8f0d508e="" className="form-group">*/}
-                        {/*                    <div data-v-89f68d3c="" data-v-8f0d508e="" className="">*/}
+                        {/*        <div className="tab-content">*/}
+                        {/*            <div id="note" role="tabpanel" aria-labelledby="note-tab" className="tab-pane fade show active">*/}
+                        {/*                <div className="form-group">*/}
+                        {/*                    <div className="">*/}
 
-                        {/*                        <div data-v-89f68d3c="" className="mt-1 relative rounded-md shadow-sm">*/}
-                        {/*                            <textarea data-v-2cb46869="" data-v-89f68d3c="" placeholder="Enter note" name="note" className="hl-text-area-input  text-gray-800 shadow-sm block w-full focus:outline-none focus:ring-offset-curious-blue-500 focus:border-curious-blue-500 sm:text-sm border-gray-300 rounded-md disabled:opacity-50" rows="4" type="text" maxLength=""></textarea>*/}
+                        {/*                        <div className="mt-1 relative rounded-md ">*/}
+                        {/*                            <textarea placeholder="Enter note" name="note" className="hl-text-area-input  text-gray-800  block w-full focus:outline-none focus:ring-offset-curious-blue-500 focus:border-curious-blue-500 sm:text-sm border-gray-300 rounded-md disabled:opacity-50" rows="4" type="text" maxLength=""></textarea>*/}
 
                         {/*                        </div>*/}
 
@@ -516,6 +734,41 @@ const ClientForm = () => {
                 </div>
             </div>
 
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Testing Ideal Customer Profile</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    { (searchResponse !== null) &&
+                        <div>
+                            <div className="form-group">
+                                <div  className="d-flex justify-content-center" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
+                                    <h2>Total Entries: {searchResponse.total_entries.toLocaleString()}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    { (searchResponse === null) &&
+                        <div>
+                            <div className="form-group">
+                                <div className="d-flex justify-content-center" data-lpignore="true" autoComplete="msgsndr1" data-vv-as="revenue">
+                                    <div className="spinner-border" style={{width: "3rem", height: "3rem"}} role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Make Changes
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save Profile
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </section>
     );
 };

@@ -16,3 +16,4 @@ code {
 div.input-no-shadow > div > input, div.input-no-shadow:focus > div > input{
   box-shadow: none !important;
 }
+

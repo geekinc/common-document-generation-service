@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="abe94d3a-d248-48f8-bb41-83aacf9d5806" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ClientForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ClientForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styling.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styling.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +48,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/BenInkster/Documents/repo/dynamic_outbound_sales/apollo-search/server&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/BenInkster/Documents/repo/dynamic_outbound_sales/apollo-search/server/data&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -62,15 +66,19 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\BenInkster\Documents\repo\dynamic_outbound_sales\apollo-search\server\data" />
+      <recent name="C:\Users\BenInkster\Documents\repo\dynamic_outbound_sales\apollo-search\server\functions\apollo" />
+      <recent name="C:\Users\BenInkster\Documents\repo\dynamic_outbound_sales\apollo-search\server\functions\stored-profiles" />
       <recent name="C:\Users\BenInkster\Documents\repo\dynamic_outbound_sales\apollo-search\server" />
       <recent name="C:\Users\BenInkster\Documents\repo\dynamic_outbound_sales\apollo-search\src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\BenInkster\Documents\repo\dynamic_outbound_sales\apollo-search\server\functions\apollo" />
       <recent name="C:\Users\BenInkster\Documents\repo\dynamic_outbound_sales\apollo-search\data" />
       <recent name="C:\Users\BenInkster\Documents\repo\dynamic_outbound_sales\apollo-search" />
     </key>
   </component>
-  <component name="RunManager" selected="HTTP Request.enrich-email | #1">
+  <component name="RunManager" selected="Node.js.scratch_20.js">
     <configuration name="All in enrich-email" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/server/tests/enrich-email.http">
       <method v="2" />
     </configuration>
@@ -88,8 +96,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.enrich-email | #1" />
         <item itemvalue="Node.js.scratch_20.js" />
+        <item itemvalue="HTTP Request.enrich-email | #1" />
         <item itemvalue="HTTP Request.api_limits | #1" />
         <item itemvalue="HTTP Request.enrich-email | #2" />
         <item itemvalue="HTTP Request.All in enrich-email" />
@@ -145,7 +153,12 @@
       <workItem from="1692476048809" duration="16175000" />
       <workItem from="1693440285983" duration="1812000" />
       <workItem from="1693596512614" duration="27923000" />
-      <workItem from="1693871433078" duration="1343000" />
+      <workItem from="1693871433078" duration="2690000" />
+      <workItem from="1693957786377" duration="44349000" />
+      <workItem from="1694147259153" duration="229000" />
+      <workItem from="1694147576480" duration="49000" />
+      <workItem from="1694153759029" duration="1593000" />
+      <workItem from="1694155573955" duration="215000" />
     </task>
     <servers />
   </component>
