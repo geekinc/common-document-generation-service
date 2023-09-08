@@ -153,7 +153,7 @@ const ClientForm = () => {
         localStorage.setItem('activetime',Math.floor(Date.now() / 1000));
         let data = [];
         try {
-            const response = await fetch(API_URL + '/search-prospects/', {
+            const response = await fetch(API_URL + '/search-prospects', {
                 method: 'POST',
                 body: JSON.stringify(payload)
             });
@@ -289,6 +289,16 @@ const ClientForm = () => {
         set_editing(index);
     };
 
+    const processEmployeeCounts = (data) => {
+        let result = [];
+        if (data !== null) {
+            result = data.map((item) => {
+                return item.toString().replace('-', ',');
+            });
+        }
+        return result;
+    };
+
     const handleTestClick = (event) => {
         // Trigger the test
         let payload = {
@@ -299,7 +309,7 @@ const ClientForm = () => {
             job_title: profile.jobTitles,
             location: profile.locations,
             industry: profile.industries,
-            number_of_employees: profile.employeeCounts,
+            number_of_employees: processEmployeeCounts(profile.employeeCounts),
             company_revenue_min: profile.revenueMin,
             company_revenue_max: profile.revenueMin,
             prospect_tag: profile.tag,
