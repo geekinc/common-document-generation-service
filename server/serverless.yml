@@ -23,8 +23,8 @@ provider:
         - lambda:*
       Resource: "*"
 
-iamRoleStatements:
-  - Effect: Allow
+iamRoleStatements:  # note - you may have to manually add AmazonDynamoDBFullAccess to the IAM Role for the dynamic-sales-webhooks service
+  - Effect: Allow   # Also, the dynamoDB table needs to be in the same region as the service
     Action:
       - dynamodb:*
     Resource: "*"
@@ -46,8 +46,8 @@ functions:
     memorySize: 128
     events:
       - http:
-          path: fetch/{count}
-          method: get
+          path: fetch
+          method: post
           cors: true
 
   enrich-email:
