@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import response from "../../lib/response-lib";
-import {logger} from "../../lib/logger-lib";
+import { logger } from "../../lib/logger-lib";
+import { sleep } from "../../lib/general-lib";
+
 const AWS = require("aws-sdk");
 const sqs = new AWS.SQS({
     region: process.env.region,
@@ -24,16 +26,18 @@ export async function main(event, context) {
         //  parse data from APIs
         if (event.body) {
             var_method = 'API';
-            logger.info('info: API CALL');
-            var_record = JSON.parse(event.body);
+            logger.info('API CALL');
+            var_record = [...var_record, ...(await JSON.parse(event.body))];
         }
 
         //  parse data from SQS
         if (event.Records !== undefined) {
             var_method = 'SQS';
-            logger.info('info: SQS QUEUE');
-            var_record = JSON.parse(event.Records[0].body);
+            logger.info('SQS QUEUE');
+            var_record = [...var_record, ...(await JSON.parse(event.Records[0].body))];
         }
+
+        console.log(var_record);
 
         // Loop for each fetch request
         for (let x = 0; x < var_record.length; x++) {
@@ -54,6 +58,8 @@ export async function main(event, context) {
                     console.info("data:", data);
                 }
             );
+            await sleep(100);
+
         }
         return response.success({
             status: 200,
