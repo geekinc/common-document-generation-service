@@ -11,11 +11,11 @@ const sqs = new AWS.SQS({
 async function process_apollo(query) {
 
     // Call apollo API with the details from the request
-    const apollo_options = {
+    let apollo_options = {
         url: 'https://api.apollo.io/v1/mixed_people/search',
         timeout: 5000,
         method: 'POST',
-        body: {
+        data: {
             "api_key": await coordinator.api_key('apollo.io'),
             "contact_email_status": ["verified"],
             "per_page": 1,
@@ -28,27 +28,29 @@ async function process_apollo(query) {
 
     // Add the various parameters to the query based on if they exist or not
     if (query.job_title) {
-        apollo_options.body.person_titles = query.job_title;
+        apollo_options.data.person_titles = query.job_title;
     }
 
     if (query.location) {
-        apollo_options.body.person_locations = query.location;
+        apollo_options.data.person_locations = query.location;
     }
 
     if (query.industry) {
-        apollo_options.body.organization_industry_tag_ids = getIndustryIDsFromNames(query.industry);
+        apollo_options.data.organization_industry_tag_ids = getIndustryIDsFromNames(query.industry);
     }
 
     if (query.number_of_employees) {
-        apollo_options.body.organization_num_employees_ranges = query.number_of_employees;
+        apollo_options.data.organization_num_employees_ranges = query.number_of_employees;
     }
 
     if (query.company_revenue_max && query.company_revenue_min && query.company_revenue_max > query.company_revenue_min) {
-        apollo_options.body.revenue_range = {
+        apollo_options.data.revenue_range = {
             "max": query.company_revenue_max.toString(),
             "min": query.company_revenue_min.toString()
         };
     }
+
+    console.log(apollo_options);
 
     return await axios.request(apollo_options).then(function (response) {
         console.log(response.data);
