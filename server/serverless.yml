@@ -14,17 +14,20 @@ provider:
   versionFunctions: true
   stage: ${opt:stage, "dev"}
   environment:
+    account_id: ${aws:accountId}
     api_accounts_table_name: api_permissions
     queue_requests: sqs-queue-requests-${self:provider.stage}.fifo
-  iamRoleStatements:  # note - you may have to manually add AmazonDynamoDBFullAccess to the IAM Role for the dynamic-sales-webhooks service
-    - Effect: Allow   # Also, the dynamoDB table needs to be in the same region as the service
-      Action:
-        - dynamodb:*
-      Resource: "*"
-    - Effect: Allow
-      Action:
-        - lambda:*
-      Resource: "*"
+  iam:
+    role:
+      statements:  # note - you may have to manually add AmazonDynamoDBFullAccess to the IAM Role for the dynamic-sales-webhooks service
+        - Effect: Allow   # Also, the dynamoDB table needs to be in the same region as the service
+          Action:
+            - dynamodb:*
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - lambda:*
+          Resource: "*"
 
 resources:
   Resources:

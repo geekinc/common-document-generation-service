@@ -13,7 +13,7 @@ import _ from "underscore";
 import './App.css';
 
 // const API_URL = 'http://localhost:3000/dev';
-const API_URL = 'https://4btojh14c6.execute-api.us-east-1.amazonaws.com/prod';
+const API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
 
 const ClientForm = () => {
 
