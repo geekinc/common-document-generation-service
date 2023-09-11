@@ -1,5 +1,5 @@
-import { coordinator } from "../libs/coordinator-lib";
-import response from "../lib/response-lib";
+import { coordinator } from "../../lib/coordinator-lib";
+import response from "../../lib/response-lib";
 
 /***********************************************************************************************************************
  * Security Requirements:
@@ -10,18 +10,14 @@ export async function main(event, context) {
     console.log("fetch-prospects", event);
     console.log(event.pathParameters);
     let count = event.pathParameters.count;
-    
     try {
-        let api_key = await coordinator.api_key('apollo.io')  // Let the mutex handle delaying and assigning correct headers
+        let api_key = await coordinator.api_key('apollo.io');  // Let the mutex handle delaying and assigning correct headers
         return response.success(api_key);
     } catch (exception) {
         return response.failure();
     } finally {
     }
 }
-
-
-
 
 // import util from "util";
 // import {v4 as uuidv4} from "uuid";
