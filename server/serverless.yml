@@ -47,7 +47,7 @@ resources:
 functions:
 
   fetch-prospects:
-    handler: functions/prospects/fetch-prospects.main
+    handler: functions/prospects/http-fetch-prospects.main
     timeout: 30
     memorySize: 128
     events:
@@ -55,6 +55,18 @@ functions:
           path: fetch
           method: post
           cors: true
+
+  sqs-fetch-prospects:
+    handler: functions/prospects/sqs-fetch-prospects.main
+    timeout: 900
+    memorySize: 1024
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - QueueRequests
+              - Arn
+          batchSize: 1
 
   enrich-email:
     handler: functions/apollo/enrich-email.main

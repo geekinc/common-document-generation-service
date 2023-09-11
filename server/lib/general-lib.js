@@ -1,3 +1,5 @@
+import industries from "../data/industries.json";
+
 export function sleep(ms) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
@@ -22,4 +24,19 @@ export function add_parameter(config, parameter, event) {
         }
     }
     return config;
+}
+
+export function getIndustryIDsFromNames(industryArray) {
+    let industries = require('../data/industries.json');
+
+    let industryIDs = [];
+    for (let x = 0; x < industryArray.length; x++) {
+        for (let y = 0; y < industries.length; y++) {
+            if (industryArray[x].toString().toLowerCase() === industries[y].name.toString().toLowerCase()) {
+                industryIDs.push(industries[y].id);
+            }
+        }
+    }
+
+    return industryIDs;
 }
