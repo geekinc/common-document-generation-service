@@ -71,10 +71,9 @@ export async function main(event, context, req) {
         // Process each message from the event
         for (let record of event.Records) {
             let data = JSON.parse(record.body);
-            // console.log(util.inspect(data, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
+            console.log(util.inspect(data, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
 
-            console.log(data);
-            let apollo = await process_apollo(data);
+            let apollo = await process_apollo(data[0]);  // process the first entry in the array
 
             if (apollo) {
 
