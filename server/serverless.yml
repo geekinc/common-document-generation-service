@@ -16,46 +16,18 @@ provider:
   environment:
     api_accounts_table_name: api_permissions
     queue_requests: sqs-queue-requests-${self:provider.stage}.fifo
+
   iamRoleStatements:
     - Effect: Allow
       Action:
         - lambda:*
       Resource: "*"
 
-
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - sns:*
-            - sqs:*
-            - s3:*
-          Resource: "*"
-        - Effect: Allow
-          Action:
-            - cognito-sync:*
-            - cognito-identity:*
-          Resource: arn:aws:cognito-identity:*:*:*
-        - Effect: Allow
-          Action:
-            - cognito-idp:*
-          Resource: arn:aws:cognito-idp:*:*:*
-        - Effect: Allow
-          Action:
-            - dynamodb:Scan
-            - dynamodb:Query
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
-            - dynamodb:DescribeTable
-          Resource: "arn:aws:dynamodb:ca-central-1:*:table/${self:provider.environment.api_accounts_table_name}"
-        - Effect: Allow
-          Action:
-            - dynamodb:Scan
-            - dynamodb:Query
-          Resource: "arn:aws:dynamodb:ca-central-1:*:table/${self:provider.environment.api_accounts_table_name}/index/*"
+iamRoleStatements:
+  - Effect: Allow
+    Action:
+      - dynamodb:*
+    Resource: "*"
 
 resources:
   Resources:
