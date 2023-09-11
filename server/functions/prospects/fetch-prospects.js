@@ -18,8 +18,6 @@ export async function main(event, context) {
     const queueUrl = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_requests}`;
     console.log(queueUrl);
 
-
-
     try {
         let var_method = 'API';
         let var_record = [];
