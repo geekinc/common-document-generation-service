@@ -173,6 +173,30 @@ const ClientForm = () => {
         return data;
     }
 
+    async function API_first_500(payload){
+        localStorage.setItem('activetime',Math.floor(Date.now() / 1000));
+        let data = [];
+        try {
+            const response = await fetch(API_URL + '/fetch/500', {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            });
+            console.log(response);
+
+            if (response.status === 404) {
+                console.log('404 error');
+            } else {
+                data = await response.json()
+            }
+        } catch (e) {
+            console.error(e);
+            data = [];
+        }
+
+        setSearchResponse(data);
+        return data;
+    }
+
 
     //  event functions ------------------------------------------------------------------------------------------------
 
@@ -300,6 +324,31 @@ const ClientForm = () => {
     };
 
     const handleTestClick = (event) => {
+        // Trigger the test
+        let payload = {
+            id: profile.id,
+            customer: customer,
+            description: profile.description,
+            state: profile.state,
+            job_title: profile.jobTitles,
+            location: profile.locations,
+            industry: profile.industries,
+            number_of_employees: processEmployeeCounts(profile.employeeCounts),
+            company_revenue_min: profile.revenueMin,
+            company_revenue_max: profile.revenueMin,
+            prospect_tag: profile.tag,
+            hydration_frequency: profile.frequencyCount,
+            hydration_period: profile.frequency
+        };
+
+        // Apply the search
+        API_search_prospects(payload);
+
+        // Show modal
+        setShow(true);
+    };
+
+    const handleFirst500Click = (event) => {
         // Trigger the test
         let payload = {
             id: profile.id,
@@ -682,12 +731,20 @@ const ClientForm = () => {
                                             </div>
 
                                             {(var_editing >= 0) &&
+                                                <>
                                                 <button
                                                     disabled={!(var_editing >= 0)}
                                                     onClick={handleTestClick}
                                                     type="button"
                                                     className={"btn float-right" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
                                                 >Test Now</button>
+                                                <button
+                                                    disabled={!(var_editing >= 0)}
+                                                    onClick={handleFirst500Click}
+                                                    type="button"
+                                                    className={"btn float-left" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
+                                                >First 500</button>
+                                                </>
                                             }
                                         </div>
 
@@ -794,9 +851,9 @@ const ClientForm = () => {
                 </div>
             </div>
             }
-            { (customer === '') &&
-            <div>Customer not found</div>
 
+            { (customer === '') &&
+                <div>Customer not found</div>
             }
 
             <Modal show={show} onHide={handleClose}>

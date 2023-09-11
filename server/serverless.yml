@@ -13,13 +13,65 @@ provider:
   runtime: nodejs16.x
   versionFunctions: true
   stage: ${opt:stage, "dev"}
+  environment:
+    api_accounts_table_name: api_permissions
+    queue_requests: sqs-queue-requests-${self:provider.environment.stage}.fifo
   iamRoleStatements:
     - Effect: Allow
       Action:
         - lambda:*
       Resource: "*"
 
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - sns:*
+            - sqs:*
+            - s3:*
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - cognito-sync:*
+            - cognito-identity:*
+          Resource: arn:aws:cognito-identity:*:*:*
+        - Effect: Allow
+          Action:
+            - cognito-idp:*
+          Resource: arn:aws:cognito-idp:*:*:*
+        - Effect: Allow
+          Action:
+            - dynamodb:Scan
+            - dynamodb:Query
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:DescribeTable
+          Resource: "arn:aws:dynamodb:ca-central-1:*:*"
+
+resources:
+  Resources:
+    QueueRequests:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: ${self:provider.environment.queue_requests}
+        FifoQueue: true
+        VisibilityTimeout: 900
+
 functions:
+
+  fetch-prospects:
+    handler: functions/prospects/fetch-prospects.main
+    timeout: 30
+    memorySize: 128
+    events:
+      - http:
+          path: fetch/{count}
+          method: get
+          cors: true
 
   enrich-email:
     handler: functions/apollo/enrich-email.main
