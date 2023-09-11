@@ -16,7 +16,7 @@ async function process_apollo(query) {
         timeout: 5000,
         method: 'POST',
         body: {
-            "api_key": coordinator.api_key('apollo.io'),
+            "api_key": await coordinator.api_key('apollo.io'),
             "contact_email_status": ["verified"],
             "per_page": 1,
             "page": 1
@@ -63,12 +63,15 @@ export async function main(event, context, req) {
     const accountId = process.env.account_id;
     // const queue_process_twitter = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_process_twitter}`;
 
+    console.log(event);
+
     try {
         // Process each message from the event
         for (let record of event.Records) {
             let data = JSON.parse(record.body);
             // console.log(util.inspect(data, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
 
+            console.log(data);
             let apollo = await process_apollo(data);
 
             if (apollo) {
