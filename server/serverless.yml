@@ -50,7 +50,12 @@ provider:
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
             - dynamodb:DescribeTable
-          Resource: "arn:aws:dynamodb:ca-central-1:*:*"
+          Resource: "arn:aws:dynamodb:ca-central-1:*:table/${self:provider.environment.api_accounts_table_name}"
+        - Effect: Allow
+          Action:
+            - dynamodb:Scan
+            - dynamodb:Query
+          Resource: "arn:aws:dynamodb:ca-central-1:*:table/${self:provider.environment.api_accounts_table_name}/index/*"
 
 resources:
   Resources:
