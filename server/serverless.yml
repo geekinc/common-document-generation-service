@@ -15,7 +15,7 @@ provider:
   stage: ${opt:stage, "dev"}
   environment:
     api_accounts_table_name: api_permissions
-    queue_requests: sqs-queue-requests-${self:provider.environment.stage}.fifo
+    queue_requests: sqs-queue-requests-${self:provider.stage}.fifo
   iamRoleStatements:
     - Effect: Allow
       Action:
