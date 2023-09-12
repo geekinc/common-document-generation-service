@@ -27,7 +27,7 @@ async function process_apollo(query) {
         data: {
             "api_key": await coordinator.api_key('apollo.io'),
             "contact_email_status": ["verified"],
-            "per_page": 250,
+            "per_page": 200,
             "page": 1
         },
         headers: {
