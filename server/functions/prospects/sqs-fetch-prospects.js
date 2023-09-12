@@ -8,6 +8,15 @@ const sqs = new AWS.SQS({
     region: process.env.region,
 });
 
+function processEmployeeCounts(employees) {
+    // swap the '-' with a ',' for each entry in the array
+    let new_employees = [];
+    for (let i = 0; i < employees.length; i++) {
+        new_employees.push(employees[i].replace('-', ','));
+    }
+    return new_employees;
+}
+
 async function process_apollo(query) {
 
     // Call apollo API with the details from the request
@@ -18,7 +27,7 @@ async function process_apollo(query) {
         data: {
             "api_key": await coordinator.api_key('apollo.io'),
             "contact_email_status": ["verified"],
-            "per_page": 1,
+            "per_page": 250,
             "page": 1
         },
         headers: {
@@ -40,7 +49,7 @@ async function process_apollo(query) {
     }
 
     if (query.number_of_employees) {
-        apollo_options.data.organization_num_employees_ranges = query.number_of_employees;
+        apollo_options.data.organization_num_employees_ranges = processEmployeeCounts(query.number_of_employees);
     }
 
     if (query.company_revenue_max && query.company_revenue_min && query.company_revenue_max > query.company_revenue_min) {
@@ -71,7 +80,7 @@ export async function main(event, context, req) {
         // Process each message from the event
         for (let record of event.Records) {
             let data = JSON.parse(record.body);
-            console.log(util.inspect(data, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
+            console.log(data);
 
             let apollo = await process_apollo(data[0]);  // process the first entry in the array
 
