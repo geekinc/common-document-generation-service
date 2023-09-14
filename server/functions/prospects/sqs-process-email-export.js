@@ -20,10 +20,13 @@ export async function main(event, context, req) {
             console.log(data);
 
             let results = await mysql.query(
-                "SELECT * FROM `customer_prospects`" +
-                " WHERE customer_id = ?" +
+                "SELECT * FROM `customer_prospects` as cp, prospects" +
+                " WHERE cp.customer_id = ?" +
                 " and " +
-                " batch_id = ?" +
+                " cp.batch_id = ?" +
+                " and " +
+                " cp.last_used is NULL " +
+                " INNER JOIN prospects ON cp.prospect_id = prospects.id" +
                 " limit ?",
                 [
                     data.customer,
@@ -35,6 +38,9 @@ export async function main(event, context, req) {
             console.log(results[0]);
             console.log('total to process:');
             console.log(results.length);
+
+            const csv = await json2csv(results);
+            console.log(csv);
         }
     } catch (e) {
         console.log(util.inspect(e, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
