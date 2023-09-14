@@ -87,7 +87,7 @@ export async function main(event, context, req) {
 
             // Assign the prospect to a customer (if not already assigned)
             // This will be used by a later lambda to process the data into a CSV or API call or whatever
-            if (prospect.batch_count_number <= prospect.batch_count_total) {
+            if (prospect.batch_count_number < prospect.batch_count_total) {
                 await mysql.query(
                     ` insert ignore into \`customer_prospects\`
                    ( id,
