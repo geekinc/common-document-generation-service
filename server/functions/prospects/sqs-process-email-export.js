@@ -59,19 +59,18 @@ export async function main(event, context, req) {
 
             // Generate the CSV
             const csv = await json2csv(output);
-            console.log(csv);
 
             // Set up the email service
             await setupMailClient();
             const msg = {
                 to: results[0].email,
-                from: 'Dynamic Sales',
+                from: 'noreply@dynamicoutboundsales.com',
                 subject: 'Latest Prospects',
                 text: 'Here are your prospects.',
                 html: '<strong>Here are your prospects.</strong>',
                 attachments: [
                     {
-                        content: csv,
+                        content: Buffer.from(csv).toString('base64'),
                         filename: 'prospects.csv',
                         type: 'text/csv',
                         disposition: 'attachment'
