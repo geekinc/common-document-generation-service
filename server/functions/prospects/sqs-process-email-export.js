@@ -21,15 +21,7 @@ export async function main(event, context, req) {
 
             let results = await mysql.query(
                 "SELECT " +
-                "   prospect_id," +
-                "   first_name," +
-                "   last_name," +
-                "   email," +
-                "   title," +
-                "   linkedin_url," +
-                "   city," +
-                "   state," +
-                "   country " +
+                "   json_data " +
                 " FROM `customer_prospects` as cp " +
                 " INNER JOIN prospects as p ON cp.prospect_id = p.id" +
                 " WHERE cp.customer_id = ?" +
@@ -49,7 +41,12 @@ export async function main(event, context, req) {
             console.log('total to process:');
             console.log(results.length);
 
-            const csv = await json2csv(results);
+            let output = [];
+            for (let x = 0; x < results.length; x++) {
+                output.push(JSON.parse(results[0].json_data));
+            }
+
+            const csv = await json2csv(output);
             console.log(csv);
         }
     } catch (e) {
