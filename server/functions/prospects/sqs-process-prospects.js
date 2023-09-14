@@ -18,12 +18,47 @@ export async function main(event, context, req) {
             let prospect = JSON.parse(record.body);
             console.log(util.inspect(prospect, {showHidden: false, depth: null, colors: false, maxArrayLength: 500}));
 
-            // Write data to database
-            // NOTE: using insert ignore means that if the record already exists, it will not be inserted again
-            // - i.e. the data will NOT update to the latest version (this is fine for the initial version of the app)
-            // - TODO: review this to add more robust upsert functionality
+            // Use email as an index to determine if we insert or update
             let results = await mysql.query(
-                ` insert ignore into \`prospects\`
+                "SELECT * FROM `prospects` WHERE email = ?",
+                [
+                    prospect.email
+                ]);
+
+            let prospect_id = '';
+            if (results.length > 0) {
+                prospect_id = results[0].id;
+            } else {
+                prospect_id = uuidv4();
+            }
+            if (results) {
+                await mysql.query(
+                    ` update \`prospects\`
+                   set first_name = ?,
+                       last_name = ?,
+                       email = ?,
+                       title = ?,
+                       linkedin_url = ?,
+                       city = ?,
+                       \`state\` = ?,
+                       country = ?,
+                       json_data = ?
+                   where email = ?`,
+                    [
+                        prospect.first_name,
+                        prospect.last_name,
+                        prospect.email,
+                        prospect.title,
+                        prospect.linkedin_url,
+                        prospect.city,
+                        prospect.state,
+                        prospect.country,
+                        JSON.stringify(prospect),
+                        prospect.email
+                    ]);
+            } else {
+                await mysql.query(
+                    ` insert ignore into \`prospects\`
                ( id,
                  first_name,
                  last_name, 
@@ -36,18 +71,42 @@ export async function main(event, context, req) {
                  json_data 
                )
                 values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-               [
-                    uuidv4(),
-                    prospect.first_name,
-                    prospect.last_name,
-                    prospect.email,
-                    prospect.title,
-                    prospect.linkedin_url,
-                    prospect.city,
-                    prospect.state,
-                    prospect.country,
-                    JSON.stringify(prospect)
-               ]);
+                    [
+                        prospect_id,
+                        prospect.first_name,
+                        prospect.last_name,
+                        prospect.email,
+                        prospect.title,
+                        prospect.linkedin_url,
+                        prospect.city,
+                        prospect.state,
+                        prospect.country,
+                        JSON.stringify(prospect)
+                    ]);
+            }
+
+            // Assign the prospect to a customer (if not already assigned)
+            // This will be used by a later lambda to process the data into a CSV or API call or whatever
+            if (prospect.batch_count_number <= prospect.batch_count_total) {
+                await mysql.query(
+                    ` insert ignore into \`customer_prospects\`
+                   ( id,
+                     customer_id,
+                     prospect_id,
+                     usage_type,
+                     batch_id,
+                     last_used
+                   )
+                    values (?, ?, ?, ?, ?, ?)`,
+                    [
+                        uuidv4(),
+                        prospect.customer,
+                        prospect_id,
+                        prospect.usage_type,
+                        prospect.batch_id,
+                        null
+                    ]);
+            }
         }
     } catch (e) {
         console.log(util.inspect(e, {showHidden: false, depth: null, colors: false, maxArrayLength: 500}));

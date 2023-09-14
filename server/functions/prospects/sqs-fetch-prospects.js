@@ -133,7 +133,8 @@ export async function main(event, context, req) {
                 const message = {
                     "batch_id": data[0].id,
                     "customer": data[0].customer,
-                    "usage_type": data[0].usage_type
+                    "usage_type": data[0].usage_type,
+                    "batch_size": totalRequired
                 };
                 const options_process_export = {
                     MessageBody: JSON.stringify(message),
