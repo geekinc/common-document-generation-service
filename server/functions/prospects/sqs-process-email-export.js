@@ -20,13 +20,23 @@ export async function main(event, context, req) {
             console.log(data);
 
             let results = await mysql.query(
-                "SELECT * FROM `customer_prospects` as cp, prospects" +
+                "SELECT " +
+                "   prospect_id," +
+                "   first_name," +
+                "   last_name," +
+                "   email," +
+                "   title," +
+                "   linkedin_url," +
+                "   city," +
+                "   state," +
+                "   country " +
+                " FROM `customer_prospects` as cp " +
+                " INNER JOIN prospects as p ON cp.prospect_id = p.id" +
                 " WHERE cp.customer_id = ?" +
                 " and " +
                 " cp.batch_id = ?" +
                 " and " +
                 " cp.last_used is NULL " +
-                " INNER JOIN prospects ON cp.prospect_id = prospects.id" +
                 " limit ?",
                 [
                     data.customer,
