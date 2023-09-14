@@ -6,6 +6,9 @@ export async function main(event, context, req) {
         for (let record of event.Records) {
             let prospect = JSON.parse(record.body);
             console.log(util.inspect(prospect, {showHidden: false, depth: null, colors: false, maxArrayLength: 500}));
+
+            // Write data to database
+            // TODO: complete db upsert
         }
     } catch (e) {
         console.log(util.inspect(e, {showHidden: false, depth: null, colors: false, maxArrayLength: 500}));

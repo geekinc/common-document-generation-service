@@ -70,6 +70,7 @@ async function process_apollo(query, pageNumber = 1) {
 export async function main(event, context, req) {
     const accountId = process.env.account_id;
     const queueUrl = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_prospects}`;
+    const queueExportUrl = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_export_prospects}`;
 
     try {
         // Process each message from the event
@@ -105,11 +106,11 @@ export async function main(event, context, req) {
                         prospect.batch_id = data[0].id;
                         prospect.batch_count_number = totalProcessed + x;
                         prospect.batch_count_total = totalRequired;
+                        prospect.usage_type = data[0].usage_type;
                         const options_process_prospect = {
                             MessageBody: JSON.stringify(prospect),
                             QueueUrl: queueUrl,
-                            MessageGroupId: (await uuidv4()),
-                            MessageDeduplicationId: (await uuidv4())
+                            MessageGroupId: (data[0].id)
                         };
                         await sqs.sendMessage(options_process_prospect).promise().then(
                             function (data) {
@@ -123,6 +124,33 @@ export async function main(event, context, req) {
                 }
 
             }
+
+            // Trigger new process to export the data and email it
+            if (data[0].usage_type === 'email_export') {
+                // Create a delay to allow the other data to complete processing
+                await new Promise(resolve => setTimeout(resolve, 10000));  // 10 second delay
+
+                const message = {
+                    "batch_id": data[0].id,
+                    "customer": data[0].customer,
+                    "usage_type": data[0].usage_type
+                };
+                const options_process_export = {
+                    MessageBody: JSON.stringify(message),
+                    QueueUrl: queueExportUrl,
+                    MessageGroupId: (await uuidv4()),
+                    MessageDeduplicationId: (await uuidv4())
+                };
+                await sqs.sendMessage(options_process_export).promise().then(
+                    function (data) {
+                        return {
+                            statusCode: 200,
+                            body: {},
+                        };
+                    });
+            }
+
+            // TODO: Create other export types (direct to account, external CMS API, etc...)
 
             console.log("Total Required: " + totalRequired);
             console.log("Total Processed: " + totalProcessed);

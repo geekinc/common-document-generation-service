@@ -18,6 +18,7 @@ provider:
     api_accounts_table_name: api_permissions
     queue_requests: sqs-queue-requests-${self:provider.stage}.fifo
     queue_prospects: sqs-queue-prospects-${self:provider.stage}.fifo
+    queue_export_prospects: sqs-queue-export-prospects-${self:provider.stage}.fifo
   iam:
     role:
       statements:  # note - you may have to manually add AmazonDynamoDBFullAccess to the IAM Role for the dynamic-sales-webhooks service
@@ -48,6 +49,12 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: ${self:provider.environment.queue_prospects}
+        FifoQueue: true
+        VisibilityTimeout: 900
+    QueueExportProspects:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: ${self:provider.environment.queue_export_prospects}
         FifoQueue: true
         VisibilityTimeout: 900
 
