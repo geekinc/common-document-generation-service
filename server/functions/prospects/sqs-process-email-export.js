@@ -18,7 +18,7 @@ const setupMailClient = async () => {
     sgMail.setApiKey(process.env.sendgrid_api_key);
     sgClient.setApiKey(process.env.sendgrid_api_key);
     sgClient.setDefaultHeader("Content-Type", "application/json");
-}
+};
 
 export async function main(event, context, req) {
     try {
