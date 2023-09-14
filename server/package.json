@@ -19,6 +19,8 @@
     "serverless-offline": "^9.3.1"
   },
   "dependencies": {
+    "@sendgrid/client": "^7.7.0",
+    "@sendgrid/mail": "^7.7.0",
     "aws-amplify": "^4.1.0",
     "axios": "^0.27.2",
     "dotenv": "^16.0.0",
