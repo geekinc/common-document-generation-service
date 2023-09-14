@@ -5,7 +5,7 @@ export async function main(event, context, req) {
         // Process each message from the event
         for (let record of event.Records) {
             let data = JSON.parse(record.body);
-            console.log("Processing: " + data);
+            console.log(data);
         }
     } catch (e) {
         console.log(util.inspect(e, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
