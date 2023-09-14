@@ -90,7 +90,7 @@ export async function main(event, context, req) {
             if (prospect.batch_count_number < prospect.batch_count_total) {
                 await mysql.query(
                     ` insert ignore into \`customer_prospects\`
-                   ( id,
+                   ( 
                      customer_id,
                      prospect_id,
                      usage_type,
@@ -99,7 +99,6 @@ export async function main(event, context, req) {
                    )
                     values (?, ?, ?, ?, ?, ?)`,
                     [
-                        uuidv4(),
                         prospect.customer,
                         prospect_id,
                         prospect.usage_type,
