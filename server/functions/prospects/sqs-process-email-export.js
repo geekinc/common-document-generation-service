@@ -77,6 +77,7 @@ export async function main(event, context, req) {
                     },
                 ],
             };
+            console.log(msg);
             await sgMail.send(msg)
                 .then(data => {
                     console.log(data);

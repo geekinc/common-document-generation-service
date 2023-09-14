@@ -95,6 +95,7 @@ functions:
 
   sqs-process-email-export:
     handler: functions/prospects/sqs-process-email-export.main
+    timeout: 900
     events:
       - sqs:
           arn:
