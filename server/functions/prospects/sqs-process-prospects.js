@@ -31,7 +31,7 @@ export async function main(event, context, req) {
             } else {
                 prospect_id = uuidv4();
             }
-            if (results) {
+            if (results.length > 0) {
                 await mysql.query(
                     ` update \`prospects\`
                    set first_name = ?,
@@ -97,7 +97,7 @@ export async function main(event, context, req) {
                      batch_id,
                      last_used
                    )
-                    values (?, ?, ?, ?, ?, ?)`,
+                    values (?, ?, ?, ?, ?)`,
                     [
                         prospect.customer,
                         prospect_id,
