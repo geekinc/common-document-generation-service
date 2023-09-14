@@ -77,9 +77,16 @@ export async function main(event, context, req) {
                     },
                 ],
             };
-            await sgMail.send(msg).catch(err => {
-                console.log(err);
-            });
+            await sgMail.send(msg)
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+
+            await new Promise(resolve => setTimeout(resolve, 5000));  // 5 second delay
+
         }
     } catch (e) {
         console.log(util.inspect(e, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
