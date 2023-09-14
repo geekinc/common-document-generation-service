@@ -59,10 +59,7 @@ async function process_apollo(query, pageNumber = 1) {
         };
     }
 
-    console.log(apollo_options);
-
     return await axios.request(apollo_options).then(function (response) {
-        console.log(response.data);
         return response.data;
     }).catch(function (error) {
         console.error(error);
@@ -101,12 +98,13 @@ export async function main(event, context, req) {
                     }
 
                     // Process the prospects
-                    totalProcessed += apollo.people.length;
                     for (let x = 0; x < apollo.people.length; x++) {
                         // deep copy of prospect
                         let prospect = JSON.parse(JSON.stringify(apollo.people[x]));
                         prospect.customer = data[0].customer;
                         prospect.batch_id = data[0].id;
+                        prospect.batch_count_number = totalProcessed + x;
+                        prospect.batch_count_total = totalRequired;
                         const options_process_prospect = {
                             MessageBody: JSON.stringify(prospect),
                             QueueUrl: queueUrl,
@@ -115,13 +113,13 @@ export async function main(event, context, req) {
                         };
                         await sqs.sendMessage(options_process_prospect).promise().then(
                             function (data) {
-                                console.info("data:", data);
                                 return {
                                     statusCode: 200,
                                     body: {},
                                 };
                             });
                     }
+                    totalProcessed += apollo.people.length;
                 }
 
             }

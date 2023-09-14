@@ -83,7 +83,7 @@ functions:
             Fn::GetAtt:
               - QueueProspects
               - Arn
-          batchSize: 1
+          batchSize: 10
 
   enrich-email:
     handler: functions/apollo/enrich-email.main
