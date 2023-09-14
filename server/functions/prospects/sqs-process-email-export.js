@@ -43,7 +43,7 @@ export async function main(event, context, req) {
 
             let output = [];
             for (let x = 0; x < results.length; x++) {
-                output.push(JSON.parse(results[0].json_data));
+                output.push(results[x].json_data);
             }
 
             const csv = await json2csv(output);
