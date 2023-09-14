@@ -64,7 +64,7 @@ export async function main(event, context, req) {
             await setupMailClient();
             const msg = {
                 to: results[0].email,
-                from: 'noreply@dynamicoutboundsales.com',
+                from: 'ben@dynamicoutboundsales.com',
                 subject: 'Latest Prospects',
                 text: 'Here are your prospects.',
                 html: '<strong>Here are your prospects.</strong>',
@@ -77,8 +77,9 @@ export async function main(event, context, req) {
                     },
                 ],
             };
-            await sgMail.send(msg);
-
+            await sgMail.send(msg).catch(err => {
+                console.log(err);
+            });
         }
     } catch (e) {
         console.log(util.inspect(e, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
