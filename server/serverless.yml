@@ -50,6 +50,7 @@ resources:
       Properties:
         QueueName: ${self:provider.environment.queue_prospects}
         FifoQueue: true
+        ContentBasedDeduplication: true
         VisibilityTimeout: 900
     QueueExportProspects:
       Type: "AWS::SQS::Queue"
