@@ -131,7 +131,6 @@ const ClientForm = () => {
     //  API calls ------------------------------------------------------------------------------------------------------
 
     async function API_get_profiles(){
-        localStorage.setItem('activetime',Math.floor(Date.now() / 1000));
         let data = [];
         try {
             const response = await fetch(API_URL + '/stored-profile/' + customer, {
@@ -150,7 +149,6 @@ const ClientForm = () => {
     }
 
     async function API_search_prospects(payload){
-        localStorage.setItem('activetime',Math.floor(Date.now() / 1000));
         let data = [];
         try {
             const response = await fetch(API_URL + '/search-prospects', {
@@ -174,10 +172,9 @@ const ClientForm = () => {
     }
 
     async function API_first_500(payload){
-        localStorage.setItem('activetime',Math.floor(Date.now() / 1000));
         let data = [];
         try {
-            const response = await fetch(API_URL + '/fetch/500', {
+            const response = await fetch(API_URL + '/fetch', {
                 method: 'POST',
                 body: JSON.stringify(payload)
             });
@@ -266,7 +263,7 @@ const ClientForm = () => {
         // setProfiles([...profiles, blankProfile]);
     };
 
-    function refreshData() {
+    const refreshData = () => {
         setProfile(blankProfile);
         set_editing(-1);
         API_get_profiles().then((data) => {
@@ -414,7 +411,6 @@ const ClientForm = () => {
     };
 
     return (
-
         <section id="agency_location" className="hl_wrapper--inner hl_agency hl_agency-location--details" style={{backgroundColor: "#f2f7fa"}}>
             { (customer !== '') &&
             <div className="container-fluid">

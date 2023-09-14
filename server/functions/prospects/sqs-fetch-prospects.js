@@ -17,7 +17,7 @@ function processEmployeeCounts(employees) {
     return new_employees;
 }
 
-async function process_apollo(query) {
+async function process_apollo(query, pageNumber = 1) {
 
     // Call apollo API with the details from the request
     let apollo_options = {
@@ -28,7 +28,7 @@ async function process_apollo(query) {
             "api_key": await coordinator.api_key('apollo.io'),
             "contact_email_status": ["verified"],
             "per_page": 200,
-            "page": 1
+            "page": pageNumber
         },
         headers: {
             'Content-Type': 'application/json'
@@ -72,45 +72,62 @@ async function process_apollo(query) {
 
 export async function main(event, context, req) {
     const accountId = process.env.account_id;
-    // const queue_process_twitter = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_process_twitter}`;
-
-    console.log(event);
+    const queueUrl = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_prospects}`;
 
     try {
         // Process each message from the event
         for (let record of event.Records) {
             let data = JSON.parse(record.body);
-            console.log(data);
 
-            let apollo = await process_apollo(data[0]);  // process the first entry in the array
+            let totalRequired = data[0].count;
+            let totalProcessed = 0;
+            let pageNumber = 1;
+            while (totalProcessed < totalRequired) {
+                let apollo = await process_apollo(data[0], pageNumber);  // process the first entry in the array
 
-            if (apollo) {
+                if (apollo) {
+                    // Handle breaking conditions
+                    if (apollo.people.length === 0) {
+                        break;
+                    }
+                    if (apollo.people.length < 200) {
+                        break;
+                    }
+                    if (apollo.pagination.page === apollo.pagination.total_pages) {
+                        break;
+                    }
+                    if (apollo.pagination.total_entries <= totalRequired) {
+                        break;
+                    }
 
-                console.log(apollo);
+                    // Process the prospects
+                    totalProcessed += apollo.people.length;
+                    for (let x = 0; x < apollo.people.length; x++) {
+                        // deep copy of prospect
+                        let prospect = JSON.parse(JSON.stringify(apollo.people[x]));
+                        prospect.customer = data[0].customer;
+                        prospect.batch_id = data[0].id;
+                        const options_process_prospect = {
+                            MessageBody: JSON.stringify(prospect),
+                            QueueUrl: queueUrl,
+                            MessageGroupId: (await uuidv4()),
+                            MessageDeduplicationId: (await uuidv4())
+                        };
+                        await sqs.sendMessage(options_process_prospect).promise().then(
+                            function (data) {
+                                console.info("data:", data);
+                                return {
+                                    statusCode: 200,
+                                    body: {},
+                                };
+                            });
+                    }
+                }
 
-                // let queue_process_twitter_message = {
-                //     entry_id: data.entry_id,
-                //     ticker: data.ticker,
-                //     twitter: parseInt(twitter) || 0,
-                //     company_name: data.company_name,
-                //     start_time: data.start_time,
-                //     end_time: data.end_time
-                // };
-                // const queue_fetch_twitter_params = {
-                //     MessageBody: JSON.stringify(queue_process_twitter_message),
-                //     QueueUrl: queue_process_twitter,
-                //     MessageGroupId: (await uuidv4()),
-                //     MessageDeduplicationId: (await uuidv4())
-                // };
-                // await sqs.sendMessage(queue_fetch_twitter_params).promise().then(
-                //     function (data) {
-                //         console.info("data:", data);
-                //         return {
-                //             statusCode: 200,
-                //             body: {},
-                //         };
-                //     });
             }
+
+            console.log("Total Required: " + totalRequired);
+            console.log("Total Processed: " + totalProcessed);
         }
     } catch (e) {
         console.log(util.inspect(e, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));

@@ -17,6 +17,7 @@ provider:
     account_id: ${aws:accountId}
     api_accounts_table_name: api_permissions
     queue_requests: sqs-queue-requests-${self:provider.stage}.fifo
+    queue_prospects: sqs-queue-prospects-${self:provider.stage}.fifo
   iam:
     role:
       statements:  # note - you may have to manually add AmazonDynamoDBFullAccess to the IAM Role for the dynamic-sales-webhooks service
@@ -43,6 +44,12 @@ resources:
         QueueName: ${self:provider.environment.queue_requests}
         FifoQueue: true
         VisibilityTimeout: 900
+    QueueProspects:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: ${self:provider.environment.queue_prospects}
+        FifoQueue: true
+        VisibilityTimeout: 900
 
 functions:
 
@@ -65,6 +72,16 @@ functions:
           arn:
             Fn::GetAtt:
               - QueueRequests
+              - Arn
+          batchSize: 1
+
+  sqs-process-prospects:
+    handler: functions/prospects/sqs-process-prospects.main
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - QueueProspects
               - Arn
           batchSize: 1
 
@@ -93,6 +110,7 @@ functions:
       - http:
           path: stored-profile
           method: put
+          cors: true
 
   post-stored-profile:
     handler: functions/stored-profiles/post-stored-profile.main
@@ -101,6 +119,7 @@ functions:
       - http:
           path: stored-profile
           method: post
+          cors: true
 
   get-stored-profile:
     handler: functions/stored-profiles/get-stored-profile.main
@@ -109,6 +128,7 @@ functions:
       - http:
           path: stored-profile/{customer}
           method: get
+          cors: true
 
   armpit:
     handler: functions/armpit.main
@@ -116,3 +136,4 @@ functions:
       - http:
           path: armpit/{count}
           method: get
+          cors: true
