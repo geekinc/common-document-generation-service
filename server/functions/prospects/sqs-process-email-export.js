@@ -1,9 +1,7 @@
 import { json2csv } from 'json-2-csv';
-import { v4 as uuidv4 } from 'uuid';
 import util from "util";
 import sgMail from '@sendgrid/mail';
 import sgClient from '@sendgrid/client';
-import {coordinator} from "../../lib/coordinator-lib";
 const axios = require("axios");
 const mysql = require('serverless-mysql')({
     library: require('mysql2'),
@@ -33,7 +31,7 @@ export async function main(event, context, req) {
             // If no email is found, use a default email, in this case, mine
             let results = await mysql.query(
                 "SELECT " +
-                "   IFNULL(c.email, 'ben@dynamicsales.com') as email, p.json_data " +
+                "   IFNULL(c.email, 'ben@dynamicsales.com') as email, p.id, p.json_data " +
                 " FROM `customer_prospects` as cp " +
                 " INNER JOIN prospects as p ON cp.prospect_id = p.id " +
                 " INNER JOIN customers as c ON cp.customer_id = c.id " +
@@ -50,9 +48,21 @@ export async function main(event, context, req) {
                 ]);
 
             let output = [];
+            let update_ids = [];
             for (let x = 0; x < results.length; x++) {
                 output.push(results[x].json_data);
+                update_ids.push(results[x].id);
             }
+
+            // Update the records to show they have been used
+            await mysql.query(
+                "UPDATE `prospects` " +
+                " SET " +
+                " last_used = NOW() " +
+                " WHERE id IN (?)",
+                [
+                    update_ids
+                ]);
 
             // Fetch the customer email
             let highlevel_options = {

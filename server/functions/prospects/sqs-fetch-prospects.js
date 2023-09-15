@@ -7,6 +7,16 @@ const AWS = require("aws-sdk");
 const sqs = new AWS.SQS({
     region: process.env.region,
 });
+const mysql = require('serverless-mysql')({
+    library: require('mysql2'),
+    config: {
+        host     : process.env.rds_host,
+        database : process.env.rds_database,
+        user     : process.env.rds_user,
+        password : process.env.rds_password,
+        charset  : 'utf8mb4_unicode_ci'
+    }
+});
 
 function processEmployeeCounts(employees) {
     // swap the '-' with a ',' for each entry in the array
@@ -124,6 +134,13 @@ export async function main(event, context, req) {
                 }
                 pageNumber++;   // increment the page number
             }
+
+            // Mark the page number in the database for this profile
+            await mysql.query({
+                sql: 'UPDATE `stored_profiles` SET `hydration_page_number` = ? WHERE `id` = ?',
+                timeout: 10000, // 10s
+                values: [pageNumber, data[0].id]
+            });
 
             // Trigger new process to export the data and email it
             if (data[0].usage_type === 'email_export') {
