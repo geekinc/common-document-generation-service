@@ -5,7 +5,7 @@ import { coordinator } from "../../lib/coordinator-lib";
 const axios = require('axios');
 
 let currentKey = 0;
-let API_KEY = await coordinator.api_key('apollo.io');
+let API_KEY = '';
 const asyncWait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 /***********************************************************************************************************************
@@ -33,11 +33,7 @@ export async function main(event, context) {
     }
 
     for (let x = 0; x < emails.length; x++) {
-        API_KEY = keys[currentKey];
-        currentKey++;
-        if (currentKey === keys.length) {
-            currentKey = 0;
-        }
+        API_KEY = await coordinator.api_key('apollo.io');
         if (emails[x].toString().includes('|')) {
             console.log(emails[x].toString().split('|')[0]);
         }
