@@ -55,13 +55,12 @@ export async function main(event, context, req) {
             }
 
             // Fetch the customer email
-            // TODO: get the bearer token from environment variables
             let highlevel_options = {
                 url: 'https://rest.gohighlevel.com/v1/locations/j154Pwy9QxY9VzduMzsw',
                 timeout: 5000,
                 method: 'GET',
                 headers: {
-                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoic1lKQ2xEVFVTTHc0NWQ1ejBzMGIiLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2OTQ3MzgxMzcyOTcsInN1YiI6InB5OFJlUzIwdTNRb1RoZWZyY1BQIn0.GkhI0p_srSEbSzgqAN4xy64bnBq01nhDI1Hcy93fRck",
+                    "Authorization": "Bearer " + process.env.highlevel_api_key,
                 }
             };
             let highlevel_response = await axios.request(highlevel_options).then(function (response) {
@@ -82,7 +81,7 @@ export async function main(event, context, req) {
             await setupMailClient();
             const msg = {
                 to: customer_email,
-                from: 'ben@dynamicoutboundsales.com',
+                from: 'hello@dynamicsales.com',
                 subject: 'Latest Prospects',
                 text: 'Here are your prospects.',
                 html: '<strong>Here are your prospects.</strong>',
