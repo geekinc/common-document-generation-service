@@ -1,19 +1,6 @@
 import response from "../../lib/response-lib";
+import {coordinator} from "../../lib/coordinator-lib";
 const axios = require('axios');
-
-function randomIntFromInterval(min, max) { // min and max included
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-const keys = [
-    "mDSuNyxv-x5wNgRnyKei5g",
-    "gs_ytoBmZht7mm8fWN_IoQ",
-    "jq3u7hN8I69TEe0J7eRwEQ",
-    "wJTpegcDY2mTzi8l2eLKAw"
-];
-let currentKey = randomIntFromInterval(0, keys.length - 1);
-let API_KEY = process.env.API_KEY || keys[currentKey];
-const asyncWait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 /***********************************************************************************************************************
  * Security Requirements:
@@ -40,7 +27,7 @@ export async function main(event, context) {
     console.log(input);
 
     let query = {
-        "api_key": API_KEY,
+        "api_key": await coordinator.api_key('apollo.io'),
         "contact_email_status": ["verified"],
         "per_page": 1,
         "page": 1
