@@ -56,6 +56,7 @@ export async function main(event, context, req) {
                         JSON.stringify(prospect),
                         prospect.email
                     ]);
+                    console.log('Updated prospect: ' + prospect.email);
             } else {
                 await mysql.query(
                     ` insert ignore into \`prospects\`
@@ -83,6 +84,7 @@ export async function main(event, context, req) {
                         prospect.country,
                         JSON.stringify(prospect)
                     ]);
+                console.log('Inserted prospect: ' + prospect.email);
             }
 
             // Assign the prospect to a customer (if not already assigned)

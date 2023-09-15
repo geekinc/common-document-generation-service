@@ -122,7 +122,7 @@ export async function main(event, context, req) {
                     }
                     totalProcessed += apollo.people.length;
                 }
-
+                pageNumber++;   // increment the page number
             }
 
             // Trigger new process to export the data and email it
