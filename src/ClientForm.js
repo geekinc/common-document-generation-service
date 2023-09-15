@@ -620,7 +620,8 @@ const ClientForm = () => {
                                                                         onChange={e => handleProfileRevenueMinChange(e.target.value)}
                                                                         style={{
                                                                             fontSize: "0.875rem",
-                                                                            lineHeight: "1.25rem"
+                                                                            lineHeight: "1.25rem",
+                                                                            height: "40px"
                                                                         }}
                                                                         className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800"
                                                                         aria-label="Amount (to the nearest dollar)"
@@ -630,7 +631,7 @@ const ClientForm = () => {
                                                                     </div>
                                                                 </div>
                                                                 <span
-                                                                    className="input-group-addon col-md-2 center"> <FontAwesomeIcon
+                                                                    className="input-group-addon col-md-2 center" style={{maxWidth: "6%"}}> <FontAwesomeIcon
                                                                     icon={faArrowsH}
                                                                     style={{position: "relative", top: "5px"}}/> </span>
                                                                 <div className="input-group col-md-5">
@@ -644,7 +645,8 @@ const ClientForm = () => {
                                                                         onChange={e => handleProfileRevenueMaxChange(e.target.value)}
                                                                         style={{
                                                                             fontSize: "0.875rem",
-                                                                            lineHeight: "1.25rem"
+                                                                            lineHeight: "1.25rem",
+                                                                            height: "40px"
                                                                         }}
                                                                         className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800"
                                                                         aria-label="Amount (to the nearest dollar)"
