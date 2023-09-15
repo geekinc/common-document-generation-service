@@ -56,12 +56,16 @@ export async function main(event, context, req) {
 
             // Update the records to show they have been used
             await mysql.query(
-                "UPDATE `prospects` " +
+                "UPDATE `customer_prospects` " +
                 " SET " +
                 " last_used = NOW() " +
-                " WHERE id IN (?)",
+                " WHERE " +
+                " prospect_id IN (?) " +
+                " and " +
+                " batch_id = ?",
                 [
-                    update_ids
+                    update_ids,
+                    data.batch_id
                 ]);
 
             // Fetch the customer email
