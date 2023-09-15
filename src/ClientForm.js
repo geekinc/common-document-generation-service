@@ -348,6 +348,8 @@ const ClientForm = () => {
     const handleFirst500Click = (event) => {
         // Trigger the test
         let payload = {
+            count: 500,
+            usage_type: 'email_export',
             id: profile.id,
             customer: customer,
             description: profile.description,
@@ -364,10 +366,10 @@ const ClientForm = () => {
         };
 
         // Apply the search
-        API_search_prospects(payload);
+        API_first_500(payload);
 
         // Show modal
-        setShow(true);
+        alert('We will email the prospects to you shortly.');
     };
 
     const handleFormSubmit = async (event) => {
