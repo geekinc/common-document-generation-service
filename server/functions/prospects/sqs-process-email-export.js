@@ -70,7 +70,10 @@ export async function main(event, context, req) {
                 console.error(error);
                 return 0;
             });
-            let customer_email = highlevel_response.email;
+            let customer_email = highlevel_response?.email;
+            console.log(highlevel_response);
+            console.log(customer_email);
+
 
             // Generate the CSV
             const csv = await json2csv(output);
@@ -79,7 +82,7 @@ export async function main(event, context, req) {
             await setupMailClient();
             const msg = {
                 to: customer_email,
-                from: 'hello@dynamicoutboundsales.com',
+                from: 'ben@dynamicoutboundsales.com',
                 subject: 'Latest Prospects',
                 text: 'Here are your prospects.',
                 html: '<strong>Here are your prospects.</strong>',
