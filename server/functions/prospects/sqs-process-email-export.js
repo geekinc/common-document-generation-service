@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import util from "util";
 import sgMail from '@sendgrid/mail';
 import sgClient from '@sendgrid/client';
+import {coordinator} from "../../lib/coordinator-lib";
+const axios = require("axios");
 const mysql = require('serverless-mysql')({
     library: require('mysql2'),
     config: {
@@ -47,15 +49,28 @@ export async function main(event, context, req) {
                     data.batch_size
                 ]);
 
-            console.log('first result:');
-            console.log(results[0].json_data);
-            console.log('total to process:');
-            console.log(results.length);
-
             let output = [];
             for (let x = 0; x < results.length; x++) {
                 output.push(results[x].json_data);
             }
+
+            // Fetch the customer email
+            // TODO: get the bearer token from environment variables
+            let highlevel_options = {
+                url: 'https://rest.gohighlevel.com/v1/locations/j154Pwy9QxY9VzduMzsw',
+                timeout: 5000,
+                method: 'GET',
+                headers: {
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55X2lkIjoic1lKQ2xEVFVTTHc0NWQ1ejBzMGIiLCJ2ZXJzaW9uIjoxLCJpYXQiOjE2OTQ3MzgxMzcyOTcsInN1YiI6InB5OFJlUzIwdTNRb1RoZWZyY1BQIn0.GkhI0p_srSEbSzgqAN4xy64bnBq01nhDI1Hcy93fRck",
+                }
+            };
+            let highlevel_response = await axios.request(highlevel_options).then(function (response) {
+                return response.data;
+            }).catch(function (error) {
+                console.error(error);
+                return 0;
+            });
+            let customer_email = highlevel_response.email;
 
             // Generate the CSV
             const csv = await json2csv(output);
@@ -63,8 +78,8 @@ export async function main(event, context, req) {
             // Set up the email service
             await setupMailClient();
             const msg = {
-                to: results[0].email,
-                from: 'ben@dynamicoutboundsales.com',
+                to: customer_email,
+                from: 'hello@dynamicoutboundsales.com',
                 subject: 'Latest Prospects',
                 text: 'Here are your prospects.',
                 html: '<strong>Here are your prospects.</strong>',
@@ -77,7 +92,6 @@ export async function main(event, context, req) {
                     },
                 ],
             };
-            console.log(msg);
             await sgMail.send(msg)
                 .then(data => {
                     console.log(data);

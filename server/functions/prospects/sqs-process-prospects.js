@@ -16,7 +16,7 @@ export async function main(event, context, req) {
         // Process each message from the event
         for (let record of event.Records) {
             let prospect = JSON.parse(record.body);
-            console.log(util.inspect(prospect, {showHidden: false, depth: null, colors: false, maxArrayLength: 500}));
+            // console.log(util.inspect(prospect, {showHidden: false, depth: null, colors: false, maxArrayLength: 500}));
 
             // Use email as an index to determine if we insert or update
             let results = await mysql.query(
