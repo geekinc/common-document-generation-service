@@ -137,7 +137,7 @@ export async function main(event, context, req) {
 
             // Mark the page number in the database for this profile
             await mysql.query({
-                sql: 'UPDATE `stored_profiles` SET `hydration_page_number` = ? WHERE `id` = ?',
+                sql: 'UPDATE `stored-profiles` SET `hydration_page_number` = ? WHERE `id` = ?',
                 timeout: 10000, // 10s
                 values: [pageNumber, data[0].id]
             });
