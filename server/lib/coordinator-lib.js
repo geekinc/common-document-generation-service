@@ -97,14 +97,21 @@ async function get_api_key(provider) {
         }
     }
 
+    // Set a sane default response
+    let oldest = found.Items[0];
+
     if (found.Items.length > 0) {
+
+        // Grab the oldest entry from the lis
+        oldest = found.Items.reduce((r, o) => o.last_used < r.last_used ? o : r);
+
         // Update the new record with the correct time
         try {
             const params = {
                 TableName: process.env.api_accounts_table_name,
                 Key: {
-                    "provider": found.Items[0].provider,
-                    "id": found.Items[0].id
+                    "provider": oldest.provider,
+                    "id": oldest.id
                 },
                 UpdateExpression: "set last_used = :x",
                 ExpressionAttributeValues: {
@@ -117,7 +124,7 @@ async function get_api_key(provider) {
             console.log(e);
             return DEFAULT_KEY;
         }
-        return found.Items[0].api_key;
+        return oldest.api_key;
     } else {
         return DEFAULT_KEY;
     }
