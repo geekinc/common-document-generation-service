@@ -44,7 +44,7 @@ export async function main(event, context) {
         let var_record = {};
         //  parse data from APIs
         if (event.body) {
-            var_record = [await JSON.parse(btoa(event.body))];   // Need to base64 decode the body for some reason???
+            var_record = [await JSON.parse(atob(event.body))];   // Need to base64 decode the body for some reason???
         }
 
         // Structure the message to query
