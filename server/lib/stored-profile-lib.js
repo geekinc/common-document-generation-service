@@ -54,7 +54,7 @@ export async function getStoredProfilePageNumber(profile_id) {
         console.log(error);
     }
 
-    return results;
+    return results[0].hydration_page_number | 1;
 }
 
 export async function incrementStoredProfilePageNumber(profile_id) {
