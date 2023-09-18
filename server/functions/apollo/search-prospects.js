@@ -23,7 +23,7 @@ function getIndustryIDsFromNames(industryArray) {
 }
 
 export async function main(event, context) {
-    let input = JSON.parse(event.body);
+    let input = JSON.parse(atob(event.body));
     console.log(input);
 
     let query = {

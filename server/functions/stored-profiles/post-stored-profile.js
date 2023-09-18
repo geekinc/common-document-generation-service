@@ -29,7 +29,7 @@ export async function main(event, context) {
         if (event.body) {
             var_method = 'API';
             logger.info('info: API CALL');
-            var_record = JSON.parse(event.body);
+            var_record = JSON.parse(atob(event.body));
         }
 
         //  parse data from SQS

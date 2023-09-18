@@ -14,7 +14,7 @@ const asyncWait = ms => new Promise(resolve => setTimeout(resolve, ms));
  ***********************************************************************************************************************/
 
 export async function main(event, context) {
-    let input = JSON.parse(event.body);
+    let input = JSON.parse(atob(event.body));
     let emails = [];
     let enriched = [];
 

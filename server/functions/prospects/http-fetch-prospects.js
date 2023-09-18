@@ -27,7 +27,7 @@ export async function main(event, context) {
         //  parse data from APIs
         if (event.body) {
             logger.info('API CALL');
-            var_record = [await JSON.parse(event.body)];
+            var_record = [await JSON.parse(atob(event.body))];
         }
 
         console.log(var_record);
