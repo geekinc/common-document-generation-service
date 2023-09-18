@@ -39,13 +39,12 @@ export async function main(event, context) {
 
     const accountId = process.env.account_id;
     const queueUrl = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_prospects}`;
-    const queueExportUrl = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_export_prospects}`;
 
     try {
         let var_record = {};
         //  parse data from APIs
         if (event.body) {
-            var_record = [await JSON.parse(event.body)];
+            var_record = [await JSON.parse(btoa(event.body))];   // Need to base64 decode the body for some reason???
         }
 
         // Structure the message to query
