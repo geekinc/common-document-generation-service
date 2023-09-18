@@ -44,6 +44,7 @@ const ClientForm = () => {
     const [employees, setEmployees] = React.useState([]);
 
     const [searchResponse, setSearchResponse] = React.useState(null);
+    const [downloadResponse, setDownloadResponse] = React.useState(null);
 
     // modal variables
     const [show, setShow] = useState(false);
@@ -51,7 +52,12 @@ const ClientForm = () => {
         setShow(false);
         setSearchResponse(null);
     }
-    const handleShow = () => setShow(true);
+    const [showDownload, setShowDownload] = useState(false);
+    const handleCloseDownload = () => {
+        setShowDownload(false);
+        setDownloadResponse(null);
+    }
+
 
     //  event listeners ------------------------------------------------------------------------------------------------
 
@@ -171,7 +177,7 @@ const ClientForm = () => {
         return data;
     }
 
-    async function API_first_500(payload){
+    async function API_email_large_batch(payload){
         let data = [];
         try {
             const response = await fetch(API_URL + '/fetch', {
@@ -185,6 +191,56 @@ const ClientForm = () => {
             } else {
                 data = await response.json()
             }
+        } catch (e) {
+            console.error(e);
+            data = [];
+        }
+
+        setSearchResponse(data);
+        return data;
+    }
+
+    async function API_download_next_page(payload){
+        console.log('------------------');
+        console.log(payload);
+        console.log('------------------');
+
+        let data = [];
+        try {
+            const response = await fetch(API_URL + '/download', {
+            // const response = await fetch('http://localhost:3000/dev/download', {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+                .then((response) => response.blob())
+                .then((blob) => {
+                    // Because we want to download this file, we have to manually process it
+                    // Normally, Axios/Fetch gets used for data for the current page, not for downloading files
+                    // We have to create a blob link to download the file
+
+                    setDownloadResponse(true);
+
+                    // Create blob link to download
+                    const url = window.URL.createObjectURL(
+                        new Blob([blob]),
+                    );
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute(
+                        'download',
+                        `download.csv`,
+                    );
+
+                    // Append to html link element page
+                    document.body.appendChild(link);
+
+                    // Start download
+                    link.click();
+
+                    // Clean up and remove the link
+                    link.parentNode.removeChild(link);
+                });
+
         } catch (e) {
             console.error(e);
             data = [];
@@ -345,10 +401,11 @@ const ClientForm = () => {
         setShow(true);
     };
 
-    const handleFirst500Click = (event) => {
+    // Fetch the first 1500 records
+    const handleEmailLargeBatch = (event) => {
         // Trigger the test
         let payload = {
-            count: 500,
+            count: 1500,
             usage_type: 'email_export',
             id: profile.id,
             customer: customer,
@@ -366,10 +423,36 @@ const ClientForm = () => {
         };
 
         // Apply the search
-        API_first_500(payload);
+        API_email_large_batch(payload);
 
         // Show modal
         alert('We will email the prospects to you shortly.');
+    };
+
+    const handleDownloadNextPage = (event) => {
+        // Trigger the test
+        let payload = {
+            count: 200,
+            usage_type: 'email_export',
+            id: profile.id,
+            customer: customer,
+            description: profile.description,
+            state: profile.state,
+            job_title: profile.jobTitles,
+            location: profile.locations,
+            industry: profile.industries,
+            number_of_employees: processEmployeeCounts(profile.employeeCounts),
+            company_revenue_min: profile.revenueMin,
+            company_revenue_max: profile.revenueMin,
+            prospect_tag: profile.tag,
+            hydration_frequency: profile.frequencyCount,
+            hydration_period: profile.frequency
+        };
+
+        // Apply the search
+        setShowDownload(true);
+        API_download_next_page(payload);
+
     };
 
     const handleFormSubmit = async (event) => {
@@ -450,23 +533,24 @@ const ClientForm = () => {
 
 
                                                 <div className="form-group">
-                                                <span className="text-sm font-medium text-gray-700">
-                                                    ICP Description
-                                                </span>
+                                                    <span className="text-sm font-medium text-gray-700">
+                                                        ICP Description
+                                                    </span>
                                                     <div
-                                                        className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
-                                                        data-lpignore="true" autoComplete="msgsndr1"
+                                                        className="input-group input-group-lg w-full"
+                                                        data-lpignore="true"
+                                                        autoComplete="msgsndr1"
                                                         data-vv-as="revenue">
-                                                        <input
-                                                            disabled={!(var_editing >= 0)}
-
+                                                        <TextField
+                                                            style={{width: "100%"}}
+                                                            id="outlined-basic"
+                                                            variant="outlined"
                                                             value={profile.description}
                                                             onChange={e => handleProfileDescriptionChange(e.target.value)}
                                                             type="text"
                                                             data-lpignore="true"
                                                             autoComplete="msgsndr1"
                                                             placeholder="Short description of your Ideal Customer Profile"
-                                                            className="hl-text-input  focus:ring-curious-blue-500 focus:border-curious-blue-500 block w-full sm:text-sm border-gray-300 rounded disabled:opacity-50 text-gray-800"
                                                             name="msgsndr1"
                                                             maxLength=""
                                                         />
@@ -660,10 +744,10 @@ const ClientForm = () => {
 
                                                     </div>
                                                 </div>
-                                                <div className="form-group">
-                                                <span className="text-sm font-medium text-gray-700">
-                                                    Prospect Tag
-                                                </span>
+                                                <div className="form-group" style={{visibility: "hidden", position: "absolute"}}>
+                                                    <span className="text-sm font-medium text-gray-700">
+                                                        Prospect Tag
+                                                    </span>
                                                     <div
                                                         className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
                                                         data-lpignore="true" autoComplete="msgsndr1"
@@ -689,10 +773,10 @@ const ClientForm = () => {
 
                                                     </div>
                                                 </div>
-                                                <div className="form-group">
-                                                <span className="text-sm font-medium text-gray-700">
-                                                    Hydration Frequency
-                                                </span>
+                                                <div className="form-group" style={{visibility: "hidden", position: "absolute"}}>
+                                                    <span className="text-sm font-medium text-gray-700">
+                                                        Hydration Frequency
+                                                    </span>
                                                     <div
                                                         className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
                                                         data-lpignore="true" autoComplete="msgsndr1"
@@ -732,18 +816,31 @@ const ClientForm = () => {
 
                                             {(var_editing >= 0) &&
                                                 <>
-                                                <button
-                                                    disabled={!(var_editing >= 0)}
-                                                    onClick={handleTestClick}
-                                                    type="button"
-                                                    className={"btn float-right" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
-                                                >Test Now</button>
-                                                <button
-                                                    disabled={!(var_editing >= 0)}
-                                                    onClick={handleFirst500Click}
-                                                    type="button"
-                                                    className={"btn float-left" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
-                                                >First 500</button>
+                                                    <button
+                                                        disabled={!(var_editing >= 0)}
+                                                        onClick={handleTestClick}
+                                                        type="button"
+                                                        className={"btn float-right" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
+                                                    >Test Now</button>
+
+                                                    {profile.hydration_page_number < 2 &&
+                                                        <button
+                                                            disabled={!(var_editing >= 0)}
+                                                            onClick={handleEmailLargeBatch}
+                                                            type="button"
+                                                            className={"btn float-left" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
+                                                            style={{marginRight: '1rem'}}
+                                                        >Email first 1500</button>
+                                                    }
+                                                    {profile.state.toUpperCase() === 'ACTIVE' &&
+                                                        <button
+                                                            disabled={!(var_editing >= 0)}
+                                                            onClick={handleDownloadNextPage}
+                                                            type="button"
+                                                            className={"btn float-left" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
+
+                                                        >Download next page</button>
+                                                    }
                                                 </>
                                             }
                                         </div>
@@ -886,11 +983,49 @@ const ClientForm = () => {
                     }
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Make Changes
-                    </Button>
                     <Button variant="primary" onClick={handleClose}>
-                        Save Profile
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+
+            <Modal show={showDownload} onHide={handleCloseDownload}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Fetching next page of data</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {(downloadResponse !== null) &&
+                        <div>
+                            <div className="form-group">
+                                <div className="d-flex justify-content-center" data-lpignore="true"
+                                     autoComplete="msgsndr1" data-vv-as="revenue">
+                                    <h2>Download Complete</h2>
+                                </div>
+                                <div className="d-flex justify-content-center" data-lpignore="true"
+                                     autoComplete="msgsndr1" data-vv-as="revenue">
+                                    <p>(check your download folder)</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    {(downloadResponse === null) &&
+                        <div>
+                            <div className="form-group">
+                                <div className="d-flex justify-content-center" data-lpignore="true"
+                                     autoComplete="msgsndr1" data-vv-as="revenue">
+                                    <div className="spinner-border" style={{width: "3rem", height: "3rem"}}
+                                         role="status">
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleCloseDownload}>
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>
