@@ -25,17 +25,59 @@ export async function getStoredProfiles(customer) {
     return results;
 }
 
-export function getIndustryIDsFromNames(industryArray) {
-    let industries = require('../data/industries.json');
-
-    let industryIDs = [];
-    for (let x = 0; x < industryArray.length; x++) {
-        for (let y = 0; y < industries.length; y++) {
-            if (industryArray[x].toString().toLowerCase() === industries[y].name.toString().toLowerCase()) {
-                industryIDs.push(industries[y].id);
-            }
-        }
+export async function getStoredProfile(profile_id) {
+    let results;
+    try {
+        // Read data from table
+        results = await mysql.query(
+            "SELECT * FROM `stored-profiles` WHERE id = ?",
+            [
+                profile_id
+            ]);
+    } catch (error) {
+        console.log(error);
     }
 
-    return industryIDs;
+    return results;
+}
+
+export async function getStoredProfilePageNumber(profile_id) {
+    let results;
+    try {
+        // Read data from table
+        results = await mysql.query(
+            "SELECT hydration_page_number FROM `stored-profiles` WHERE id = ?",
+            [
+                profile_id
+            ]);
+    } catch (error) {
+        console.log(error);
+    }
+
+    return results;
+}
+
+export async function incrementStoredProfilePageNumber(profile_id) {
+    let results;
+    try {
+        // Read data from table
+        results = await mysql.query(
+            "SELECT hydration_page_number FROM `stored-profiles` WHERE id = ?",
+            [
+                profile_id
+            ]);
+
+        let hydration_page_number = results[0].hydration_page_number + 1;
+
+        results = await mysql.query(
+            "UPDATE `stored-profiles` SET hydration_page_number = ? WHERE id = ?",
+            [
+                hydration_page_number,
+                profile_id
+            ]);
+    } catch (error) {
+        console.log(error);
+    }
+
+    return results;
 }
