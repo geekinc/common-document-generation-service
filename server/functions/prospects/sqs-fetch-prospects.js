@@ -1,6 +1,7 @@
 import { process_apollo } from "../../lib/apollo-lib";
 import util from "util";
 import {v4 as uuidv4} from "uuid";
+import {getStoredProfilePageNumber, incrementStoredProfilePageNumber} from "../../lib/stored-profile-lib";
 const AWS = require("aws-sdk");
 const sqs = new AWS.SQS({
     region: process.env.region,
@@ -28,7 +29,7 @@ export async function main(event, context, req) {
 
             let totalRequired = data[0].count;
             let totalProcessed = 0;
-            let pageNumber = 1;
+            let pageNumber = await getStoredProfilePageNumber(data[0].id);
             while (totalProcessed < totalRequired) {
                 let apollo = await process_apollo(data[0], pageNumber);  // process the first entry in the array
 
@@ -72,14 +73,8 @@ export async function main(event, context, req) {
                     totalProcessed += apollo.people.length;
                 }
                 pageNumber++;   // increment the page number
+                await incrementStoredProfilePageNumber(data[0].id);
             }
-
-            // Mark the page number in the database for this profile
-            await mysql.query({
-                sql: 'UPDATE `stored-profiles` SET `hydration_page_number` = ? WHERE `id` = ?',
-                timeout: 10000, // 10s
-                values: [pageNumber, data[0].id]
-            });
 
             // Trigger new process to export the data and email it
             if (data[0].usage_type === 'email_export') {
