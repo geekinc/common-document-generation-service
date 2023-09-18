@@ -9,7 +9,7 @@ const mysql = require('serverless-mysql')({
     }
 });
 
-export async function getStoredProfiles(customer, mysql) {
+export async function getStoredProfiles(customer) {
     let results;
     try {
         // Read data from table
