@@ -67,7 +67,7 @@ export async function incrementStoredProfilePageNumber(profile_id) {
                 profile_id
             ]);
 
-        let hydration_page_number = results[0].hydration_page_number + 1;
+        let hydration_page_number = (results[0].hydration_page_number | 1) + 1;
 
         results = await mysql.query(
             "UPDATE `stored-profiles` SET hydration_page_number = ? WHERE id = ?",
