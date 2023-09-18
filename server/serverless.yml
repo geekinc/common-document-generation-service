@@ -7,7 +7,6 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin
 
-
 provider:
   name: aws
   runtime: nodejs16.x
@@ -36,6 +35,10 @@ provider:
             - sqs:*
             - s3:*
           Resource: "*"
+  apiGateway:
+    binaryMediaTypes:
+      - "*/*"
+
 
 resources:
   Resources:
@@ -60,6 +63,16 @@ resources:
         VisibilityTimeout: 900
 
 functions:
+
+  download-prospects:
+    handler: functions/prospects/http-download-prospects.main
+    timeout: 30
+    memorySize: 128
+    events:
+      - http:
+          path: download
+          method: post
+          cors: true
 
   fetch-prospects:
     handler: functions/prospects/http-fetch-prospects.main

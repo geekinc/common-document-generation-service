@@ -1,16 +1,6 @@
 import response from "../../lib/response-lib";
 import { logger } from '../../lib/logger-lib';
-
-const mysql = require('serverless-mysql')({
-    library: require('mysql2'),
-    config: {
-        host     : process.env.rds_host,
-        database : process.env.rds_database,
-        user     : process.env.rds_user,
-        password : process.env.rds_password,
-        charset  : 'utf8mb4_unicode_ci'
-    }
-});
+import { getStoredProfiles } from '../../lib/stored-profile-lib';
 
 /***********************************************************************************************************************
  * Security Requirements:
@@ -36,20 +26,11 @@ export async function main(event, context) {
             var_record = JSON.parse(event.body);
         }
 
-        // Read data from table
-        let results = await mysql.query(
-            "SELECT * FROM `stored-profiles` WHERE customer = ?",
-        [
-            customer
-        ]);
+        let results = getStoredProfiles(customer);
 
         return response.success(results);
 
     } catch (exception) {
-        await logger.error(exception, event, mysql);
         return response.failure();
-    } finally {
-        //  close mysql connection
-        await mysql.end();
     }
 }

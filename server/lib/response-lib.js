@@ -1,7 +1,10 @@
 export default {
     success: (body) => buildResponse(200, body),
     successtext: (body) => buildTextResponse(200, body),
-    successcsv: (body) => buildRawResponse(200, body, {"Content-Type": "text/csv"}),
+    successcsv: (body) => buildRawResponse(200, body, {
+        'Content-Type': 'text/csv',
+        'Content-disposition': 'attachment; filename=download.csv'
+    }),
     failure: (body) => buildResponse(500, body),
     badrequest: (body) => buildResponse(400, body),
     unauthorized: (body) => buildResponse(401, body),

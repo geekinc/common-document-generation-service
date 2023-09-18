@@ -1,6 +1,8 @@
 import dynamoDb from "./dynamodb-lib";
 import { sleep } from "./general-lib";
 
+export const DEFAULT_KEY = 'iAw6Qq-w9nmZsCYvcLGW1g';
+
 async function get_api_headers(provider) {
     let loop_count = 0;
     let loop_max = 10;
@@ -25,7 +27,7 @@ async function get_api_headers(provider) {
         } catch(e) {
             console.log(">>> Lookup Error");
             console.log(e);
-            return {};
+            return DEFAULT_KEY;
         }
 
         if (found.Items.length > 0) {
@@ -53,11 +55,11 @@ async function get_api_headers(provider) {
         } catch (e) {
             console.log(">>> Insert Error");
             console.log(e);
-            return {};
+            return DEFAULT_KEY;
         }
         return found.Items[0].headers;
     } else {
-        return {};
+        return DEFAULT_KEY;
     }
 }
 
@@ -85,7 +87,7 @@ async function get_api_key(provider) {
         } catch(e) {
             console.log(">>> Lookup Error");
             console.log(e);
-            return {};
+            return DEFAULT_KEY;
         }
 
         if (found.Items.length > 0) {
@@ -113,11 +115,11 @@ async function get_api_key(provider) {
         } catch (e) {
             console.log(">>> Insert Error");
             console.log(e);
-            return {};
+            return DEFAULT_KEY;
         }
         return found.Items[0].api_key;
     } else {
-        return {};
+        return DEFAULT_KEY;
     }
 }
 

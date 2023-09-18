@@ -1,8 +1,6 @@
-import { coordinator } from "../../lib/coordinator-lib";
-import { getIndustryIDsFromNames } from "../../lib/general-lib";
+import { process_apollo } from "../../lib/apollo-lib";
 import util from "util";
 import {v4 as uuidv4} from "uuid";
-const axios = require("axios");
 const AWS = require("aws-sdk");
 const sqs = new AWS.SQS({
     region: process.env.region,
@@ -17,65 +15,6 @@ const mysql = require('serverless-mysql')({
         charset  : 'utf8mb4_unicode_ci'
     }
 });
-
-function processEmployeeCounts(employees) {
-    // swap the '-' with a ',' for each entry in the array
-    let new_employees = [];
-    for (let i = 0; i < employees.length; i++) {
-        new_employees.push(employees[i].replace('-', ','));
-    }
-    return new_employees;
-}
-
-async function process_apollo(query, pageNumber = 1) {
-
-    // Call apollo API with the details from the request
-    let apollo_options = {
-        url: 'https://api.apollo.io/v1/mixed_people/search',
-        timeout: 5000,
-        method: 'POST',
-        data: {
-            "api_key": await coordinator.api_key('apollo.io'),
-            "contact_email_status": ["verified"],
-            "per_page": 200,
-            "page": pageNumber
-        },
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    // Add the various parameters to the query based on if they exist or not
-    if (query.job_title) {
-        apollo_options.data.person_titles = query.job_title;
-    }
-
-    if (query.location) {
-        apollo_options.data.person_locations = query.location;
-    }
-
-    if (query.industry) {
-        apollo_options.data.organization_industry_tag_ids = getIndustryIDsFromNames(query.industry);
-    }
-
-    if (query.number_of_employees) {
-        apollo_options.data.organization_num_employees_ranges = processEmployeeCounts(query.number_of_employees);
-    }
-
-    if (query.company_revenue_max && query.company_revenue_min && query.company_revenue_max > query.company_revenue_min) {
-        apollo_options.data.revenue_range = {
-            "max": query.company_revenue_max.toString(),
-            "min": query.company_revenue_min.toString()
-        };
-    }
-
-    return await axios.request(apollo_options).then(function (response) {
-        return response.data;
-    }).catch(function (error) {
-        console.error(error);
-        return 0;
-    });
-}
 
 export async function main(event, context, req) {
     const accountId = process.env.account_id;
