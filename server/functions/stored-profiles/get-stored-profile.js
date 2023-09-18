@@ -26,7 +26,7 @@ export async function main(event, context) {
             var_record = JSON.parse(event.body);
         }
 
-        let results = getStoredProfiles(customer);
+        let results = await getStoredProfiles(customer);
 
         return response.success(results);
 
