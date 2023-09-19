@@ -61,62 +61,14 @@ export async function main(event, context) {
         // Structure the message to query
         let data = var_record;
         let csv;
+        let apollo;
+        let pageNumber;
 
         try {
             // Process each message from the event
             console.log(data);
-            let pageNumber = await getStoredProfilePageNumber(data[0].id);
-            let apollo = await process_apollo(data[0], pageNumber);
-            console.log(apollo);
-            if (apollo.people.length > 0) {
-                await incrementStoredProfilePageNumber(data[0].id);
-
-                // Generate the CSV
-                csv = await json2csv(apollo.people);
-
-                if (apollo) {
-                    // Handle breaking conditions
-                    if (apollo.people.length === 0) {
-                        return {
-                            statusCode: 200,
-                            body: "No results found"
-                        };
-                    }
-                    if (apollo.people.length < 200) {
-                        return {
-                            statusCode: 200,
-                            body: "Not enough results found"
-                        };
-                    }
-
-                    // Process the prospects
-                    for (let x = 0; x < apollo.people.length; x++) {
-                        // deep copy of prospect
-                        let prospect = JSON.parse(JSON.stringify(apollo.people[x]));
-                        prospect.customer = data[0].customer;
-                        prospect.batch_id = data[0].id;
-                        prospect.batch_count_number = apollo.people.length;
-                        prospect.batch_count_total = data[0].count;
-                        prospect.usage_type = data[0].usage_type;
-                        const options_process_prospect = {
-                            MessageBody: JSON.stringify(prospect),
-                            QueueUrl: queueUrl,
-                            MessageGroupId: (data[0].id)
-                        };
-                        await sqs.sendMessage(options_process_prospect).promise().then(
-                            function (data) {
-                                return {
-                                    statusCode: 200,
-                                    body: {},
-                                };
-                            });
-                    }
-                }
-
-            } else {
-                csv = "No results found";
-            }
-
+            pageNumber = await getStoredProfilePageNumber(data[0].id);
+            apollo = await process_apollo(data[0], pageNumber);
         } catch (e) {
             console.log(util.inspect(e, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
             return {
@@ -124,6 +76,59 @@ export async function main(event, context) {
                 body: "Success - but empty results",
             };
         }
+
+        console.log('-------------------');
+        console.log('apollo');
+        console.log('-------------------');
+        console.log(apollo.people);
+        if (apollo.people.length > 0) {
+            await incrementStoredProfilePageNumber(data[0].id);
+
+            // Generate the CSV
+            csv = await json2csv(apollo.people);
+
+            if (apollo) {
+                // Handle breaking conditions
+                if (apollo.people.length === 0) {
+                    return {
+                        statusCode: 200,
+                        body: "No results found"
+                    };
+                }
+
+                // Process the prospects
+                for (let x = 0; x < apollo.people.length; x++) {
+                    // deep copy of prospect
+                    let prospect = JSON.parse(JSON.stringify(apollo.people[x]));
+                    prospect.customer = data[0].customer;
+                    prospect.batch_id = data[0].id;
+                    prospect.batch_count_number = apollo.people.length;
+                    prospect.batch_count_total = data[0].count;
+                    prospect.usage_type = data[0].usage_type;
+                    const options_process_prospect = {
+                        MessageBody: JSON.stringify(prospect),
+                        QueueUrl: queueUrl,
+                        MessageGroupId: (data[0].id)
+                    };
+                    try {
+                        await sqs.sendMessage(options_process_prospect).promise().then(
+                            function (data) {
+                                return {
+                                    statusCode: 200,
+                                    body: {},
+                                };
+                            });
+                    } catch (e) {
+                        // Do nothing - if we can't pass the prospect to the queue, we don't want to stop the process
+                    }
+                }
+            }
+
+        } else {
+            csv = "No results found";
+        }
+
+
 
         return {
             statusCode: 200,

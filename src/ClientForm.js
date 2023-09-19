@@ -13,8 +13,8 @@ import _ from "underscore";
 import './App.css';
 
 // const API_URL = 'http://localhost:3000/dev';
-// const API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
-const API_URL = 'http://localhost:3000/dev';
+const API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
+// const API_URL = 'http://localhost:3000/dev';
 
 const ClientForm = () => {
 
@@ -160,7 +160,8 @@ const ClientForm = () => {
         try {
             const response = await fetch(API_URL + '/search-prospects', {
                 method: 'POST',
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
             });
             console.log(response);
 
@@ -183,7 +184,8 @@ const ClientForm = () => {
         try {
             const response = await fetch(API_URL + '/fetch', {
                 method: 'POST',
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
             });
             console.log(response);
 
@@ -211,7 +213,8 @@ const ClientForm = () => {
             const response = await fetch(API_URL + '/download', {
             // const response = await fetch('http://localhost:3000/dev/download', {
                 method: 'POST',
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
             })
                 .then((response) => response.blob())
                 .then((blob) => {
@@ -389,7 +392,7 @@ const ClientForm = () => {
             industry: profile.industries,
             number_of_employees: processEmployeeCounts(profile.employeeCounts),
             company_revenue_min: profile.revenueMin,
-            company_revenue_max: profile.revenueMin,
+            company_revenue_max: profile.revenueMax,
             prospect_tag: profile.tag,
             hydration_frequency: profile.frequencyCount,
             hydration_period: profile.frequency
@@ -417,7 +420,7 @@ const ClientForm = () => {
             industry: profile.industries,
             number_of_employees: processEmployeeCounts(profile.employeeCounts),
             company_revenue_min: profile.revenueMin,
-            company_revenue_max: profile.revenueMin,
+            company_revenue_max: profile.revenueMax,
             prospect_tag: profile.tag,
             hydration_frequency: profile.frequencyCount,
             hydration_period: profile.frequency
@@ -444,7 +447,7 @@ const ClientForm = () => {
             industry: profile.industries,
             number_of_employees: processEmployeeCounts(profile.employeeCounts),
             company_revenue_min: profile.revenueMin,
-            company_revenue_max: profile.revenueMin,
+            company_revenue_max: profile.revenueMax,
             prospect_tag: profile.tag,
             hydration_frequency: profile.frequencyCount,
             hydration_period: profile.frequency
@@ -470,7 +473,7 @@ const ClientForm = () => {
                 industry: profile.industries,
                 number_of_employees: profile.employeeCounts,
                 company_revenue_min: profile.revenueMin,
-                company_revenue_max: profile.revenueMin,
+                company_revenue_max: profile.revenueMax,
                 prospect_tag: profile.tag,
                 hydration_frequency: profile.frequencyCount,
                 hydration_period: profile.frequency
@@ -825,7 +828,7 @@ const ClientForm = () => {
                                                         className={"btn float-right" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
                                                     >Test Now</button>
 
-                                                    {profile.hydration_page_number < 2 &&
+                                                    {profile.hydration_page_number < 2 && false &&  // disable this button
                                                         <button
                                                             disabled={!(var_editing >= 0)}
                                                             onClick={handleEmailLargeBatch}
