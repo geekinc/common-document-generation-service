@@ -157,7 +157,7 @@ export async function main(event, context) {
                     let requestStaffList = {
                         "api_key": API_KEY,
                         "organization_ids": [companyResult.data.organizations[0].id],
-                        "per_page": 200,
+                        "per_page": 100,
                         "page": 1
                     };
 

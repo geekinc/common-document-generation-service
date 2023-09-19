@@ -27,7 +27,7 @@ export async function process_apollo(query, pageNumber = 1) {
         data: {
             "api_key": api_key,
             "contact_email_status": ["verified"],
-            "per_page": 200,
+            "per_page": 100,
             "page": pageNumber
         },
         headers: {

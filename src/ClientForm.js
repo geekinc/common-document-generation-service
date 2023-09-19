@@ -13,7 +13,8 @@ import _ from "underscore";
 import './App.css';
 
 // const API_URL = 'http://localhost:3000/dev';
-const API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
+// const API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
+const API_URL = 'http://localhost:3000/dev';
 
 const ClientForm = () => {
 
@@ -432,7 +433,7 @@ const ClientForm = () => {
     const handleDownloadNextPage = (event) => {
         // Trigger the test
         let payload = {
-            count: 200,
+            count: 100,
             usage_type: 'email_export',
             id: profile.id,
             customer: customer,
@@ -507,23 +508,24 @@ const ClientForm = () => {
                         <Form onSubmit={handleFormSubmit}>
                             <div className="card">
                                 <div className="card-header">
-                                    <h2>Ideal Customer Profile (ICP)</h2>
+                                    <h2>Ideal Customer Profile (ICP)
                                     {(var_editing >= 0) &&
-                                        <div>
-                                            <button
-                                                type="button"
-                                                className="btn btn-secondary btn-sm"
-                                                onClick={handleCloseClick}
-                                            >Close
-                                            </button>
-                                            &nbsp;&nbsp;&nbsp;
+                                        <>
                                             <button
                                                 type="submit"
-                                                className="btn btn-primary btn-sm"
+                                                className="btn btn-primary float-right"
                                             >Save
                                             </button>
-                                        </div>
+                                            <button
+                                                type="button"
+                                                className="btn btn-secondary float-right"
+                                                onClick={handleCloseClick}
+                                                style={{marginRight: '1rem'}}
+                                            >Close
+                                            </button>
+                                        </>
                                     }
+                                    </h2>
                                 </div>
                                 <div className="card-body">
                                     <div className="tab-content">
