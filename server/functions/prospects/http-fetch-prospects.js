@@ -22,13 +22,19 @@ export async function main(event, context) {
 
     console.log(event.body);
 
+    let var_record = {};
     try {
-        let var_record = {};
         //  parse data from APIs
         if (event.body) {
-            logger.info('API CALL');
-            var_record = [await JSON.parse(atob(event.body))];
+            var_record = [await JSON.parse(atob(event.body))];   // Need to base64 decode the body for some reason???
         }
+    } catch (e) {
+        if (event.body) {
+            var_record = [await JSON.parse(event.body)];   // Need to base64 decode the body for some reason???
+        }
+    }
+
+    try {
 
         console.log(var_record);
 

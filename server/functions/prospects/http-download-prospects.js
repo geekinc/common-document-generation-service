@@ -40,12 +40,23 @@ export async function main(event, context) {
     const accountId = process.env.account_id;
     const queueUrl = `https://sqs.ca-central-1.amazonaws.com/${accountId}/${process.env.queue_prospects}`;
 
+    let var_record = {};
     try {
-        let var_record = {};
         //  parse data from APIs
         if (event.body) {
             var_record = [await JSON.parse(atob(event.body))];   // Need to base64 decode the body for some reason???
         }
+    } catch (e) {
+        if (event.body) {
+            var_record = [await JSON.parse(event.body)];   // Need to base64 decode the body for some reason???
+        }
+    }
+    console.log('-------------------');
+    console.log('var_record');
+    console.log('-------------------');
+    console.log(var_record);
+
+    try {
 
         // Structure the message to query
         let data = var_record;
@@ -56,7 +67,7 @@ export async function main(event, context) {
             console.log(data);
             let pageNumber = await getStoredProfilePageNumber(data[0].id);
             let apollo = await process_apollo(data[0], pageNumber);
-
+            console.log(apollo);
             if (apollo.people.length > 0) {
                 await incrementStoredProfilePageNumber(data[0].id);
 

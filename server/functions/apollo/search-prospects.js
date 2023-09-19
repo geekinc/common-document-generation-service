@@ -7,6 +7,15 @@ const axios = require('axios');
  * None - this is wide open
  ***********************************************************************************************************************/
 
+function processEmployeeCounts(employees) {
+    // swap the '-' with a ',' for each entry in the array
+    let new_employees = [];
+    for (let i = 0; i < employees.length; i++) {
+        new_employees.push(employees[i].replace('-', ','));
+    }
+    return new_employees;
+}
+
 function getIndustryIDsFromNames(industryArray) {
     let industries = require('../../data/industries.json');
 
@@ -23,7 +32,18 @@ function getIndustryIDsFromNames(industryArray) {
 }
 
 export async function main(event, context) {
-    let input = JSON.parse(atob(event.body));
+    let input;
+    try {
+        //  parse data from APIs
+        if (event.body) {
+            input = await JSON.parse(atob(event.body));   // Need to base64 decode the body for some reason???
+        }
+    } catch (e) {
+        if (event.body) {
+            input = JSON.parse(event.body);
+        }
+    }
+
     console.log(input);
 
     let query = {
@@ -34,20 +54,20 @@ export async function main(event, context) {
     };
 
     // Add the various parameters to the query based on if they exist or not
-    if (input.job_title) {
+    if (input.job_title.length > 0) {
         query.person_titles = input.job_title;
     }
 
-    if (input.location) {
+    if (input.location.length > 0) {
         query.person_locations = input.location;
     }
 
-    if (input.industry) {
+    if (input.industry.length > 0) {
         query.organization_industry_tag_ids = getIndustryIDsFromNames(input.industry);
     }
 
-    if (input.number_of_employees) {
-        query.organization_num_employees_ranges = input.number_of_employees;
+    if (input.number_of_employees.length > 0) {
+        query.organization_num_employees_ranges = processEmployeeCounts(input.number_of_employees);
     }
 
     if (input.company_revenue_max && input.company_revenue_min && input.company_revenue_max > input.company_revenue_min) {

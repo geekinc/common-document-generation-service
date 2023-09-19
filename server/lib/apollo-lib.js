@@ -38,19 +38,19 @@ export async function process_apollo(query, pageNumber = 1) {
     console.log(query);
 
     // Add the various parameters to the query based on if they exist or not
-    if (query.job_title) {
+    if (query.job_title.length > 0) {
         apollo_options.data.person_titles = query.job_title;
     }
 
-    if (query.location) {
+    if (query.location.length > 0) {
         apollo_options.data.person_locations = query.location;
     }
 
-    if (query.industry) {
+    if (query.industry.length > 0) {
         apollo_options.data.organization_industry_tag_ids = getIndustryIDsFromNames(query.industry);
     }
 
-    if (query.number_of_employees) {
+    if (query.number_of_employees.length > 0) {
         apollo_options.data.organization_num_employees_ranges = processEmployeeCounts(query.number_of_employees);
     }
 
@@ -67,6 +67,10 @@ export async function process_apollo(query, pageNumber = 1) {
     console.log(apollo_options);
 
     return await axios.request(apollo_options).then(function (response) {
+        console.log('-------------------');
+        console.log('Apollo Response');
+        console.log('-------------------');
+        console.log(response.data);
         return response.data;
     }).catch(function (error) {
         console.error(error);
