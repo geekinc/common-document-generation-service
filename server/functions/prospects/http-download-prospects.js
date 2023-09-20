@@ -136,8 +136,6 @@ export async function main(event, context) {
             csv = "No results found";
         }
 
-
-
         return {
             statusCode: 200,
             headers: {
