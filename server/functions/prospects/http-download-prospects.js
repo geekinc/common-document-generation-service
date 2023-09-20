@@ -74,6 +74,10 @@ export async function main(event, context) {
             return {
                 statusCode: 200,
                 body: "Success - but empty results",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Credentials": true
+                }
             };
         }
 
@@ -92,7 +96,11 @@ export async function main(event, context) {
                 if (apollo.people.length === 0) {
                     return {
                         statusCode: 200,
-                        body: "No results found"
+                        body: "No results found",
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Access-Control-Allow-Credentials": true
+                        }
                     };
                 }
 
