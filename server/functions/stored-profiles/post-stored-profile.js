@@ -21,24 +21,25 @@ const mysql = require('serverless-mysql')({
 export async function main(event, context) {
 
     logger.info(JSON.stringify(event, undefined, 2));
-    let var_method;
     let var_record = [];
 
     try {
         //  parse data from APIs
         if (event.body) {
-            var_method = 'API';
             logger.info('info: API CALL');
             var_record = JSON.parse(atob(event.body));
         }
 
         //  parse data from SQS
         if (event.Records !== undefined) {
-            var_method = 'SQS';
             logger.info('info: SQS QUEUE');
             var_record = JSON.parse(event.Records[0].body);
         }
+    } catch (exception) {
+        var_record = JSON.parse(event.body);
+    }
 
+    try{
         // insert the profile into the table
         // stored-profile description
         /*
@@ -47,6 +48,7 @@ export async function main(event, context) {
         id                 |varchar(100)   |NO  |PRI|       |     |
         customer           |varchar(255)   |YES |   |       |     |
         description        |varchar(255)   |YES |   |       |     |
+        keyword            |varchar(255)   |YES |   |       |     |
         state              |varchar(100)   |YES |   |       |     |
         job_title          |text           |YES |   |       |     |
         location           |text           |YES |   |       |     |
@@ -62,7 +64,8 @@ export async function main(event, context) {
         let results = await mysql.query(
             ` update \`stored-profiles\` set
                  customer = ?,
-                 \`description\` = ?, 
+                 \`description\` = ?,
+                 \`keyword\` = ?,
                  \`state\` = ?,
                  job_title = ?, 
                  location = ?,
@@ -77,6 +80,7 @@ export async function main(event, context) {
         [
             var_record.customer,
             var_record.description,
+            var_record.keyword,
             var_record.state,
             var_record.job_title.join("|"),
             var_record.location.join("|"),

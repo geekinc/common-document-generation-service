@@ -54,6 +54,10 @@ export async function main(event, context) {
     };
 
     // Add the various parameters to the query based on if they exist or not
+    if (input.keyword) {
+        query.q_keywords = input.keyword;
+    }
+
     if (input.job_title.length > 0) {
         query.person_titles = input.job_title;
     }

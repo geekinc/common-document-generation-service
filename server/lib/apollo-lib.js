@@ -38,6 +38,10 @@ export async function process_apollo(query, pageNumber = 1) {
     console.log(query);
 
     // Add the various parameters to the query based on if they exist or not
+    if (query.keyword) {
+        apollo_options.data.q_keywords = query.keyword;
+    }
+
     if (query.job_title.length > 0) {
         apollo_options.data.person_titles = query.job_title;
     }

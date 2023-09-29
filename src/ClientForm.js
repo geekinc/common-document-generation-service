@@ -13,8 +13,8 @@ import _ from "underscore";
 import './App.css';
 
 // const API_URL = 'http://localhost:3000/dev';
-const API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
-// const API_URL = 'http://localhost:3000/dev';
+// const API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
+const API_URL = 'http://localhost:3000/dev';
 
 const ClientForm = () => {
 
@@ -24,6 +24,7 @@ const ClientForm = () => {
         new: false,
         customer: '',
         description: '',
+        keyword: '',
         state: 'editing',
         jobTitles: [],
         locations: [],
@@ -261,6 +262,10 @@ const ClientForm = () => {
         setProfile({ ...profile, description: data });
     };
 
+    const handleProfileKeywordChange = (data) => {
+        setProfile({ ...profile, keyword: data });
+    };
+
     const handleProfileStateChange = (event, newState) => {
         if (newState !== null) {
             setProfile({ ...profile, state: newState });
@@ -386,6 +391,7 @@ const ClientForm = () => {
             id: profile.id,
             customer: customer,
             description: profile.description,
+            keyword: profile.keyword,
             state: profile.state,
             job_title: profile.jobTitles,
             location: profile.locations,
@@ -466,6 +472,7 @@ const ClientForm = () => {
             let payload = {
                 id: profile.id,
                 customer: customer,
+                keyword: profile.keyword,
                 description: profile.description,
                 state: profile.state,
                 job_title: profile.jobTitles,
@@ -536,7 +543,6 @@ const ClientForm = () => {
                                              className="tab-pane fade show active" style={{padding: "0px"}}>
                                             <div style={{padding: "15px"}}>
 
-
                                                 <div className="form-group">
                                                     <span className="text-sm font-medium text-gray-700">
                                                         ICP Description
@@ -562,6 +568,32 @@ const ClientForm = () => {
 
                                                     </div>
                                                 </div>
+
+                                                <div className="form-group">
+                                                    <span className="text-sm font-medium text-gray-700">
+                                                        Keyword
+                                                    </span>
+                                                    <div
+                                                        className="input-group input-group-lg w-full"
+                                                        data-lpignore="true"
+                                                        autoComplete="keyword"
+                                                        data-vv-as="keyword">
+                                                        <TextField
+                                                            style={{width: "100%"}}
+                                                            id="outlined-basic"
+                                                            variant="outlined"
+                                                            value={profile.keyword}
+                                                            onChange={e => handleProfileKeywordChange(e.target.value)}
+                                                            type="text"
+                                                            data-lpignore="true"
+                                                            autoComplete="keyword"
+                                                            name="keyword"
+                                                            maxLength=""
+                                                        />
+
+                                                    </div>
+                                                </div>
+
                                                 <div className="form-group">
                                                 <span className="text-sm font-medium text-gray-700">
                                                     Profile State
