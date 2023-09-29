@@ -12,9 +12,13 @@ import _ from "underscore";
 
 import './App.css';
 
-// const API_URL = 'http://localhost:3000/dev';
-// const API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
-const API_URL = 'http://localhost:3000/dev';
+// variable declarations ------------------------------------------------------------------------------------------
+// If we're running locally, hit the local API.  Otherwise, hit the production API
+const localHost = ['localhost', '127.0.0.1', '::1', ''].includes(window.location.hostname) || window.location.hostname.endsWith('.localhost')
+let API_URL = 'https://9gxm74lwo7.execute-api.ca-central-1.amazonaws.com/production';
+if (localHost) {
+    API_URL = 'http://localhost:3000/dev';
+}
 
 const ClientForm = () => {
 
