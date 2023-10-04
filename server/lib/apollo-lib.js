@@ -71,10 +71,10 @@ export async function process_apollo(query, pageNumber = 1) {
     console.log(apollo_options);
 
     return await axios.request(apollo_options).then(function (response) {
-        console.log('-------------------');
-        console.log('Apollo Response');
-        console.log('-------------------');
-        console.log(response.data);
+        // console.log('-------------------');
+        // console.log('Apollo Response');
+        // console.log('-------------------');
+        // console.log(response.data);
         return response.data;
     }).catch(function (error) {
         console.error(error);

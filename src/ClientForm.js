@@ -148,7 +148,7 @@ const ClientForm = () => {
             const response = await fetch(API_URL + '/stored-profile/' + customer, {
                 method: 'GET'
             });
-            console.log(response);
+            // console.log(response);
             if (response.status === 404) {
                 console.log('404 error');
             } else {

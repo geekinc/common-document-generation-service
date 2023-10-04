@@ -56,19 +56,28 @@ export async function main(event, context) {
     console.log('-------------------');
     console.log(var_record);
 
-    try {
+    // Structure the message to query
+    let data = var_record;
+    let csv;
+    let apollo;
+    let pageNumber;
+    let people = [];
 
-        // Structure the message to query
-        let data = var_record;
-        let csv;
-        let apollo;
-        let pageNumber;
+    // Fetch 3 pages of results
+    for (let currentPage = 0; currentPage < 3; currentPage++ ) {
 
         try {
             // Process each message from the event
             console.log(data);
             pageNumber = await getStoredProfilePageNumber(data[0].id);
             apollo = await process_apollo(data[0], pageNumber);
+            await incrementStoredProfilePageNumber(data[0].id);
+
+            if (apollo.people.length > 0) {
+                people = people.concat(apollo.people);
+            } else {
+                break;
+            }
         } catch (e) {
             console.log(util.inspect(e, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
             return {
@@ -81,29 +90,34 @@ export async function main(event, context) {
             };
         }
 
-        console.log('-------------------');
-        console.log('apollo');
-        console.log('-------------------');
-        console.log(apollo.people);
-        if (apollo.people.length > 0) {
-            await incrementStoredProfilePageNumber(data[0].id);
+    }
+
+    // console.log(util.inspect(people, {showHidden: false, depth: null, colors: true, maxArrayLength: 500}));
+
+
+    try {
+        // console.log('-------------------');
+        // console.log('people');
+        // console.log('-------------------');
+        // console.log(people);
+        if (people.length > 0) {
 
             // Generate the CSV
-            csv = await json2csv(apollo.people);
+            csv = await json2csv(people);
 
-            if (apollo) {
-                // Handle breaking conditions
-                if (apollo.people.length === 0) {
-                    return {
-                        statusCode: 200,
-                        body: "No results found",
-                        headers: {
-                            "Access-Control-Allow-Origin": "*",
-                            "Access-Control-Allow-Credentials": true
-                        }
-                    };
-                }
+            // Handle breaking conditions
+            if (people.length === 0) {
+                return {
+                    statusCode: 200,
+                    body: "No results found",
+                    headers: {
+                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Credentials": true
+                    }
+                };
+            }
 
+            if (process.env.stage !== 'local') {
                 // Process the prospects
                 for (let x = 0; x < apollo.people.length; x++) {
                     // deep copy of prospect
@@ -118,23 +132,28 @@ export async function main(event, context) {
                         QueueUrl: queueUrl,
                         MessageGroupId: (data[0].id)
                     };
-                    try {
-                        await sqs.sendMessage(options_process_prospect).promise().then(
-                            function (data) {
-                                return {
-                                    statusCode: 200,
-                                    body: {},
-                                };
-                            });
-                    } catch (e) {
-                        // Do nothing - if we can't pass the prospect to the queue, we don't want to stop the process
-                    }
+
+                    await sqs.sendMessage(options_process_prospect).promise()
+                        .then(function (data) {
+                            return {
+                                statusCode: 200,
+                                body: {},
+                            };
+                        })
+                        .catch(function (err) {
+                            console.log(err);
+                            return {
+                                statusCode: 500,
+                                body: err,
+                            };
+                        });
                 }
             }
-
         } else {
             csv = "No results found";
         }
+
+        let result = csv.toString('utf-8');
 
         return {
             statusCode: 200,
@@ -145,7 +164,7 @@ export async function main(event, context) {
                 "Cache-Control": "no-cache",
                 "Content-disposition": "attachment; filename=download.csv"
             },
-            body: csv.toString('utf-8'),
+            body: result,
             isBase64Encoded: false
         };
 
@@ -153,4 +172,5 @@ export async function main(event, context) {
         console.error(e);
         return response.failure({"status": 500, "error": e});
     }
+
 }
