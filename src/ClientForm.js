@@ -58,6 +58,7 @@ const ClientForm = () => {
     const [showPromo, setShowPromo] = useState(false);
     const handleClose = () => {
         setShow(false);
+        setShowPromo(false);
         setSearchResponse(null);
     }
 
