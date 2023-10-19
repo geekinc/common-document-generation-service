@@ -1372,7 +1372,7 @@ const ClientForm = () => {
                             <div className="form-group">
                                 <div className="d-flex justify-content-center" data-lpignore="true"
                                      autoComplete="msgsndr1" data-vv-as="revenue">
-                                    <h2>Total Entries: {searchResponse?.total_entries?.toLocaleString()}</h2>
+                                    <h2>Prospects Found: {searchResponse?.total_entries?.toLocaleString()}</h2>
                                 </div>
                             </div>
                         </div>
@@ -1473,7 +1473,7 @@ const ClientForm = () => {
                                     <h2>Download Complete</h2>
                                 </div>
                                 <div className="d-flex justify-content-center" data-lpignore="true"
-                                     autoComplete="msgsndr1" data-vv-as="revenue"><br/>
+                                     autoComplete="msgsndr1" data-vv-as="revenue"><br/><br/>
                                     <p align="center">(We know you're awesome, so we gave you a few extra...)<br /><strong>Good Hunting!</strong></p>
                                 </div>
                             </div>
@@ -1484,10 +1484,12 @@ const ClientForm = () => {
                             <div className="form-group">
                                 <div className="d-flex justify-content-center" data-lpignore="true"
                                      autoComplete="msgsndr1" data-vv-as="revenue">
+                                    <br />
                                     <div className="spinner-border" style={{width: "3rem", height: "3rem"}}
                                          role="status">
                                         <span className="sr-only">Loading...</span>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
