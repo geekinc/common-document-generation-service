@@ -1313,12 +1313,21 @@ const ClientForm = () => {
 
                                                 {(var_editing >= 0) &&
                                                     <>
-                                                        <button
-                                                            disabled={!(var_editing >= 0)}
-                                                            onClick={handleGetResultsClick}
-                                                            type="button"
-                                                            className={"btn float-right" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}
-                                                        >Get Results</button>
+                                                        {/*<button*/}
+                                                        {/*    disabled={!(var_editing >= 0)}*/}
+                                                        {/*    onClick={handleGetResultsClick}*/}
+                                                        {/*    type="button"*/}
+                                                        {/*    className={"btn float-right" + (var_editing >= 0 ? " btn-primary" : " btn-dark")}*/}
+                                                        {/*>Get Results</button>*/}
+
+                                                        <div className="dslc-button">
+                                                            <a disabled={!(var_editing >= 0)}
+                                                               target="_self"
+                                                               onClick={handleGetResultsClick}
+                                                               className="float-right gradient-darken gradient-hor gradient-lighten-top">
+                                                                <span>Get Prospects</span>
+                                                            </a>
+                                                        </div>
 
                                                         {profile.hydration_page_number < 2 && false &&  // disable this button
                                                             <button
@@ -1445,7 +1454,7 @@ const ClientForm = () => {
                     }
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={handleGetProspects}>
+                  <Button variant="primary" onClick={handleGetProspects}>
                         Get Prospects
                     </Button>
                 </Modal.Footer>

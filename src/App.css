@@ -78,3 +78,34 @@
     right: 25px;
     top: 15px;
 }
+
+
+.dslc-button {
+    text-align: center;
+    margin-bottom: 50px;
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: top left;
+    cursor: pointer;
+}
+
+.dslc-button a {
+    background-color: #f37648;
+    border-radius: 20px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 33px;
+    padding-right: 33px;
+    display: inline-block;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.dslc-button a {
+    display: inline-block;
+    text-decoration: none;
+    line-height: 1;
+    box-shadow: none;
+    -webkit-appearance: none;
+}
