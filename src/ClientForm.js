@@ -559,7 +559,7 @@ const ClientForm = () => {
     };
 
     return (
-        <section id="agency_location" className="hl_wrapper--inner hl_agency hl_agency-location--details" style={{backgroundColor: "#f2f7fa"}}>
+        <section id="agency_location" className="hl_wrapper--inner hl_agency hl_agency-location--details" style={{backgroundColor: "#8574e9"}}>
             { (customer !== '') &&
             <div className="container-fluid">
                 <div className="mt-3">
