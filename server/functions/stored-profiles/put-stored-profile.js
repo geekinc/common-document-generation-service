@@ -77,7 +77,7 @@ export async function main(event, context) {
                  prospect_tag, 
                  hydration_frequency, 
                  hydration_period )
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
             uuidv4(),
             var_record.customer,
