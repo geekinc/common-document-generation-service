@@ -60,22 +60,13 @@ export async function getStoredProfilePageNumber(profile_id) {
     return results[0].hydration_page_number;
 }
 
-export async function incrementStoredProfilePageNumber(profile_id) {
+export async function incrementStoredProfilePageNumber(profile_id, page_number) {
     let results;
     try {
-        // Read data from table
-        results = await mysql.query(
-            "SELECT hydration_page_number FROM `stored-profiles` WHERE id = ?",
-            [
-                profile_id
-            ]);
-
-        let hydration_page_number = (results[0].hydration_page_number | 1) + 1;
-
         results = await mysql.query(
             "UPDATE `stored-profiles` SET hydration_page_number = ? WHERE id = ?",
             [
-                hydration_page_number,
+                page_number,
                 profile_id
             ]);
     } catch (error) {

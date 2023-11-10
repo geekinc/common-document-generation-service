@@ -71,7 +71,7 @@ export async function main(event, context) {
             console.log(data);
             pageNumber = await getStoredProfilePageNumber(data[0].id);
             apollo = await process_apollo(data[0], pageNumber);
-            await incrementStoredProfilePageNumber(data[0].id);
+            await incrementStoredProfilePageNumber(data[0].id, pageNumber + 1);
 
             if (apollo.people.length > 0) {
                 people = people.concat(apollo.people);
