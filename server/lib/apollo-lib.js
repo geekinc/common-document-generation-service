@@ -37,33 +37,68 @@ export async function process_apollo(query, pageNumber = 1) {
 
     console.log(query);
 
+    if (query.advanced > 0) {
+        apollo_options.data = { ...apollo_options.data, ...query};
+        delete apollo_options.data.id;
+        delete apollo_options.data.advanced;
+        delete apollo_options.data.customer;
+    } else {
+        // Add the various parameters to the query based on if they exist or not
+        if (query.keyword) {
+            apollo_options.data.q_keywords = query.keyword;
+        }
+
+        if (query.job_title.length > 0) {
+            apollo_options.data.person_titles = query.job_title;
+        }
+
+        if (query.location.length > 0) {
+            apollo_options.data.person_locations = query.location;
+        }
+
+        if (query.industry.length > 0) {
+            apollo_options.data.organization_industry_tag_ids = getIndustryIDsFromNames(query.industry);
+        }
+
+        if (query.number_of_employees.length > 0) {
+            apollo_options.data.organization_num_employees_ranges = processEmployeeCounts(query.number_of_employees);
+        }
+
+        if (query.company_revenue_max && query.company_revenue_min && query.company_revenue_max > query.company_revenue_min) {
+            apollo_options.data.revenue_range = {
+                "max": query.company_revenue_max.toString(),
+                "min": query.company_revenue_min.toString()
+            };
+        }
+    }
+
     // Add the various parameters to the query based on if they exist or not
-    if (query.keyword) {
-        apollo_options.data.q_keywords = query.keyword;
-    }
-
-    if (query.job_title.length > 0) {
-        apollo_options.data.person_titles = query.job_title;
-    }
-
-    if (query.location.length > 0) {
-        apollo_options.data.person_locations = query.location;
-    }
-
-    if (query.industry.length > 0) {
-        apollo_options.data.organization_industry_tag_ids = getIndustryIDsFromNames(query.industry);
-    }
-
-    if (query.number_of_employees.length > 0) {
-        apollo_options.data.organization_num_employees_ranges = processEmployeeCounts(query.number_of_employees);
-    }
-
-    if (query.company_revenue_max && query.company_revenue_min && query.company_revenue_max > query.company_revenue_min) {
-        apollo_options.data.revenue_range = {
-            "max": query.company_revenue_max.toString(),
-            "min": query.company_revenue_min.toString()
-        };
-    }
+    // if (query.keyword) {
+    //     apollo_options.data.q_keywords = query.keyword;
+    // }
+    //
+    // if (query.job_title.length > 0) {
+    //     apollo_options.data.person_titles = query.job_title;
+    // }
+    //
+    // if (query.location.length > 0) {
+    //     apollo_options.data.person_locations = query.location;
+    // }
+    //
+    // if (query.industry.length > 0) {
+    //     apollo_options.data.organization_industry_tag_ids = getIndustryIDsFromNames(query.industry);
+    // }
+    //
+    // if (query.number_of_employees.length > 0) {
+    //     apollo_options.data.organization_num_employees_ranges = processEmployeeCounts(query.number_of_employees);
+    // }
+    //
+    // if (query.company_revenue_max && query.company_revenue_min && query.company_revenue_max > query.company_revenue_min) {
+    //     apollo_options.data.revenue_range = {
+    //         "max": query.company_revenue_max.toString(),
+    //         "min": query.company_revenue_min.toString()
+    //     };
+    // }
 
     console.log('-------------------');
     console.log('Apollo Query');

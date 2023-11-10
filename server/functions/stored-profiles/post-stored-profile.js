@@ -20,7 +20,7 @@ const mysql = require('serverless-mysql')({
 
 export async function main(event, context) {
 
-    logger.info(JSON.stringify(event, undefined, 2));
+    // logger.info(JSON.stringify(event, undefined, 2));
     let var_record = [];
 
     try {
@@ -30,6 +30,11 @@ export async function main(event, context) {
             var_record = JSON.parse(atob(event.body));
         }
 
+        console.log("ARMPIT >>>>>>>>>>>");
+        console.log(var_record);
+        console.log("ARMPIT <<<<<<<<<<<");
+        return 0;
+
         //  parse data from SQS
         if (event.Records !== undefined) {
             logger.info('info: SQS QUEUE');
@@ -38,6 +43,11 @@ export async function main(event, context) {
     } catch (exception) {
         var_record = JSON.parse(event.body);
     }
+
+    console.log("ARMPIT >>>>>>>>>>>");
+    console.log(var_record);
+    console.log(JSON.stringify(var_record.advanced_query));
+    console.log("ARMPIT <<<<<<<<<<<");
 
     try{
         // insert the profile into the table
@@ -59,6 +69,8 @@ export async function main(event, context) {
         prospect_tag       |varchar(255)   |YES |   |       |     |
         hydration_frequency|bigint         |YES |   |       |     |
         hydration_period   |varchar(100)   |YES |   |       |     |
+        advanced           |tinyint(1)     |YES |   |       |     |
+        advanced_query     |json           |YES |   |       |     |
          */
 
         let results = await mysql.query(
@@ -75,7 +87,9 @@ export async function main(event, context) {
                  company_revenue_max = ?,
                  prospect_tag = ?,
                  hydration_frequency = ?, 
-                 hydration_period = ?
+                 hydration_period = ?,
+                 advanced = ?,
+                 advanced_query = ?
                 where id = ?`,
         [
             var_record.customer,
@@ -91,6 +105,8 @@ export async function main(event, context) {
             var_record.prospect_tag,
             var_record.hydration_frequency,
             var_record.hydration_period,
+            var_record.advanced,
+            JSON.stringify(var_record.advanced_query),
             var_record.id
         ]);
 

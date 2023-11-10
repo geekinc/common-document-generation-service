@@ -9,6 +9,7 @@ async function get_api_headers(provider) {
     let delay = 25;   // This is a magic number calculated from the number of available resources divided by timeouts
     let found;
 
+    try {
     // Find the correct value - delay if needed
     while (loop_count <= loop_max) {
         try {
@@ -25,7 +26,7 @@ async function get_api_headers(provider) {
             };
             found = await dynamoDb.query(params);
         } catch(e) {
-            console.log(">>> Lookup Error");
+            console.log(">>> Lookup Error - code: 101");
             console.log(e);
             return DEFAULT_KEY;
         }
@@ -35,6 +36,11 @@ async function get_api_headers(provider) {
         } else {
             await sleep(delay);
         }
+    }
+    } catch (e) {
+        console.log(">>> Lookup Error - whoops");
+        console.log(e);
+        return DEFAULT_KEY;
     }
 
     if (found.Items.length > 0) {
@@ -69,32 +75,38 @@ async function get_api_key(provider) {
     let delay = 25;   // This is a magic number calculated from the number of available resources divided by timeouts
     let found;
 
-    // Find the correct value - delay if needed
-    while (loop_count <= loop_max) {
-        try {
-            const time_stamp = Math.floor(Date.now()) - 50;
-            const params = {
-                TableName: process.env.api_accounts_table_name,
-                KeyConditionExpression: "provider = :provider AND id > :id",
-                FilterExpression: "last_used < :timestamp",
-                ExpressionAttributeValues: {
-                    ":provider": provider,
-                    ":id": 0,
-                    ":timestamp": time_stamp
-                }
-            };
-            found = await dynamoDb.query(params);
-        } catch(e) {
-            console.log(">>> Lookup Error");
-            console.log(e);
-            return DEFAULT_KEY;
-        }
+    try {
+        // Find the correct value - delay if needed
+        while (loop_count <= loop_max) {
+            try {
+                const time_stamp = Math.floor(Date.now()) - 50;
+                const params = {
+                    TableName: process.env.api_accounts_table_name,
+                    KeyConditionExpression: "provider = :provider AND id > :id",
+                    FilterExpression: "last_used < :timestamp",
+                    ExpressionAttributeValues: {
+                        ":provider": provider,
+                        ":id": 0,
+                        ":timestamp": time_stamp
+                    }
+                };
+                found = await dynamoDb.query(params);
+            } catch (e) {
+                console.log(">>> Lookup Error - code: 102");
+                console.log(e);
+                return DEFAULT_KEY;
+            }
 
-        if (found.Items.length > 0) {
-            loop_count = loop_max + 1;
-        } else {
-            await sleep(delay);
+            if (found.Items.length > 0) {
+                loop_count = loop_max + 1;
+            } else {
+                await sleep(delay);
+            }
         }
+    } catch (e) {
+        console.log(">>> Lookup Error - derp");
+        console.log(e);
+        return DEFAULT_KEY;
     }
 
     // Set a sane default response

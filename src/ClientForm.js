@@ -8,6 +8,7 @@ import {faEdit, faRefresh} from '@fortawesome/free-solid-svg-icons'
 import { faArrowsH } from '@fortawesome/free-solid-svg-icons'
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ReactJson from '@microlink/react-json-view'
 import _ from "underscore";
 
 import './App.css';
@@ -23,6 +24,14 @@ if (localHost) {
 const ClientForm = () => {
 
     //  variable declarations ------------------------------------------------------------------------------------------
+    const blankQuery = {
+        contact_email_status:["verified"],
+        person_titles:["ceo","president"],
+        person_locations:["United States"],
+        organization_industry_tag_ids:["5567ce5b73696439a17a0000","5567cd477369645401010000"],
+        organization_num_employees_ranges:["1,10","11,20","21,50","51,100"],
+        revenue_range:{"max":"10000000","min":"1000000"}
+    };
     const blankProfile = {
         id: '',
         new: false,
@@ -39,8 +48,11 @@ const ClientForm = () => {
         tag: '',
         frequencyCount: 0,
         frequency: 'day',
-        email: ''
+        email: '',
+        advanced: 'n/a',
+        advanced_query: { ...blankQuery }
     }
+
     const [var_editing, set_editing] = useState(-1);
     const [customer, setCustomer] = React.useState('');
     const [profile, setProfile] = React.useState(blankProfile);
@@ -256,7 +268,7 @@ const ClientForm = () => {
                         `download.csv`,
                     );
 
-                    // Append to html link element page
+                    // Apd to html link element page
                     document.body.appendChild(link);
 
                     // Start download
@@ -294,6 +306,30 @@ const ClientForm = () => {
     const handleProfileStateChange = (event, newState) => {
         if (newState !== null) {
             setProfile({ ...profile, state: newState });
+        }
+    };
+
+    const handleProfileAdvancedChange = (event, data) => {
+        if (data !== null) {
+            setProfile({ ...profile, advanced: data });
+        }
+    };
+
+    const handleProfileJSONChange = (data) => {
+        if (data !== null) {
+            setProfile({ ...profile, advanced_query: data.updated_src });
+        }
+    };
+
+    const handleProfileJSONAdd = (data) => {
+        if (data !== null) {
+            setProfile({ ...profile, advanced_query: data.updated_src });
+        }
+    };
+
+    const handleProfileJSONDelete = (data) => {
+        if (data !== null) {
+            setProfile({ ...profile, advanced_query: data.updated_src });
         }
     };
 
@@ -395,6 +431,8 @@ const ClientForm = () => {
         localProfile.frequencyCount = (localProfile.hydration_frequency !== "") ? localProfile.hydration_frequency : 0;
         localProfile.frequency = (localProfile.hydration_period !== "") ? localProfile.hydration_period : 'day';
         localProfile.tag = (localProfile.prospect_tag !== "") ? localProfile.prospect_tag : '';
+        localProfile.advanced = (localProfile.advanced !== null) ? localProfile.advanced : 'simple';
+        localProfile.advanced_query = (localProfile.advanced_query !== null) ? localProfile.advanced_query : { ...blankQuery };
         setProfile(localProfile);
 
         set_editing(index);
@@ -411,23 +449,32 @@ const ClientForm = () => {
     };
 
     const handleTestClick = (event) => {
-        // Trigger the test
-        let payload = {
-            id: profile.id,
-            customer: customer,
-            description: profile.description,
-            keyword: profile.keyword,
-            state: profile.state,
-            job_title: profile.jobTitles,
-            location: profile.locations,
-            industry: profile.industries,
-            number_of_employees: processEmployeeCounts(profile.employeeCounts),
-            company_revenue_min: profile.revenueMin,
-            company_revenue_max: profile.revenueMax,
-            prospect_tag: profile.tag,
-            hydration_frequency: profile.frequencyCount,
-            hydration_period: profile.frequency
-        };
+        let payload;
+        if (profile.advanced === 'advanced') {
+            payload = { ...profile.advanced_query };
+            payload.id = profile.id;
+            payload.customer = customer;
+            payload.advanced = 1;
+        } else {
+            payload = {
+                id: profile.id,
+                customer: customer,
+                description: profile.description,
+                keyword: profile.keyword,
+                state: profile.state,
+                job_title: profile.jobTitles,
+                location: profile.locations,
+                industry: profile.industries,
+                number_of_employees: processEmployeeCounts(profile.employeeCounts),
+                company_revenue_min: profile.revenueMin,
+                company_revenue_max: profile.revenueMax,
+                prospect_tag: profile.tag,
+                hydration_frequency: profile.frequencyCount,
+                hydration_period: profile.frequency
+            };
+        }
+
+        console.log(payload);
 
         // Apply the search
         API_search_prospects(payload);
@@ -438,22 +485,30 @@ const ClientForm = () => {
 
     const handleGetResultsClick = (event) => {
         // Trigger the test
-        let payload = {
-            id: profile.id,
-            customer: customer,
-            description: profile.description,
-            keyword: profile.keyword,
-            state: profile.state,
-            job_title: profile.jobTitles,
-            location: profile.locations,
-            industry: profile.industries,
-            number_of_employees: processEmployeeCounts(profile.employeeCounts),
-            company_revenue_min: profile.revenueMin,
-            company_revenue_max: profile.revenueMax,
-            prospect_tag: profile.tag,
-            hydration_frequency: profile.frequencyCount,
-            hydration_period: profile.frequency
-        };
+        let payload;
+        if (profile.advanced === 'advanced') {
+            payload = { ...profile.advanced_query };
+            payload.id = profile.id;
+            payload.customer = customer;
+            payload.advanced = 1;
+        } else {
+            payload = {
+                id: profile.id,
+                customer: customer,
+                description: profile.description,
+                keyword: profile.keyword,
+                state: profile.state,
+                job_title: profile.jobTitles,
+                location: profile.locations,
+                industry: profile.industries,
+                number_of_employees: processEmployeeCounts(profile.employeeCounts),
+                company_revenue_min: profile.revenueMin,
+                company_revenue_max: profile.revenueMax,
+                prospect_tag: profile.tag,
+                hydration_frequency: profile.frequencyCount,
+                hydration_period: profile.frequency
+            };
+        }
 
         // Apply the search
         API_search_prospects(payload);
@@ -492,24 +547,30 @@ const ClientForm = () => {
 
     const handleDownloadNextPage = (event) => {
         // Trigger the test
-        let payload = {
-            count: 100,
-            usage_type: 'email_export',
-            id: profile.id,
-            customer: customer,
-            description: profile.description,
-            state: profile.state,
-            job_title: profile.jobTitles,
-            location: profile.locations,
-            industry: profile.industries,
-            number_of_employees: processEmployeeCounts(profile.employeeCounts),
-            company_revenue_min: profile.revenueMin,
-            company_revenue_max: profile.revenueMax,
-            prospect_tag: profile.tag,
-            hydration_frequency: profile.frequencyCount,
-            hydration_period: profile.frequency,
-            email: profile.email
-        };
+        let payload;
+        if (profile.advanced === 'advanced') {
+            payload = { ...profile.advanced_query };
+            payload.id = profile.id;
+            payload.customer = customer;
+            payload.advanced = 1;
+        } else {
+            payload = {
+                id: profile.id,
+                customer: customer,
+                description: profile.description,
+                keyword: profile.keyword,
+                state: profile.state,
+                job_title: profile.jobTitles,
+                location: profile.locations,
+                industry: profile.industries,
+                number_of_employees: processEmployeeCounts(profile.employeeCounts),
+                company_revenue_min: profile.revenueMin,
+                company_revenue_max: profile.revenueMax,
+                prospect_tag: profile.tag,
+                hydration_frequency: profile.frequencyCount,
+                hydration_period: profile.frequency
+            };
+        }
 
         // Apply the search
         setShowDownload(true);
@@ -535,7 +596,9 @@ const ClientForm = () => {
                 company_revenue_max: profile.revenueMax,
                 prospect_tag: profile.tag,
                 hydration_frequency: profile.frequencyCount,
-                hydration_period: profile.frequency
+                hydration_period: profile.frequency,
+                advanced: profile.advanced,
+                advanced_query: { ...profile.advanced_query }
             };
 
             // Save the profile - put if new, post if existing
@@ -621,285 +684,361 @@ const ClientForm = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="form-group">
-                                                    <span className="text-sm font-medium text-gray-700">
-                                                        Keyword
-                                                    </span>
-                                                    <div
-                                                        className="input-group input-group-lg w-full"
-                                                        data-lpignore="true"
-                                                        autoComplete="keyword"
-                                                        data-vv-as="keyword">
-                                                        <TextField
-                                                            style={{width: "100%"}}
-                                                            id="outlined-basic"
-                                                            variant="outlined"
-                                                            value={profile.keyword}
-                                                            onChange={e => handleProfileKeywordChange(e.target.value)}
-                                                            type="text"
-                                                            data-lpignore="true"
-                                                            autoComplete="keyword"
-                                                            name="keyword"
-                                                            maxLength=""
-                                                        />
-
-                                                    </div>
-                                                </div>
-
-                                                <div className="form-group">
-                                                <span className="text-sm font-medium text-gray-700">
-                                                    Profile State
-                                                </span>
-                                                    <div
-                                                        className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
-                                                        data-lpignore="true" autoComplete="msgsndr1"
-                                                        data-vv-as="revenue">
-                                                        <ToggleButtonGroup
-                                                            disabled={!(var_editing >= 0)}
-                                                            color="primary"
-                                                            value={profile.state}
-                                                            exclusive
-                                                            size="small"
-                                                            onChange={handleProfileStateChange}
-                                                            aria-label="profileState"
-                                                        >
-                                                            <ToggleButton value="testing">Testing</ToggleButton>
-                                                            <ToggleButton value="offline">Offline</ToggleButton>
-                                                            <ToggleButton value="active">Active</ToggleButton>
-                                                        </ToggleButtonGroup>
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <div className="hl-text-input-container msgsndr5"
-                                                         data-lpignore="true" data-vv-as="Job title">
-                                                        <div className="flex space-x-3">
-                                                            <span htmlFor="msgsndr5"
-                                                                  className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Job Title</span>
-                                                        </div>
-                                                        <div className="relative rounded-md ">
-                                                            <Autocomplete
+                                                <div className="form-group" style={{display: "grid", gridTemplateColumns: "1fr 1fr"}}>
+                                                    <div style={{}}>
+                                                        <span className="text-sm font-medium text-gray-700">
+                                                            Profile State
+                                                        </span>
+                                                        <div
+                                                            className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
+                                                            data-lpignore="true" autoComplete="msgsndr1"
+                                                            data-vv-as="revenue">
+                                                            <ToggleButtonGroup
                                                                 disabled={!(var_editing >= 0)}
-                                                                multiple
-                                                                limitTags={2}
-                                                                id="multiple-limit-tags"
-                                                                options={jobTitles}
-                                                                value={profile.jobTitles}
-                                                                onChange={handleProfileJobTitlesChange}
-                                                                defaultValue={[]}
-                                                                className="w-full"
-                                                                renderInput={(params) => (
-                                                                    <TextField {...params} className="input-no-shadow"
-                                                                               label="" placeholder=""/>
-                                                                )}
-                                                            />
+                                                                color="primary"
+                                                                value={profile.state}
+                                                                exclusive
+                                                                size="small"
+                                                                onChange={handleProfileStateChange}
+                                                                aria-label="profileState"
+                                                            >
+                                                                <ToggleButton value="testing">Testing</ToggleButton>
+                                                                <ToggleButton value="offline">Offline</ToggleButton>
+                                                                <ToggleButton value="active">Active</ToggleButton>
+                                                            </ToggleButtonGroup>
                                                         </div>
+                                                    </div>
 
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <div className="hl-text-input-container msgsndr6"
-                                                         data-lpignore="true" data-vv-as="Location">
-                                                        <div className="flex space-x-3">
-                                                            <span htmlFor="msgsndr6"
-                                                                  className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Location(s)</span>
+                                                    <div style={{}}>
+                                                        <span className="text-sm font-medium text-gray-700">
+                                                            Query Builder
+                                                        </span>
+                                                        <div
+                                                            className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
+                                                            data-lpignore="true" autoComplete="msgsndr1"
+                                                            data-vv-as="revenue">
+                                                            <ToggleButtonGroup
+                                                                disabled={!(var_editing >= 0)}
+                                                                color="primary"
+                                                                value={profile.advanced}
+                                                                exclusive
+                                                                size="small"
+                                                                onChange={handleProfileAdvancedChange}
+                                                                aria-label="profileAdvanced"
+                                                            >
+                                                                <ToggleButton value="simple">Simple</ToggleButton>
+                                                                <ToggleButton value="advanced">Advanced</ToggleButton>
+                                                            </ToggleButtonGroup>
                                                         </div>
-                                                        <Autocomplete
-                                                            disabled={!(var_editing >= 0)}
-                                                            multiple
-                                                            limitTags={2}
-                                                            id="multiple-limit-tags"
-                                                            options={locations}
-                                                            value={profile.locations}
-                                                            onChange={handleProfileLocationsChange}
-                                                            defaultValue={[]}
-                                                            className="w-full"
-                                                            renderInput={(params) => (
-                                                                <TextField {...params} className="input-no-shadow"
-                                                                           label="" placeholder=""/>
-                                                            )}
-                                                        />
                                                     </div>
                                                 </div>
-                                                <div className="form-group">
-                                                    <div className="hl-text-input-container msgsndr6"
-                                                         data-lpignore="true" data-vv-as="Location">
-                                                        <div className="flex space-x-3">
-                                                            <span htmlFor="msgsndr6"
-                                                                  className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Industry</span>
-                                                        </div>
-                                                        <Autocomplete
-                                                            disabled={!(var_editing >= 0)}
-                                                            multiple
-                                                            limitTags={2}
-                                                            id="multiple-limit-tags"
-                                                            options={industries}
-                                                            value={profile.industries}
-                                                            onChange={handleProfileIndustriesChange}
-                                                            defaultValue={[]}
-                                                            className="w-full"
-                                                            renderInput={(params) => (
-                                                                <TextField {...params} className="input-no-shadow"
-                                                                           label="" placeholder=""/>
-                                                            )}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <div className="hl-text-input-container msgsndr6"
-                                                         data-lpignore="true" data-vv-as="Location">
-                                                        <div className="flex space-x-3">
-                                                            <span htmlFor="msgsndr6"
-                                                                  className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Number of Employees</span>
-                                                        </div>
-                                                        <Autocomplete
-                                                            disabled={!(var_editing >= 0)}
-                                                            multiple
-                                                            limitTags={2}
-                                                            id="multiple-limit-tags"
-                                                            options={employees}
-                                                            value={profile.employeeCounts}
-                                                            onChange={handleProfileEmployeeCountsChange}
-                                                            getOptionLabel={(option) => option}
-                                                            defaultValue={[]}
-                                                            className="w-full"
-                                                            renderInput={(params) => (
-                                                                <TextField {...params} className="input-no-shadow"
-                                                                           label="" placeholder=""/>
-                                                            )}
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                <span className="text-sm font-medium text-gray-700">
-                                                    Company Revenue
-                                                </span>
-                                                    <div
-                                                        className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
-                                                        data-lpignore="true" autoComplete="msgsndr1"
-                                                        data-vv-as="revenue">
-                                                        <div className="flex space-x-3">
 
-                                                        </div>
-                                                        <div className="relative rounded-md">
-                                                            <div className="input-group">
-                                                                <div className="input-group col-md-5">
-                                                                    <div className="input-group-prepend">
-                                                                        <span className="input-group-text">$</span>
-                                                                    </div>
-                                                                    <input
-                                                                        disabled={!(var_editing >= 0)}
+                                                { profile.advanced === 'simple' &&
+                                                        <>
+
+                                                            <div className="form-group">
+                                                        <span className="text-sm font-medium text-gray-700">
+                                                            Keyword
+                                                        </span>
+                                                                <div
+                                                                    className="input-group input-group-lg w-full"
+                                                                    data-lpignore="true"
+                                                                    autoComplete="keyword"
+                                                                    data-vv-as="keyword">
+                                                                    <TextField
+                                                                        style={{width: "100%"}}
+                                                                        id="outlined-basic"
+                                                                        variant="outlined"
+                                                                        value={profile.keyword}
+                                                                        onChange={e => handleProfileKeywordChange(e.target.value)}
                                                                         type="text"
-                                                                        value={profile.revenueMin}
-                                                                        onChange={e => handleProfileRevenueMinChange(e.target.value)}
-                                                                        style={{
-                                                                            fontSize: "0.875rem",
-                                                                            lineHeight: "1.25rem",
-                                                                            height: "40px"
-                                                                        }}
-                                                                        className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800"
-                                                                        aria-label="Amount (to the nearest dollar)"
+                                                                        data-lpignore="true"
+                                                                        autoComplete="keyword"
+                                                                        name="keyword"
+                                                                        maxLength=""
                                                                     />
-                                                                    <div className="input-group-append">
-                                                                        <span className="input-group-text">.00</span>
-                                                                    </div>
-                                                                </div>
-                                                                <span
-                                                                    className="input-group-addon col-md-2 center" style={{maxWidth: "6%"}}> <FontAwesomeIcon
-                                                                    icon={faArrowsH}
-                                                                    style={{position: "relative", top: "5px"}}/> </span>
-                                                                <div className="input-group col-md-5">
-                                                                    <div className="input-group-prepend">
-                                                                        <span className="input-group-text">$</span>
-                                                                    </div>
-                                                                    <input
-                                                                        disabled={!(var_editing >= 0)}
-                                                                        type="text"
-                                                                        value={profile.revenueMax}
-                                                                        onChange={e => handleProfileRevenueMaxChange(e.target.value)}
-                                                                        style={{
-                                                                            fontSize: "0.875rem",
-                                                                            lineHeight: "1.25rem",
-                                                                            height: "40px"
-                                                                        }}
-                                                                        className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800"
-                                                                        aria-label="Amount (to the nearest dollar)"
-                                                                    />
-                                                                    <div className="input-group-append">
-                                                                        <span className="input-group-text">.00</span>
-                                                                    </div>
+
                                                                 </div>
                                                             </div>
-                                                        </div>
 
-                                                    </div>
-                                                </div>
-                                                <div className="form-group" style={{visibility: "hidden", position: "absolute"}}>
+                                                            <div className="form-group">
+                                                                <div className="hl-text-input-container msgsndr5"
+                                                                     data-lpignore="true" data-vv-as="Job title">
+                                                                    <div className="flex space-x-3">
+                                                                <span htmlFor="msgsndr5"
+                                                                      className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Job Title</span>
+                                                                    </div>
+                                                                    <div className="relative rounded-md ">
+                                                                        <Autocomplete
+                                                                            disabled={!(var_editing >= 0)}
+                                                                            multiple
+                                                                            freesolo
+                                                                            limitTags={2}
+                                                                            id="multiple-limit-tags"
+                                                                            options={jobTitles}
+                                                                            value={profile.jobTitles}
+                                                                            onChange={handleProfileJobTitlesChange}
+                                                                            defaultValue={[]}
+                                                                            className="w-full"
+                                                                            renderInput={(params) => (
+                                                                                <TextField {...params}
+                                                                                           className="input-no-shadow"
+                                                                                           label="" placeholder=""/>
+                                                                            )}
+                                                                        />
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div className="form-group">
+                                                                <div className="hl-text-input-container msgsndr6"
+                                                                     data-lpignore="true" data-vv-as="Location">
+                                                                    <div className="flex space-x-3">
+                                                                <span htmlFor="msgsndr6"
+                                                                      className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Location(s)</span>
+                                                                    </div>
+                                                                    <Autocomplete
+                                                                        disabled={!(var_editing >= 0)}
+                                                                        multiple
+                                                                        limitTags={2}
+                                                                        id="multiple-limit-tags"
+                                                                        options={locations}
+                                                                        value={profile.locations}
+                                                                        onChange={handleProfileLocationsChange}
+                                                                        defaultValue={[]}
+                                                                        className="w-full"
+                                                                        renderInput={(params) => (
+                                                                            <TextField {...params}
+                                                                                       className="input-no-shadow"
+                                                                                       label="" placeholder=""/>
+                                                                        )}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <div className="hl-text-input-container msgsndr6"
+                                                                     data-lpignore="true" data-vv-as="Location">
+                                                                    <div className="flex space-x-3">
+                                                                <span htmlFor="msgsndr6"
+                                                                      className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Industry</span>
+                                                                    </div>
+                                                                    <Autocomplete
+                                                                        disabled={!(var_editing >= 0)}
+                                                                        multiple
+                                                                        limitTags={2}
+                                                                        id="multiple-limit-tags"
+                                                                        options={industries}
+                                                                        value={profile.industries}
+                                                                        onChange={handleProfileIndustriesChange}
+                                                                        defaultValue={[]}
+                                                                        className="w-full"
+                                                                        renderInput={(params) => (
+                                                                            <TextField {...params}
+                                                                                       className="input-no-shadow"
+                                                                                       label="" placeholder=""/>
+                                                                        )}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <div className="hl-text-input-container msgsndr6"
+                                                                     data-lpignore="true" data-vv-as="Location">
+                                                                    <div className="flex space-x-3">
+                                                                <span htmlFor="msgsndr6"
+                                                                      className="hl-text-input-label block text-sm font-medium text-gray-700 mb-1">Number of Employees</span>
+                                                                    </div>
+                                                                    <Autocomplete
+                                                                        disabled={!(var_editing >= 0)}
+                                                                        multiple
+                                                                        limitTags={2}
+                                                                        id="multiple-limit-tags"
+                                                                        options={employees}
+                                                                        value={profile.employeeCounts}
+                                                                        onChange={handleProfileEmployeeCountsChange}
+                                                                        getOptionLabel={(option) => option}
+                                                                        defaultValue={[]}
+                                                                        className="w-full"
+                                                                        renderInput={(params) => (
+                                                                            <TextField {...params}
+                                                                                       className="input-no-shadow"
+                                                                                       label="" placeholder=""/>
+                                                                        )}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="form-group">
                                                     <span className="text-sm font-medium text-gray-700">
-                                                        Prospect Tag
+                                                        Company Revenue
                                                     </span>
-                                                    <div
-                                                        className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
-                                                        data-lpignore="true" autoComplete="msgsndr1"
-                                                        data-vv-as="revenue">
-                                                        <div className="flex space-x-3">
+                                                                <div
+                                                                    className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
+                                                                    data-lpignore="true" autoComplete="msgsndr1"
+                                                                    data-vv-as="revenue">
+                                                                    <div className="flex space-x-3">
 
-                                                        </div>
-                                                        <div className="relative rounded-md ">
-                                                            <input
-                                                                disabled={!(var_editing >= 0)}
-                                                                value={profile.tag}
-                                                                onChange={e => handleProfileTagChange(e.target.value)}
-                                                                type="text"
-                                                                data-lpignore="true"
-                                                                autoComplete="msgsndr1"
-                                                                placeholder="Tag Added to Prospect"
-                                                                className="hl-text-input  focus:ring-curious-blue-500 focus:border-curious-blue-500 block w-full sm:text-sm border-gray-300 rounded disabled:opacity-50 text-gray-800"
-                                                                name="msgsndr1"
-                                                                maxLength=""
-                                                            />
+                                                                    </div>
+                                                                    <div className="relative rounded-md">
+                                                                        <div className="input-group">
+                                                                            <div className="input-group col-md-5">
+                                                                                <div className="input-group-prepend">
+                                                                                    <span
+                                                                                        className="input-group-text">$</span>
+                                                                                </div>
+                                                                                <input
+                                                                                    disabled={!(var_editing >= 0)}
+                                                                                    type="text"
+                                                                                    value={profile.revenueMin}
+                                                                                    onChange={e => handleProfileRevenueMinChange(e.target.value)}
+                                                                                    style={{
+                                                                                        fontSize: "0.875rem",
+                                                                                        lineHeight: "1.25rem",
+                                                                                        height: "40px"
+                                                                                    }}
+                                                                                    className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800"
+                                                                                    aria-label="Amount (to the nearest dollar)"
+                                                                                />
+                                                                                <div className="input-group-append">
+                                                                                    <span
+                                                                                        className="input-group-text">.00</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <span
+                                                                                className="input-group-addon col-md-2 center"
+                                                                                style={{maxWidth: "6%"}}> <FontAwesomeIcon
+                                                                                icon={faArrowsH}
+                                                                                style={{
+                                                                                    position: "relative",
+                                                                                    top: "5px"
+                                                                                }}/> </span>
+                                                                            <div className="input-group col-md-5">
+                                                                                <div className="input-group-prepend">
+                                                                                    <span
+                                                                                        className="input-group-text">$</span>
+                                                                                </div>
+                                                                                <input
+                                                                                    disabled={!(var_editing >= 0)}
+                                                                                    type="text"
+                                                                                    value={profile.revenueMax}
+                                                                                    onChange={e => handleProfileRevenueMaxChange(e.target.value)}
+                                                                                    style={{
+                                                                                        fontSize: "0.875rem",
+                                                                                        lineHeight: "1.25rem",
+                                                                                        height: "40px"
+                                                                                    }}
+                                                                                    className="form-control sm:text-sm focus:ring-curious-blue-500 focus:border-curious-blue-500 border-gray-300 disabled:opacity-50 text-gray-800"
+                                                                                    aria-label="Amount (to the nearest dollar)"
+                                                                                />
+                                                                                <div className="input-group-append">
+                                                                                    <span
+                                                                                        className="input-group-text">.00</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
 
-                                                        </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="form-group"
+                                                                 style={{visibility: "hidden", position: "absolute"}}>
+                                                        <span className="text-sm font-medium text-gray-700">
+                                                            Prospect Tag
+                                                        </span>
+                                                                <div
+                                                                    className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
+                                                                    data-lpignore="true" autoComplete="msgsndr1"
+                                                                    data-vv-as="revenue">
+                                                                    <div className="flex space-x-3">
 
-                                                    </div>
-                                                </div>
-                                                <div className="form-group" style={{visibility: "hidden", position: "absolute"}}>
+                                                                    </div>
+                                                                    <div className="relative rounded-md ">
+                                                                        <input
+                                                                            disabled={!(var_editing >= 0)}
+                                                                            value={profile.tag}
+                                                                            onChange={e => handleProfileTagChange(e.target.value)}
+                                                                            type="text"
+                                                                            data-lpignore="true"
+                                                                            autoComplete="msgsndr1"
+                                                                            placeholder="Tag Added to Prospect"
+                                                                            className="hl-text-input  focus:ring-curious-blue-500 focus:border-curious-blue-500 block w-full sm:text-sm border-gray-300 rounded disabled:opacity-50 text-gray-800"
+                                                                            name="msgsndr1"
+                                                                            maxLength=""
+                                                                        />
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div className="form-group"
+                                                                 style={{visibility: "hidden", position: "absolute"}}>
                                                     <span className="text-sm font-medium text-gray-700">
                                                         Hydration Frequency
                                                     </span>
-                                                    <div
-                                                        className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
-                                                        data-lpignore="true" autoComplete="msgsndr1"
-                                                        data-vv-as="revenue">
-                                                        <TextField
-                                                            disabled={!(var_editing >= 0)}
-                                                            type="number"
-                                                            id="outlined-basic"
-                                                            size="small"
-                                                            onChange={(e) => handleProfileFrequencyCountChange(e.target.value)}
-                                                            value={profile.frequencyCount}
-                                                        />
+                                                                <div
+                                                                    className="hl-text-input-container msgsndr1 disabled:opacity-50 msgsndr1"
+                                                                    data-lpignore="true" autoComplete="msgsndr1"
+                                                                    data-vv-as="revenue">
+                                                                    <TextField
+                                                                        disabled={!(var_editing >= 0)}
+                                                                        type="number"
+                                                                        id="outlined-basic"
+                                                                        size="small"
+                                                                        onChange={(e) => handleProfileFrequencyCountChange(e.target.value)}
+                                                                        value={profile.frequencyCount}
+                                                                    />
 
-                                                        <span style={{
-                                                            paddingLeft: '1rem',
-                                                            paddingRight: '1rem'
-                                                        }}>per</span>
+                                                                    <span style={{
+                                                                        paddingLeft: '1rem',
+                                                                        paddingRight: '1rem'
+                                                                    }}>per</span>
 
-                                                        <ToggleButtonGroup
-                                                            disabled={!(var_editing >= 0)}
-                                                            color="primary"
-                                                            exclusive
-                                                            size="small"
-                                                            value={profile.frequency}
-                                                            onChange={handleProfileFrequencyChange}
-                                                            aria-label="profileState"
-                                                        >
-                                                            <ToggleButton value="day">Day</ToggleButton>
-                                                            <ToggleButton value="weekday">Weekday</ToggleButton>
-                                                            <ToggleButton value="week">Week</ToggleButton>
-                                                            <ToggleButton value="month">Month</ToggleButton>
-                                                        </ToggleButtonGroup>
-                                                    </div>
-                                                </div>
+                                                                    <ToggleButtonGroup
+                                                                        disabled={!(var_editing >= 0)}
+                                                                        color="primary"
+                                                                        exclusive
+                                                                        size="small"
+                                                                        value={profile.frequency}
+                                                                        onChange={handleProfileFrequencyChange}
+                                                                        aria-label="profileState"
+                                                                    >
+                                                                        <ToggleButton value="day">Day</ToggleButton>
+                                                                        <ToggleButton
+                                                                            value="weekday">Weekday</ToggleButton>
+                                                                        <ToggleButton value="week">Week</ToggleButton>
+                                                                        <ToggleButton value="month">Month</ToggleButton>
+                                                                    </ToggleButtonGroup>
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                }
+
+                                                { profile.advanced === 'advanced' &&
+                                                    <>
+                                                        <div className="form-group">
+                                                        {/*<span className="text-sm font-medium text-gray-700">*/}
+                                                        {/*    Advanced Query*/}
+                                                        {/*</span>*/}
+                                                            <div
+                                                                className="input-group input-group-lg w-full"
+                                                                data-lpignore="true"
+                                                                autoComplete="keyword"
+                                                                data-vv-as="keyword">
+                                                                <ReactJson
+                                                                    theme="monokai"
+                                                                    style={{width: "100%"}}
+                                                                    src={ {...profile.advanced_query} }
+                                                                    name={"Advanced Query"}
+                                                                    onEdit={handleProfileJSONChange}
+                                                                    onAdd={handleProfileJSONAdd}
+                                                                    onDelete={handleProfileJSONDelete}
+                                                                />
+
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                }
+
 
                                             </div>
 

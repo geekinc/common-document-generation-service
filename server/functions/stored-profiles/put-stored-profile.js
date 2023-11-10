@@ -59,6 +59,8 @@ export async function main(event, context) {
         prospect_tag       |varchar(255)   |YES |   |       |     |
         hydration_frequency|bigint         |YES |   |       |     |
         hydration_period   |varchar(100)   |YES |   |       |     |
+        advanced           |tinyint(1)     |YES |   |       |     |
+        advanced_query     |json           |YES |   |       |     |
          */
 
         let results = await mysql.query(
@@ -76,8 +78,10 @@ export async function main(event, context) {
                  company_revenue_max, 
                  prospect_tag, 
                  hydration_frequency, 
-                 hydration_period )
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                 hydration_period,
+                 advanced,
+                 advanced_query)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
             uuidv4(),
             var_record.customer,
@@ -92,7 +96,9 @@ export async function main(event, context) {
             var_record.company_revenue_max,
             var_record.prospect_tag,
             var_record.hydration_frequency,
-            var_record.hydration_period
+            var_record.hydration_period,
+            var_record.advanced,
+            JSON.stringify(var_record.advanced_query)
         ]);
 
         return response.success(results);

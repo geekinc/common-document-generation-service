@@ -53,32 +53,39 @@ export async function main(event, context) {
         "page": 1
     };
 
-    // Add the various parameters to the query based on if they exist or not
-    if (input.keyword) {
-        query.q_keywords = input.keyword;
-    }
+    if (input.advanced > 0) {
+        query = { ...query, ...input};
+        delete query.id;
+        delete query.advanced;
+        delete query.customer;
+    } else {
+        // Add the various parameters to the query based on if they exist or not
+        if (input.keyword) {
+            query.q_keywords = input.keyword;
+        }
 
-    if (input.job_title.length > 0) {
-        query.person_titles = input.job_title;
-    }
+        if (input.job_title.length > 0) {
+            query.person_titles = input.job_title;
+        }
 
-    if (input.location.length > 0) {
-        query.person_locations = input.location;
-    }
+        if (input.location.length > 0) {
+            query.person_locations = input.location;
+        }
 
-    if (input.industry.length > 0) {
-        query.organization_industry_tag_ids = getIndustryIDsFromNames(input.industry);
-    }
+        if (input.industry.length > 0) {
+            query.organization_industry_tag_ids = getIndustryIDsFromNames(input.industry);
+        }
 
-    if (input.number_of_employees.length > 0) {
-        query.organization_num_employees_ranges = processEmployeeCounts(input.number_of_employees);
-    }
+        if (input.number_of_employees.length > 0) {
+            query.organization_num_employees_ranges = processEmployeeCounts(input.number_of_employees);
+        }
 
-    if (input.company_revenue_max && input.company_revenue_min && input.company_revenue_max > input.company_revenue_min) {
-        query.revenue_range = {
-            "max": input.company_revenue_max.toString(),
-            "min": input.company_revenue_min.toString()
-        };
+        if (input.company_revenue_max && input.company_revenue_min && input.company_revenue_max > input.company_revenue_min) {
+            query.revenue_range = {
+                "max": input.company_revenue_max.toString(),
+                "min": input.company_revenue_min.toString()
+            };
+        }
     }
 
     console.log(query);
