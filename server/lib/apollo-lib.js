@@ -43,6 +43,8 @@ export async function process_apollo(query, pageNumber = 1) {
         delete apollo_options.data.advanced;
         delete apollo_options.data.customer;
     } else {
+        apollo_options.data.contact_email_status = ["verified"];
+
         // Add the various parameters to the query based on if they exist or not
         if (query.keyword) {
             apollo_options.data.q_keywords = query.keyword;

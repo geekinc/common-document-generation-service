@@ -33,7 +33,6 @@ export async function main(event, context) {
         console.log("ARMPIT >>>>>>>>>>>");
         console.log(var_record);
         console.log("ARMPIT <<<<<<<<<<<");
-        return 0;
 
         //  parse data from SQS
         if (event.Records !== undefined) {
