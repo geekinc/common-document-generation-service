@@ -3,8 +3,13 @@ service: apollo-search-api
 
 plugins:
   - serverless-offline
+  - serverless-plugin-typescript
 
 useDotenv: true
+
+custom:
+  serverlessPluginTypescript:
+    tsConfigFileLocation: './tsconfig.json'
 
 provider:
   name: aws
