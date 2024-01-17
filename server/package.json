@@ -27,6 +27,7 @@
     "json-2-csv": "^4.1.0",
     "moment": "^2.29.1",
     "mysql2": "^3.6.0",
+    "openai": "^4.19.0",
     "serverless": "^3.25.1",
     "serverless-dotenv-plugin": "^2.4.2",
     "serverless-mysql": "^1.5.5",

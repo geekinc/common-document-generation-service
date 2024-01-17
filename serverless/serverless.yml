@@ -4,6 +4,8 @@ service: apollo-search-api
 plugins:
   - serverless-offline
 
+useDotenv: true
+
 provider:
   name: aws
   runtime: nodejs16.x
@@ -13,33 +15,12 @@ provider:
   timeout: 10
 
 functions:
-  app:
-    handler: app.handler
-    events:
-      - http:
-          path: /api/search
-          method: post
-          cors: true
   apollo:
     handler: app.handler
     events:
       - http:
           path: /api/apollo
           method: get
-          cors: true
-  local-search:
-    handler: app.handler
-    events:
-      - http:
-          path: /api/local-search
-          method: post
-          cors: true
-  local-upsert-query:
-    handler: app.handler
-    events:
-      - http:
-          path: /api/local-upsert-query
-          method: post
           cors: true
   armpit:
     handler: app.handler
@@ -54,4 +35,18 @@ functions:
       - http:
           path: /api/armpit/{count}
           method: get
+          cors: true
+  login:
+    handler: app.handler
+    events:
+      - http:
+          path: /api/login
+          method: post
+          cors: true
+  logout:
+    handler: app.handler
+    events:
+      - http:
+          path: /api/logout
+          method: post
           cors: true

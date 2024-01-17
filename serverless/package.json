@@ -1,28 +1,29 @@
 {
   "name": "apollo-search-api",
   "version": "1.0.0",
-  "description": "Apollo Search API using AWS Lambda",
+  "description": "Express API using AWS Lambda",
+  "author": "Ben Inkster",
   "main": "app.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "serverless offline --host 127.0.0.1",
+    "test": "jest --coverage"
   },
-  "keywords": [
-    "aws",
-    "lambda",
-    "apollo",
-    "search",
-    "api"
-  ],
-  "author": "Your Name",
-  "license": "ISC",
   "dependencies": {
     "aws-serverless-express": "^3.4.0",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.17.1",
-    "serverless": "^3.25.1"
+    "njwt": "^1.0.0",
+    "nnode": "^0.3.3",
+    "path": "^0.12.7",
+    "serverless": "^3.25.1",
+    "sqlite3": "^5.0.1"
   },
   "devDependencies": {
-    "serverless-offline": "^6.7.0"
+    "jest": "^29.7.0",
+    "serverless-offline": "^8.8.0"
   }
 }
