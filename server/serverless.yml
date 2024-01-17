@@ -169,3 +169,12 @@ functions:
           path: armpit/{count}
           method: get
           cors: true
+
+  get-chat-response:
+    handler: functions/automation/get-chat-response.main
+    timeout: 30
+    events:
+      - http:
+          path: get-chat-response
+          method: post
+          cors: true
