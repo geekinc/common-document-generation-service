@@ -6,6 +6,9 @@ plugins:
 
 useDotenv: true
 
+package:
+  individually: true
+
 provider:
   name: aws
   runtime: nodejs16.x
