@@ -1,6 +1,6 @@
-const { armpit, armpitCount } = require('../controllers/armpit.controller');
-const { login, logout } = require('../controllers/auth.controller');
-const { apolloSearch } = require('../controllers/apollo.controller');
+const { armpit, armpitCount } = require('../controllers/armpit.controller.js');
+const { login, logout } = require('../controllers/auth.controller.js');
+const { apolloSearch } = require('../controllers/apollo.controller.js');
 const express = require('express');
 
 const router = express.Router()

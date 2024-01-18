@@ -1,5 +1,5 @@
-const Auth = require('../lib/auth.lib');
-const Users = require('../lib/user.lib');
+const Auth = require('../lib/auth.lib.js');
+const Users = require('../lib/user.lib.js');
 const bcrypt = require('bcrypt');
 
 

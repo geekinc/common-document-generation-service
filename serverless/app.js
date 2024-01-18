@@ -1,6 +1,6 @@
 const awsServerlessExpress = require('aws-serverless-express');
 const express = require('express');
-const Auth  = require('./lib/auth.lib');
+const Auth  = require('./lib/auth.lib.js');
 const cors = require('cors');
 
 const publicRoutes = require('./routes/public.routes');
