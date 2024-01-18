@@ -1,5 +1,5 @@
 const njwt = require("njwt");
-const Users = require("./user.lib");
+const Users = require("./user.lib.js");
 const APP_SECRET = process.env.APP_SECRET
 
 class Auth {

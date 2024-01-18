@@ -1,4 +1,4 @@
-const DAO = require('./DAO.lib');
+const DAO = require('./DAO.lib.js');
 const bcrypt = require('bcrypt');
 const njwt = require("njwt");
 const APP_SECRET = process.env.APP_SECRET
