@@ -53,3 +53,10 @@ functions:
           path: /api/logout
           method: post
           cors: true
+  usersCount:
+    handler: app.handler
+    events:
+      - http:
+          path: /api/users/count
+          method: get
+          cors: true

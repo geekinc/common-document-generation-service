@@ -18,6 +18,10 @@ class Users {
         return await DAO.all('SELECT * FROM users');
     }
 
+    static getAllUsersCount = async () => {
+        return await DAO.all('SELECT count(*) as usersCount FROM users');
+    }
+
     static createUser = async (username, password) => {
         // Check parameters
         if (!username || !password) {

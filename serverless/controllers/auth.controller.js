@@ -38,6 +38,7 @@ const login = async (req, res) => {
             password: password,
             firstName: username.toUpperCase(),
             lastName: "",
+            profilePic: "",
             role: role,
             token: ""
         }

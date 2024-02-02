@@ -83,7 +83,26 @@ class Auth {
      * @returns {string} tokenData.userId
      */
     static verifyToken = (token) => {
-        return njwt.verify(token, APP_SECRET).setExpiration(new Date().getTime() + 604800000).body;
+        return njwt.verify(token, APP_SECRET, function(err, verifiedJwt) {
+            if (err) {
+                throw err;
+            }
+            return verifiedJwt;
+        }).setExpiration(new Date().getTime() + 604800000).body;
+    }
+
+    /**
+     * @param {string} token
+     * @returns {Object} tokenData
+     * @returns {string} tokenData.userId
+     */
+    static isAdmin = (token) => {
+        try {
+            let jwt = this.verifyToken(token);
+            return jwt.role.toString().toLowerCase() === 'admin';  // return true if the user is an admin
+        } catch (e) {
+            return false;
+        }
     }
 
     /**
