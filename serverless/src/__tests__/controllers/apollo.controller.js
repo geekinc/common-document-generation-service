@@ -1,3 +1,7 @@
+/**
+ * This is a placeholder to handle the axios calls to the Apollo API
+ * */
+
 const axios = require("axios");
 
 const apolloSearch =  async (req, res) => {
