@@ -23,6 +23,7 @@ interface UserData {
     username: string;
     password: string;
     fullname: string;
+    profilePic: string;
     email: string;
   };
   type: string;

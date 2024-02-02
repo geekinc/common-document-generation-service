@@ -1,10 +1,14 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 
-// componets
+// components
 import StatisticsWidget from "../../../components/StatisticsWidget";
 
 const Statistics = () => {
+
+
+
+
   return (
     <>
       <Row>
@@ -12,11 +16,11 @@ const Statistics = () => {
           <StatisticsWidget
             variant="primary"
             counterOptions={{
-              prefix: "$",
+              prefix: "",
             }}
-            description="Total Revenue"
-            stats="58947"
-            icon="fe-heart"
+            description="Total Users"
+            stats="2"
+            icon="fe-user"
           />
         </Col>
         <Col md={6} xl={3}>

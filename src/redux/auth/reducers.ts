@@ -13,6 +13,7 @@ const INIT_STATE = {
 
 interface UserData {
   id: number;
+
   username: string;
   password: string;
   firstName: string;

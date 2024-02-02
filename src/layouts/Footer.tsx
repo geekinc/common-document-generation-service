@@ -11,15 +11,15 @@ const Footer = () => {
         <div className="container-fluid">
           <Row>
             <Col md={6}>
-              {currentYear} &copy; UBold theme by{" "}
-              <Link to="#">Coderthemes</Link>
+              {currentYear} &copy; LeadGrasp by {" "}
+              <Link to="https://dynamicsales.com" target="_blank">Dynamic Sales</Link>
             </Col>
 
             <Col md={6}>
               <div className="d-none d-md-flex gap-4 align-item-center justify-content-md-end footer-links">
-                <Link to="#">About Us</Link>
-                <Link to="#">Help</Link>
-                <Link to="#">Contact Us</Link>
+                {/*<Link to="#">About Us</Link>*/}
+                {/*<Link to="#">Help</Link>*/}
+                {/*<Link to="#">Contact Us</Link>*/}
               </div>
             </Col>
           </Row>

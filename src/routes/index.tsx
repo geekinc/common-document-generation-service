@@ -32,7 +32,7 @@ const LockScreen = React.lazy(() => import("../pages/auth/LockScreen"));
 const Landing = React.lazy(() => import("../pages/landing/"));
 
 // dashboard
-const Dashboard1 = React.lazy(() => import("../pages/dashboard/Dashboard1/"));
+const Dashboard = React.lazy(() => import("../pages/dashboard/Dashboard1/"));
 const Dashboard2 = React.lazy(() => import("../pages/dashboard/Dashboard2/"));
 const Dashboard3 = React.lazy(() => import("../pages/dashboard/Dashboard3/"));
 const Dashboard4 = React.lazy(() => import("../pages/dashboard/Dashboard4/"));
@@ -46,6 +46,16 @@ const ProjectDetail = React.lazy(
 const ProjectForm = React.lazy(
   () => import("../pages/apps/Projects/ProjectForm")
 );
+
+// - Admin pages
+const AdminDashboard = React.lazy(() => import("../pages/apps/Admin/Dashboard/"));
+const AdminContacts = React.lazy(() => import("../pages/apps/Admin/Contacts/"));
+const AdminOpportunities = React.lazy(
+    () => import("../pages/apps/Admin/Opportunities/")
+);
+const AdminLeads = React.lazy(() => import("../pages/apps/Admin/Leads/"));
+const AdminCustomers = React.lazy(() => import("../pages/apps/Admin/Customers/"));
+
 // - chat
 const ChatApp = React.lazy(() => import("../pages/apps/Chat/"));
 // - ecommece pages
@@ -226,35 +236,35 @@ let dashboardRoutes: RoutesProps = {
       route: PrivateRoute,
     },
     {
-      path: "/dashboard-1",
-      name: "Dashboard 1",
-      element: <Dashboard1 />,
-      route: PrivateRoute,
-    },
-    {
       path: "/dashboard",
-      name: "Dashboard 1",
-      element: <Dashboard1 />,
+      name: "Dashboard",
+      element: <Dashboard />,
       route: PrivateRoute,
     },
-    {
-      path: "/dashboard-2",
-      name: "Dashboard 2",
-      element: <Dashboard2 />,
-      route: PrivateRoute,
-    },
-    {
-      path: "/dashboard-3",
-      name: "Dashboard 3",
-      element: <Dashboard3 />,
-      route: PrivateRoute,
-    },
-    {
-      path: "/dashboard-4",
-      name: "Dashboard 4",
-      element: <Dashboard4 />,
-      route: PrivateRoute,
-    },
+    // {
+    //   path: "/dashboard",
+    //   name: "Dashboard 1",
+    //   element: <Dashboard1 />,
+    //   route: PrivateRoute,
+    // },
+    // {
+    //   path: "/dashboard-2",
+    //   name: "Dashboard 2",
+    //   element: <Dashboard2 />,
+    //   route: PrivateRoute,
+    // },
+    // {
+    //   path: "/dashboard-3",
+    //   name: "Dashboard 3",
+    //   element: <Dashboard3 />,
+    //   route: PrivateRoute,
+    // },
+    // {
+    //   path: "/dashboard-4",
+    //   name: "Dashboard 4",
+    //   element: <Dashboard4 />,
+    //   route: PrivateRoute,
+    // },
   ],
 };
 
@@ -343,6 +353,46 @@ const ecommerceAppRoutes = {
       path: "/apps/ecommerce/checkout",
       name: "Checkout",
       element: <Checkout />,
+      route: PrivateRoute,
+    },
+  ],
+};
+
+const adminAppRoutes = {
+  path: "/apps/admin",
+  name: "Admin",
+  route: PrivateRoute,
+  roles: ["Admin"],
+  icon: "users",
+  children: [
+    {
+      path: "/apps/admin/dashboard",
+      name: "Dashboard",
+      element: <AdminDashboard />,
+      route: PrivateRoute,
+    },
+    {
+      path: "/apps/admin/contacts",
+      name: "Contacts",
+      element: <AdminContacts />,
+      route: PrivateRoute,
+    },
+    {
+      path: "/apps/admin/opportunities",
+      name: "Opportunities",
+      element: <AdminOpportunities />,
+      route: PrivateRoute,
+    },
+    {
+      path: "/apps/admin/leads",
+      name: "Leads",
+      element: <AdminLeads />,
+      route: PrivateRoute,
+    },
+    {
+      path: "/apps/admin/customers",
+      name: "Customers",
+      element: <AdminCustomers />,
       route: PrivateRoute,
     },
   ],
@@ -548,6 +598,7 @@ const appRoutes = [
   calendarAppRoutes,
   chatAppRoutes,
   ecommerceAppRoutes,
+  adminAppRoutes,
   crmAppRoutes,
   emailAppRoutes,
   socialAppRoutes,
