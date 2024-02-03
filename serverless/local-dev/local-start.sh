@@ -1,4 +1,4 @@
-docker run  \
+docker run \
   --name local-mysql \
   -d \
   -p 3306:3306 \

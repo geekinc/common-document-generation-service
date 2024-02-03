@@ -28,7 +28,6 @@ login:
         method: post
         cors: true
 
-
 armpit:
   handler: src/lambda/armpit/armpit.armpit
   events:

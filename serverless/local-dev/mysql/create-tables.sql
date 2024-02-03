@@ -17,7 +17,9 @@ CREATE TABLE
     password     VARCHAR(100),
     role         VARCHAR(100) default 'USER',
     firstname    VARCHAR(100),
-    lastname    VARCHAR(100),
+    lastname     VARCHAR(100),
+    enabled      BOOLEAN default true,
+
     PRIMARY KEY (`id`)
 );
 
@@ -26,10 +28,15 @@ TRUNCATE TABLE `users`;
 
 -- Insert a test admin user
 INSERT INTO `users`
-    (`username`, `password`, `role`, `firstname`, `lastname`)
-VALUES ('foo', '$2b$10$BzXfGmp0.zXyPB5JGGxfouCq8zTx1R.fmPs/tI1ODvkqvI8nwmDBS', 'ADMIN', 'Administrator', 'De Admin');
+    (`username`, `password`, `role`, `firstname`, `lastname`, `enabled`)
+VALUES ('foo', '$2b$10$BzXfGmp0.zXyPB5JGGxfouCq8zTx1R.fmPs/tI1ODvkqvI8nwmDBS', 'ADMIN', 'Administrator', 'De Admin', true);
 
 -- Insert a test user
 INSERT INTO `users`
-(`username`, `password`, `role`, `firstname`, `lastname`)
-VALUES ('bar', '$2b$10$BzXfGmp0.zXyPB5JGGxfouCq8zTx1R.fmPs/tI1ODvkqvI8nwmDBS', 'USER', 'User', 'McUserson');
+(`username`, `password`, `role`, `firstname`, `lastname`, `enabled`)
+VALUES ('bar', '$2b$10$BzXfGmp0.zXyPB5JGGxfouCq8zTx1R.fmPs/tI1ODvkqvI8nwmDBS', 'USER', 'User', 'McUserson', true);
+
+-- Insert a test user who is NOT enabled
+INSERT INTO `users`
+(`username`, `password`, `role`, `firstname`, `lastname`, `enabled`)
+VALUES ('bat', '$2b$10$BzXfGmp0.zXyPB5JGGxfouCq8zTx1R.fmPs/tI1ODvkqvI8nwmDBS', 'USER', 'User', 'McUserson', false);

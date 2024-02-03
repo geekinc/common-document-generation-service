@@ -20,13 +20,12 @@ export async function main(event, context) {
         return response.failure({error: 'Invalid credentials'});
     }
 
-    if (typeof user !== "undefined") {
+    if (user && user.enabled) {
         let localUser = {
             id: user.id,
             username: username,
             firstName: user.firstName,
             lastName: user.lastName,
-            profilePic: "",
             role: user.role,
             token: ""
         }
@@ -53,7 +52,7 @@ export async function main(event, context) {
         }
 
     } else {
-        return response.failure({error: 'Invalid credentials'});
+        return response.failure({error: 'User has been disabled'});
     }
 
 }

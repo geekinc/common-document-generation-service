@@ -79,6 +79,7 @@ export default class Users {
         const adminRole = output.payload['role'] ? output.payload['role'] : null;
 
         if (!adminId || (adminRole !== 'ADMIN')) {
+            await logger.error('Unauthorized request in user-lib.setUserRole - Requester ID:' + id);
             throw new Error('Unauthorized');
         }
 
