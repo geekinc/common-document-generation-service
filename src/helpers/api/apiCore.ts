@@ -2,6 +2,10 @@ import jwtDecode from "jwt-decode";
 import axios from "axios";
 
 import config from "../../config";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../redux/store";
+import {useEffect} from "react";
+import {logoutUser, resetAuth} from "../../redux/auth/actions";
 
 // content type
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -43,7 +47,7 @@ axios.interceptors.response.use(
   }
 );
 
-const AUTH_SESSION_KEY = "ubold_user";
+const AUTH_SESSION_KEY = "user";
 
 /**
  * Sets the default authorization
@@ -202,6 +206,9 @@ class APICore {
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
       console.warn("access token expired");
+      // log out the user
+      this.setLoggedInUser(null);
+
       return false;
     } else {
       return true;

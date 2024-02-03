@@ -1,0 +1,160 @@
+login:
+  handler: src/lambda/auth/login.main
+  events:
+    - http:
+        path: /api/login
+        method: post
+        cors: true
+        documentation:
+          description: "Authenticate a user and return a JWT"
+          tags:
+            - Authentication
+          requestBody:
+            description: "A JSON object with a username and password"
+            required: true
+          requestModels:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    nullable: false
+                  password:
+                    type: string
+                    nullable: false
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "An object containing a JWT"
+              responseModels:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      username:
+                        type: string
+                      role:
+                        type: string
+                      token:
+                        type: string
+                  examples:
+                    - name: content
+                      description: "Successful login response"
+                      value: {
+                        "id": 1,
+                        "username": "foo",
+                        "role": "ADMIN",
+                        "token": "eyJhbGciOiJIUzI1N...DrLVPcQWRXFOPWIqS_bLOcG0uc"
+                      }
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: UnauthorizedResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message returning the response fails"
+              responseModels:
+                application/json: ErrorResponse
+
+
+# ---------- QUEUES ----------
+basicQueueDispatcher:
+  handler: src/lambda/queues/basicQueue-dispatcher.handler
+  timeout: 30
+  events:
+    - http:
+        path: /api/invoke
+        method: post
+        cors: true
+        authorizer: jwtAuthorizer
+        documentation:
+          description: "Authenticate a user and return a JWT"
+          tags:
+            - Queue Management
+          requestBody:
+            description: "A JSON object including a destination queue and a payload"
+            required: true
+          requestModels:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  destination:
+                    type: string
+                    nullable: false
+                  payload:
+                    type: object
+                    nullable: false
+              examples:
+                - name: content
+                  description: "Invocation request"
+                  value: {
+                    "destination": "basicQueue",
+                    "payload": {
+                      "haa": "boo"
+                    }
+                  }
+          headerParams:
+            - name: "Authorization"
+              description: "A bearer token containing a JWT for the user"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A response object including details of the SQS message"
+              responseModels:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      data:
+                        type: object
+                        properties:
+                          sqsOutput:
+                            type: object
+                            properties:
+                              MD5OfMessageBody:
+                                type: string
+                              MD5OfMessageAttributes:
+                                type: string
+                              MessageId:
+                                type: string
+                              SequenceNumber:
+                                type: string  # returned as a string i.e. "0"
+                  examples:
+                    - name: content
+                      description: "Successful invocation response"
+                      value: {
+                        "message": "Message sent",
+                        "data": {
+                          "sqsOutput": {
+                            "MD5OfMessageBody": "3e2a9ec0f22237f3d6e6ab589bb73ccb",
+                            "MD5OfMessageAttributes": "2f3dd1acb5f3bb8a1ffb690e5ce644ec",
+                            "MessageId": "d7659013-0ddc-447d-9a4d-ef3a05c9bd15",
+                            "SequenceNumber": "0"
+                          }
+                        }
+                      }
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: "UnauthorizedResponse"
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message returning the response fails"
+              responseModels:
+                application/json: "ErrorResponse"

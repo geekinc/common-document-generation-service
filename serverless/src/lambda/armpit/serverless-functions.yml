@@ -1,0 +1,90 @@
+armpit:
+  handler: src/lambda/armpit/armpit.armpit
+  events:
+    - http:
+        path: /api/armpit
+        method: get
+        cors: true
+        authorizer: jwtAuthorizer
+        documentation:
+          description: "Confirms the functionality of the API - returns the anachronistic word for armpit (oxter)"
+          tags:
+            - System Health
+          requestModels:
+            application/json: "CreateContentBody"
+          headerParams:
+            - name: "Authorization"
+              description: "A bearer token containing a JWT for the user"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A simple one word response"
+              responseModels:
+                application/json: RawSuccessResponse
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: UnauthorizedResponse
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message when returning the word fails"
+              responseModels:
+                application/json: ErrorResponse
+
+
+armpitCount:
+  handler: src/lambda/armpit/armpit-count.armpitCount
+  events:
+    - http:
+        path: /api/armpit/{count}
+        method: get
+        cors: true
+        authorizer: jwtAuthorizer
+        documentation:
+          description: "Returns a simple number of armpits - the number of armpits is passed in the URL as a parameter"
+          tags:
+            - System Health
+          requestModels:
+            application/json: "EmptyContentBody"
+          pathParams:
+            - name: "count"
+              description: "The number of armpits to return"
+              schema:
+                type: "string"
+                pattern: "^[-0-9_]+$"
+          headerParams:
+            - name: "Authorization"
+              description: "A bearer token containing a JWT for the user"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A phrase describing the number of armpits"
+              responseModels:
+                application/json: RawSuccessResponse
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: UnauthorizedResponse
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message returning the response fails"
+              responseModels:
+                application/json: ErrorResponse

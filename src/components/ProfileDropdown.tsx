@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import classNames from "classnames";
+import defaultUserPic from "../assets/images/users/user-default.png";
 
 interface ProfileMenuItem {
   label: string;
@@ -17,7 +18,10 @@ interface ProfileDropdownProps {
 }
 
 const ProfileDropdown = (props: ProfileDropdownProps) => {
-  const profilePic = props["profilePic"] || null;
+  // Fetch data from session storage
+  let user = JSON.parse(sessionStorage.getItem("user") || "{}");
+
+  const profilePic = user["profilePic"] || defaultUserPic;
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
   /*
@@ -40,7 +44,7 @@ const ProfileDropdown = (props: ProfileDropdownProps) => {
       >
         <img src={profilePic!} className="rounded-circle" alt="" />
         <span className="pro-user-name ms-1">
-          {props["username"]} <i className="mdi mdi-chevron-down"></i>
+          {user["username"]} <i className="mdi mdi-chevron-down"></i>
         </span>
       </Dropdown.Toggle>
       <Dropdown.Menu className="dropdown-menu dropdown-menu-end profile-dropdown">

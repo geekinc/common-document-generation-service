@@ -43,46 +43,46 @@ export interface NotificationItem {
 
 // get the notifications
 const Notifications: NotificationItem[] = [
-  {
-    id: 1,
-    text: "Cristina Pride",
-    subText: "Hi, How are you? What about our next meeting",
-    avatar: profilePic,
-  },
-  {
-    id: 2,
-    text: "Caleb Flakelar commented on Admin",
-    subText: "1 min ago",
-    icon: "mdi mdi-comment-account-outline",
-    bgColor: "primary",
-  },
-  {
-    id: 3,
-    text: "Karen Robinson",
-    subText: "Wow ! this admin looks good and awesome design",
-    avatar: avatar4,
-  },
-  {
-    id: 4,
-    text: "New user registered.",
-    subText: "5 hours ago",
-    icon: "mdi mdi-account-plus",
-    bgColor: "warning",
-  },
-  {
-    id: 5,
-    text: "Caleb Flakelar commented on Admin",
-    subText: "1 min ago",
-    icon: "mdi mdi-comment-account-outline",
-    bgColor: "info",
-  },
-  {
-    id: 6,
-    text: "Carlos Crouch liked Admin",
-    subText: "13 days ago",
-    icon: "mdi mdi-heart",
-    bgColor: "secondary",
-  },
+  // {
+  //   id: 1,
+  //   text: "Cristina Pride",
+  //   subText: "Hi, How are you? What about our next meeting",
+  //   avatar: profilePic,
+  // },
+  // {
+  //   id: 2,
+  //   text: "Caleb Flakelar commented on Admin",
+  //   subText: "1 min ago",
+  //   icon: "mdi mdi-comment-account-outline",
+  //   bgColor: "primary",
+  // },
+  // {
+  //   id: 3,
+  //   text: "Karen Robinson",
+  //   subText: "Wow ! this admin looks good and awesome design",
+  //   avatar: avatar4,
+  // },
+  // {
+  //   id: 4,
+  //   text: "New user registered.",
+  //   subText: "5 hours ago",
+  //   icon: "mdi mdi-account-plus",
+  //   bgColor: "warning",
+  // },
+  // {
+  //   id: 5,
+  //   text: "Caleb Flakelar commented on Admin",
+  //   subText: "1 min ago",
+  //   icon: "mdi mdi-comment-account-outline",
+  //   bgColor: "info",
+  // },
+  // {
+  //   id: 6,
+  //   text: "Carlos Crouch liked Admin",
+  //   subText: "13 days ago",
+  //   icon: "mdi mdi-heart",
+  //   bgColor: "secondary",
+  // },
 ];
 
 // get the profilemenu
@@ -90,7 +90,7 @@ const ProfileMenus = [
   {
     label: "My Account",
     icon: "fe-user",
-    redirectTo: "#",
+    redirectTo: "/apps/contacts/profile",
   },
   {
     label: "Settings",
@@ -351,31 +351,31 @@ const Topbar = ({
               <i className="mdi mdi-menu" />
             </button>
 
-            <div className="dropdown d-none d-xl-block">
-              <CreateNew otherOptions={otherOptions} />
-            </div>
+            {/*<div className="dropdown d-none d-xl-block">*/}
+            {/*  <CreateNew otherOptions={otherOptions} />*/}
+            {/*</div>*/}
 
-            <div className="dropdown dropdown-mega d-none d-xl-block">
-              <MegaMenu subMenus={MegaMenuOptions} />
-            </div>
+            {/*<div className="dropdown dropdown-mega d-none d-xl-block">*/}
+            {/*  <MegaMenu subMenus={MegaMenuOptions} />*/}
+            {/*</div>*/}
           </div>
 
           <ul className="topbar-menu d-flex align-items-center">
-            <li className="app-search dropdown d-none d-lg-block">
-              <TopbarSearch items={SearchResults} />
-            </li>
+            {/*<li className="app-search dropdown d-none d-lg-block">*/}
+            {/*  <TopbarSearch items={SearchResults} />*/}
+            {/*</li>*/}
             {/* <li className="dropdown d-inline-block d-lg-none">
               <SearchDropdown />
             </li> */}
             <li className="dropdown d-none d-lg-inline-block">
               <MaximizeScreen />
             </li>
-            <li className="dropdown d-none d-lg-inline-block topbar-dropdown">
-              <AppsDropdown />
-            </li>
-            <li className="dropdown d-none d-lg-inline-block topbar-dropdown">
-              <LanguageDropdown />
-            </li>
+            {/*<li className="dropdown d-none d-lg-inline-block topbar-dropdown">*/}
+            {/*  <AppsDropdown />*/}
+            {/*</li>*/}
+            {/*<li className="dropdown d-none d-lg-inline-block topbar-dropdown">*/}
+            {/*  <LanguageDropdown />*/}
+            {/*</li>*/}
             <li className="dropdown notification-list">
               <NotificationDropdown notifications={Notifications} />
             </li>
@@ -387,14 +387,14 @@ const Topbar = ({
                 userTitle={"Founder"}
               />
             </li>
-            <li>
-              <button
-                className="nav-link dropdown-toggle right-bar-toggle waves-effect waves-light btn btn-link shadow-none"
-                onClick={handleRightSideBar}
-              >
-                <i className="fe-settings noti-icon font-22"></i>
-              </button>
-            </li>
+            {/*<li>*/}
+            {/*  <button*/}
+            {/*    className="nav-link dropdown-toggle right-bar-toggle waves-effect waves-light btn btn-link shadow-none"*/}
+            {/*    onClick={handleRightSideBar}*/}
+            {/*  >*/}
+            {/*    <i className="fe-settings noti-icon font-22"></i>*/}
+            {/*  </button>*/}
+            {/*</li>*/}
           </ul>
         </div>
       </div>

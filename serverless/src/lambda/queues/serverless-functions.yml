@@ -1,0 +1,8 @@
+basicQueueHandler:
+  handler: src/lambda/queues/basicQueue-handler.promise
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt:
+            - basicQueue
+            - Arn
