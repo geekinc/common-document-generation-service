@@ -87,7 +87,7 @@
           }
         }
       },
-      "875a2060-e87f-4513-abc8-fc3a8e4b895d": {
+      "f678b56b-71fd-4dbd-84f4-541a1d7e17f6": {
         "type": "object",
         "properties": {
           "username": {
@@ -100,7 +100,7 @@
           }
         }
       },
-      "5120ef84-d3bd-4c5c-a96d-ad117325bbf1": {
+      "7920c425-de1c-4b49-92a5-5fd1f0f79091": {
         "type": "object",
         "properties": {
           "id": {
@@ -129,20 +129,28 @@
       "Authorization": {
         "type": "string"
       },
-      "b0d3b1ac-fd2f-4e98-bc1d-8fac2f5e1872": {
+      "count": {
+        "type": "string",
+        "pattern": "^[-0-9_]+$"
+      },
+      "f477c49a-5f40-4127-a79f-1b1742e18582": {
         "type": "object",
         "properties": {
           "destination": {
             "type": "string",
-            "nullable": false
+            "nullable": false,
+            "example": "basicQueue"
           },
           "payload": {
             "type": "object",
-            "nullable": false
+            "nullable": false,
+            "example": {
+              "haa": "boo"
+            }
           }
         }
       },
-      "04f095e5-8bed-475f-ba94-0f661d90c670": {
+      "1a446ad0-a699-4b11-92f9-7362deb469e0": {
         "type": "object",
         "properties": {
           "message": {
@@ -171,10 +179,6 @@
             }
           }
         }
-      },
-      "count": {
-        "type": "string",
-        "pattern": "^[-0-9_]+$"
       }
     },
     "examples": {
@@ -186,7 +190,7 @@
           "message": "Unauthorized"
         }
       },
-      "error-f41f04f3-0a02-4ba4-b511-cf9245ab431c": {
+      "error-abb1be44-9349-41ac-8074-3a9cd0bb86a9": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -194,7 +198,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-29e6eb89-37db-4791-9e89-f6a85d5ba60d": {
+      "error-3fd63d30-0781-4f46-be08-cc7dcff25947": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -202,7 +206,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-c6642671-b7b1-4d76-b067-0afc585ce952": {
+      "error-2d09649e-94bd-4902-8bbb-ed7230c43202": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -239,7 +243,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/875a2060-e87f-4513-abc8-fc3a8e4b895d"
+                "$ref": "#/components/schemas/f678b56b-71fd-4dbd-84f4-541a1d7e17f6"
               }
             }
           }
@@ -250,7 +254,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/5120ef84-d3bd-4c5c-a96d-ad117325bbf1"
+                  "$ref": "#/components/schemas/7920c425-de1c-4b49-92a5-5fd1f0f79091"
                 }
               }
             },
@@ -280,151 +284,6 @@
                 },
                 "schema": {
                   "$ref": "#/components/schemas/UnauthorizedResponse"
-                }
-              }
-            },
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
-                "schema": {
-                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
-                }
-              },
-              "Access-Control-Allow-Credentials": {
-                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
-                "schema": {
-                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "An error message returning the response fails",
-            "content": {
-              "application/json": {
-                "examples": {
-                  "error": {
-                    "$ref": "#/components/examples/error"
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
-                "schema": {
-                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
-                }
-              },
-              "Access-Control-Allow-Credentials": {
-                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
-                "schema": {
-                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/invoke": {
-      "post": {
-        "summary": "",
-        "description": "Authenticate a user and return a JWT",
-        "operationId": "basicQueueDispatcher",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "description": "A bearer token containing a JWT for the user",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Authorization"
-            }
-          }
-        ],
-        "tags": [
-          "Queue Management"
-        ],
-        "requestBody": {
-          "description": "A JSON object including a destination queue and a payload",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/b0d3b1ac-fd2f-4e98-bc1d-8fac2f5e1872"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "A response object including details of the SQS message",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/04f095e5-8bed-475f-ba94-0f661d90c670"
-                }
-              }
-            },
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
-                "schema": {
-                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
-                }
-              },
-              "Access-Control-Allow-Credentials": {
-                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
-                "schema": {
-                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "examples": {
-                  "error": {
-                    "$ref": "#/components/examples/error"
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/UnauthorizedResponse"
-                }
-              }
-            },
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
-                "schema": {
-                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
-                }
-              },
-              "Access-Control-Allow-Credentials": {
-                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
-                "schema": {
-                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "examples": {
-                  "error": {
-                    "$ref": "#/components/examples/error-f41f04f3-0a02-4ba4-b511-cf9245ab431c"
-                  }
-                },
-                "schema": {
-                  "$ref": "#/components/schemas/ForbiddenResponse"
                 }
               }
             },
@@ -554,7 +413,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-29e6eb89-37db-4791-9e89-f6a85d5ba60d"
+                    "$ref": "#/components/examples/error-abb1be44-9349-41ac-8074-3a9cd0bb86a9"
                   }
                 },
                 "schema": {
@@ -697,7 +556,152 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-c6642671-b7b1-4d76-b067-0afc585ce952"
+                    "$ref": "#/components/examples/error-3fd63d30-0781-4f46-be08-cc7dcff25947"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An error message returning the response fails",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "$ref": "#/components/examples/error"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/invoke": {
+      "post": {
+        "summary": "",
+        "description": "Authenticate a user and return a JWT",
+        "operationId": "basicQueueDispatcher",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "A bearer token containing a JWT for the user",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Authorization"
+            }
+          }
+        ],
+        "tags": [
+          "Queue Management"
+        ],
+        "requestBody": {
+          "description": "A JSON object including a destination queue and a payload",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/f477c49a-5f40-4127-a79f-1b1742e18582"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A response object including details of the SQS message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/1a446ad0-a699-4b11-92f9-7362deb469e0"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "$ref": "#/components/examples/error"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "$ref": "#/components/examples/error-2d09649e-94bd-4902-8bbb-ed7230c43202"
                   }
                 },
                 "schema": {
@@ -755,7 +759,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:{port}/dev/",
+      "url": "http://localhost:{port}/dev",
       "description": "The local server",
       "variables": {
         "port": {

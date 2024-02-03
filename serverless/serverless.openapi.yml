@@ -11,7 +11,7 @@ documentation:
     url: https://geekinc.ca
     description: "A link to the additional documentation for the API"
   servers:
-    url: http://localhost:{port}/dev/
+    url: http://localhost:{port}/dev
     description: "The local server"
     variables:
       port:
