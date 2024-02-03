@@ -1,6 +1,7 @@
 service: serverless-saas-api
 
 frameworkVersion: "3.38.0"
+configValidationMode: error
 
 useDotenv: true
 
@@ -16,24 +17,26 @@ provider:
   timeout: 10
   environment:
     stage: ${env:STAGE}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - lambda:InvokeFunction
-        - lambda:InvokeAsync
-      Resource: "*"
-    - Effect: Allow
-      Action:
-        - SNS:Publish
-      Resource: "*"
-    - Effect: Allow
-      Action:
-        - SQS:SendMessage
-        - SQS:DeleteMessage
-        - SQS:ReceiveMessage
-        - SQS:GetQueueUrl
-        - SQS:ListQueues
-      Resource: "*"
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - lambda:InvokeFunction
+            - lambda:InvokeAsync
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - SNS:Publish
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - SQS:SendMessage
+            - SQS:DeleteMessage
+            - SQS:ReceiveMessage
+            - SQS:GetQueueUrl
+            - SQS:ListQueues
+          Resource: "*"
   httpApi:
     authorizers:
       jwtAuthorizer:
@@ -45,9 +48,9 @@ custom:
   dotenv:
     logging: false
   serverless-offline:
+    httpPort: 3500
     ignoreJWTSignature: true
     useChildProcesses: true
-    port: 3000
     debug: true
   serverless-offline-sqs:
     autoCreate: true
@@ -58,6 +61,7 @@ custom:
     secretAccessKey: ${env:SQS_SECRET_ACCESS_KEY}
     skipCacheInvalidation: false
     debug: true
+  documentation: ${file(serverless.openapi.yml):documentation}
 
 
 plugins:
@@ -65,9 +69,15 @@ plugins:
   - serverless-offline-direct-lambda
   - serverless-offline-sqs
   - serverless-offline
+  - serverless-openapi-documenter
 
 
-functions: ${file(./src/lambda/serverless-functions.yml)}
+functions:
+  - ${file(./src/lambda/serverless-authorizer.yml)}
+  - ${file(./src/lambda/auth/serverless-functions.yml)}
+  - ${file(./src/lambda/armpit/serverless-functions.yml)}
+  - ${file(./src/lambda/queues/serverless-functions.yml)}
+
 
 resources:
   - ${file(./src/lambda/queues/serverless-queues.yml)}

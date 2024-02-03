@@ -1,0 +1,128 @@
+documentation:
+  version: "v1.0.0"
+  title: "Serverless SaaS API"
+  description: "API designed to handle the needs of a small to medium sized SaaS application"
+  contact:
+    name: "Ben Inkster"
+    url: https://geekinc.ca
+    email: "ben@geekinc.ca"
+  termsOfService: https://geekinc.ca
+  externalDocumentation:
+    url: https://geekinc.ca
+    description: "A link to the additional documentation for the API"
+  servers:
+    url: http://localhost:{port}/dev/
+    description: "The local server"
+    variables:
+      port:
+        enum:
+          - "3500"
+        default: "3500"
+        description: "The port the server operates on"
+  tags:
+    - name: System Health
+      description: "Endpoints to check the health of the system"
+    - name: Authentication
+      description: "Endpoints to handle user authentication"
+    - name: Queue Management
+      description: "Endpoints to manage the queues in the system"
+  models:
+    - name: EmptyContentBody  # This is a model for an empty request body - there is a definition, but it is not used
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+    - name: CreateContentBody
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              content:
+                type: string
+          examples:
+            - name: content
+              description: The content to create or update
+              value: { content: "my name is" }
+    - name: ContentCreatedResponse
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              contentId:
+                type: string
+                format: uuid
+              createdAt:
+                type: number
+    - name: FilterContentBody
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              size:
+                type: number
+              keyword:
+                type: string
+          examples:
+            - name: content
+              description: Filters to use
+              value: { size: 10, keyword: "John" }
+    - name: UnauthorizedResponse
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              errors:
+                type: object
+                nullable: true
+          examples:
+            - name: error
+              description: An error message
+              value: { "statusCode": 401, "error": "Unauthorized", "message": "Unauthorized" }
+    - name: ForbiddenResponse
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              errors:
+                type: object
+                nullable: true
+          examples:
+            - name: error
+              description: An error message
+              value: { "statusCode": 403, "error": "Forbidden", "message": "User is not authorized to access this resource" }
+    - name: ErrorResponse
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+              error:
+                type: string
+              message:
+                type: string
+          examples:
+            - name: error
+              description: An error message
+              value: { "statusCode": 401, "error": "Unauthorized", "message": "Unauthorized" }
+    - name: RawSuccessResponse
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string

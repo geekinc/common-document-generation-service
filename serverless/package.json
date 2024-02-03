@@ -5,19 +5,23 @@
   "author": "Ben Inkster",
   "type": "module",
   "scripts": {
+    "dockerstart": "cd local-dev && ./local-start.sh && cd ..",
+    "dockerstop": "cd local-dev && ./local-stop.sh && cd ..",
     "prestart": "cd local-dev && ./local-start.sh && cd ..",
-    "start": "nodemon ./node_modules/serverless/bin/serverless offline --host 127.0.0.1 start",
-    "quickstart": "nodemon ./node_modules/serverless/bin/serverless offline --host 127.0.0.1 start",
+    "start": "nodemon ./node_modules/serverless/bin/serverless offline start",
+    "quickstart": "nodemon ./node_modules/serverless/bin/serverless offline start",
     "poststart": "cd local-dev && ./local-stop.sh && cd ..",
     "pretest": "cd local-dev && ./local-start.sh && cd ..",
     "test": "jest --coverage --openHandlesTimeout=3000 --force-exit",
     "jest": "jest --coverage --openHandlesTimeout=3000",
     "posttest": "cd local-dev && ./local-stop.sh && cd ..",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy",
+    "openapi": "serverless openapi generate -o ./docs/api/openapi.json -f json -a 3.0.3 -p ./docs/api/postman.json"
   },
   "nodemonConfig": {
     "restartable": false,
     "ext": "js,cjs,ejs,json,hbs,html,yaml,yml",
+    "ignore": ["docs/**", "local-dev/**", "node_modules/**"],
     "events": {
       "start": "echo \"Start event\"",
       "crash": "echo \"Crash event\"",
@@ -55,6 +59,7 @@
     "serverless-offline-direct-lambda": "^0.0.1",
     "serverless-offline-sns": "^0.77.2",
     "serverless-offline-sqs": "^8.0.0",
+    "serverless-openapi-documenter": "^0.0.93",
     "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
   }

@@ -8,7 +8,7 @@ export default class Users {
 
     static async getUserByUsername(username)  {
         try {
-            return await dao.run("SELECT * FROM users WHERE username = ?", [username]);
+            return await dao.run("SELECT * FROM user WHERE username = ?", [username]);
         } catch (e) {
             await logger.error(e);
             throw new Error('Error getting user');
@@ -16,15 +16,15 @@ export default class Users {
     }
 
     static getUserById = async (id) => {
-        return await dao.run('SELECT * FROM users WHERE id = ?', [id]);
+        return await dao.run('SELECT * FROM user WHERE id = ?', [id]);
     }
 
     static getAllUsers = async () => {
-        return await dao.run('SELECT * FROM users', []);
+        return await dao.run('SELECT * FROM user', []);
     }
 
     static getAllUsersCount = async () => {
-        return await dao.run('SELECT count(*) as usersCount FROM users', []);
+        return await dao.run('SELECT count(*) as usersCount FROM user', []);
     }
 
     static createUser = async (username, password) => {
@@ -34,7 +34,7 @@ export default class Users {
         }
 
         const hash = await bcrypt.hash(password, saltRounds);
-        return await dao.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hash]);
+        return await dao.run('INSERT INTO user (username, password) VALUES (?, ?)', [username, hash]);
     }
 
     static updateUser = async (id, fields) => {
@@ -48,27 +48,27 @@ export default class Users {
 
         // if the optional fields are present, execute the query
         if (username) {
-            await dao.run('UPDATE users SET username = ? WHERE id = ?', [username, id]);
+            await dao.run('UPDATE user SET username = ? WHERE id = ?', [username, id]);
         }
 
         if (password) {
             const hash = await bcrypt.hash(password, saltRounds);
-            await dao.run('UPDATE users SET password = ? WHERE id = ?', [hash, id]);
+            await dao.run('UPDATE user SET password = ? WHERE id = ?', [hash, id]);
         }
 
         if (firstname) {
-            await dao.run('UPDATE users SET firstname = ? WHERE id = ?', [firstname, id]);
+            await dao.run('UPDATE user SET firstname = ? WHERE id = ?', [firstname, id]);
         }
 
         if (lastname) {
-            await dao.run('UPDATE users SET lastname = ? WHERE id = ?', [lastname, id]);
+            await dao.run('UPDATE user SET lastname = ? WHERE id = ?', [lastname, id]);
         }
 
-        return await dao.run('SELECT * FROM users WHERE id = ?', [id]);
+        return await dao.run('SELECT * FROM user WHERE id = ?', [id]);
     }
 
     static deleteUser = async (id) => {
-        return await dao.run('DELETE FROM users WHERE id = ?', [id]);
+        return await dao.run('DELETE FROM user WHERE id = ?', [id]);
     }
 
     static setUserRole = async (id, role, token) => {
@@ -83,6 +83,6 @@ export default class Users {
             throw new Error('Unauthorized');
         }
 
-        return await dao.run('UPDATE users SET role = ? WHERE id = ?', [role, id]);
+        return await dao.run('UPDATE user SET role = ? WHERE id = ?', [role, id]);
     }
 }

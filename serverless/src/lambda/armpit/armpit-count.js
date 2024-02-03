@@ -13,6 +13,6 @@ export async function armpitCount (event, context) {
     if (event.pathParameters.count < 0) {
         return response.raw_bad_request('Count must be a positive integer');
     } else {
-        return response.raw_success(event.pathParameters.count);
+        return response.raw_success(event.pathParameters.count + ' armpits counted');
     }
 }
