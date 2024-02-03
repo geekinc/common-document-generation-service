@@ -5,7 +5,7 @@ armpit:
         path: /api/armpit
         method: get
         cors: true
-        authorizer: jwtAuthorizer
+#        authorizer: jwtAuthorizer
         documentation:
           description: "Confirms the functionality of the API - returns the anachronistic word for armpit (oxter)"
           tags:
@@ -48,7 +48,7 @@ armpitCount:
         path: /api/armpit/{count}
         method: get
         cors: true
-        authorizer: jwtAuthorizer
+#        authorizer: jwtAuthorizer
         documentation:
           description: "Returns a simple number of armpits - the number of armpits is passed in the URL as a parameter"
           tags:
