@@ -1,0 +1,102 @@
+{
+  "response": [
+    {
+      "email": "rogerl@levinefurman.com",
+      "enriched": true,
+      "data": {
+        "id": "54a6039d7468692cf077f1ba",
+        "first_name": "Roger",
+        "last_name": "Levine",
+        "name": "Roger Levine",
+        "linkedin_url": "http://www.linkedin.com/in/rogerlevine",
+        "title": "Partner & Estate Planning Attorney",
+        "email_status": "verified",
+        "photo_url": "https://media.licdn.com/dms/image/C4D03AQFQza6NR4ws4w/profile-displayphoto-shrink_200_200/0/1516949031892?e=1694044800&v=beta&t=EkgDg0MgPmjFTYdTOdB-NZIyMKi0G9TVxAxVVUEonD0",
+        "twitter_url": null,
+        "github_url": null,
+        "facebook_url": null,
+        "extrapolated_email_confidence": null,
+        "headline": "Partner & Estate Planning Attorney at the Lawfirm Levine, Furman & Rubin, LLC",
+        "email": "rogerl@levinefurman.com",
+        "organization_id": "54a11e6569702d86b6f55a01",
+        "employment_history": [
+          {
+            "_id": "64a599f5169bff00a3009dce",
+            "created_at": "2023-08-29T16:15:45.273Z",
+            "current": true,
+            "degree": null,
+            "description": null,
+            "emails": null,
+            "end_date": null,
+            "grade_level": null,
+            "kind": null,
+            "major": null,
+            "organization_id": "54a11e6569702d86b6f55a01",
+            "organization_name": "Levine, Furman & Rubin, LLC",
+            "raw_address": null,
+            "start_date": "1982-01-01",
+            "title": "Partner & Estate Planning Attorney",
+            "updated_at": "2023-08-29T16:15:45.273Z",
+            "id": "64a599f5169bff00a3009dce",
+            "key": "64a599f5169bff00a3009dce"
+          }
+        ],
+        "state": "New York",
+        "city": "New York",
+        "country": "United States",
+        "organization": {
+          "id": "54a11e6569702d86b6f55a01",
+          "name": "Levine, Furman & Rubin, LLC",
+          "website_url": "http://www.levinefurman.com",
+          "blog_url": null,
+          "angellist_url": null,
+          "linkedin_url": "http://www.linkedin.com/company/levine-&-furman-llc",
+          "twitter_url": "https://twitter.com/LevineFurmanLaw",
+          "facebook_url": "https://facebook.com/pages/Levine-Furman-Estate-Planning-Law-Firm/109591139085687",
+          "primary_phone": {
+            "number": "+1(732) 238-6000",
+            "source": "Owler",
+            "country_code_added_from_hq": true
+          },
+          "languages": [
+            "English"
+          ],
+          "alexa_ranking": null,
+          "phone": "+1(732) 238-6000",
+          "linkedin_uid": "1013408",
+          "founded_year": 1982,
+          "publicly_traded_symbol": null,
+          "publicly_traded_exchange": null,
+          "logo_url": "https://zenprospect-production.s3.amazonaws.com/uploads/pictures/64b075dd6465130001d0eefe/picture",
+          "crunchbase_url": null,
+          "primary_domain": "levinefurman.com",
+          "sanitized_phone": "+17322386000"
+        },
+        "phone_numbers": [
+          {
+            "raw_number": "+1(732) 238-6000",
+            "sanitized_number": "+17322386000",
+            "type": "work_hq",
+            "position": 0,
+            "status": "no_status",
+            "dnc_status": null,
+            "dnc_other_info": null
+          }
+        ],
+        "intent_strength": null,
+        "show_intent": true,
+        "revealed_for_current_team": true,
+        "departments": [
+          "master_legal"
+        ],
+        "subdepartments": [
+          "lawyer_attorney"
+        ],
+        "functions": [
+          "legal"
+        ],
+        "seniority": "partner"
+      }
+    }
+  ]
+}

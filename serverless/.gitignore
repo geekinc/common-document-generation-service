@@ -1,7 +1,0 @@
-.env
-.tool-versions
-
-/node_modules/
-/coverage/
-/.build/
-/.serverless/
