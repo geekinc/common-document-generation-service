@@ -1,0 +1,83 @@
+service: serverless-saas-api
+
+frameworkVersion: "3.38.0"
+configValidationMode: error
+
+useDotenv: true
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: dev
+  region: us-east-1
+  memorySize: 128
+  timeout: 10
+  environment:
+    stage: ${env:STAGE}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - lambda:InvokeFunction
+            - lambda:InvokeAsync
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - SNS:Publish
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - SQS:SendMessage
+            - SQS:DeleteMessage
+            - SQS:ReceiveMessage
+            - SQS:GetQueueUrl
+            - SQS:ListQueues
+          Resource: "*"
+  httpApi:
+    authorizers:
+      jwtAuthorizer:
+        type: request
+        functionName: jwtAuthorizer
+        enableSimpleResponses: true
+
+custom:
+  dotenv:
+    logging: false
+  serverless-offline:
+    httpPort: 3500
+    ignoreJWTSignature: true
+    useChildProcesses: true
+    debug: true
+  serverless-offline-sqs:
+    autoCreate: true
+    apiVersion: '2012-11-05'
+    endpoint: http://127.0.0.1:9324
+    region: us-east-1
+    accessKeyId: ${env:SQS_ACCESS_KEY_ID}
+    secretAccessKey: ${env:SQS_SECRET_ACCESS_KEY}
+    skipCacheInvalidation: false
+    debug: true
+  documentation: ${file(serverless.openapi.yml):documentation}
+
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline-direct-lambda
+  - serverless-offline-sqs
+  - serverless-offline
+  - serverless-openapi-documenter
+
+
+functions:
+  - ${file(./src/lambda/auth/serverless-authorizer.yml)}
+  - ${file(./src/lambda/login/serverless-functions.yml)}
+  - ${file(./src/lambda/armpit/serverless-functions.yml)}
+  - ${file(./src/lambda/queues/serverless-functions.yml)}
+
+
+resources:
+  - ${file(./src/lambda/queues/serverless-queues.yml)}

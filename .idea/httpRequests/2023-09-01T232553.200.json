@@ -1,0 +1,184 @@
+{
+  "response": [
+    {
+      "email": "pam williams |pam.williams@akerman.com",
+      "enriched": true,
+      "data": {
+        "id": "61081157b15bd70001222bd8",
+        "first_name": "Pam",
+        "last_name": "Williams",
+        "name": "Pam Williams",
+        "linkedin_url": "http://www.linkedin.com/in/pam-williams-mhr-sphr-18a0924",
+        "title": "Chief Human Resources Officer",
+        "email_status": "verified",
+        "photo_url": "https://media.licdn.com/dms/image/C4E03AQFlyngct_go4g/profile-displayphoto-shrink_400_400/0/1526480317550?e=1698278400&v=beta&t=gLQc-H-V91rpFggtk6UoPpvF79I1x0YjkPF3owulkvI",
+        "twitter_url": null,
+        "github_url": null,
+        "facebook_url": null,
+        "extrapolated_email_confidence": null,
+        "headline": "Chief Human Resources Officer at Akerman LLP",
+        "email": "pam.williams@akerman.com",
+        "organization_id": "54a135a069702d2f9f0f2101",
+        "employment_history": [
+          {
+            "_id": "64e650d2097f2300a3c2abab",
+            "created_at": "2023-08-31T07:46:55.953Z",
+            "current": true,
+            "degree": null,
+            "description": null,
+            "emails": null,
+            "end_date": null,
+            "grade_level": null,
+            "kind": null,
+            "major": null,
+            "organization_id": "54a135a069702d2f9f0f2101",
+            "organization_name": "Akerman LLP",
+            "raw_address": null,
+            "start_date": "2017-01-01",
+            "title": "Chief Human Resources Officer",
+            "updated_at": "2023-08-31T07:46:55.953Z",
+            "id": "64e650d2097f2300a3c2abab",
+            "key": "64e650d2097f2300a3c2abab"
+          },
+          {
+            "_id": "64f0456ff1f963000141319a",
+            "created_at": "2023-08-31T07:46:55.977Z",
+            "current": false,
+            "degree": null,
+            "description": null,
+            "emails": null,
+            "end_date": "2017-01-01",
+            "grade_level": null,
+            "kind": null,
+            "major": null,
+            "organization_id": "54a1352469702d4255377500",
+            "organization_name": "Hard Rock International",
+            "raw_address": null,
+            "start_date": "2007-01-01",
+            "title": "Corporate Human Resources Director",
+            "updated_at": "2023-08-31T07:46:55.977Z",
+            "id": "64f0456ff1f963000141319a",
+            "key": "64f0456ff1f963000141319a"
+          },
+          {
+            "_id": "64f0456ff1f963000141319b",
+            "created_at": "2023-08-31T07:46:55.978Z",
+            "current": false,
+            "degree": null,
+            "description": null,
+            "emails": null,
+            "end_date": "2007-01-01",
+            "grade_level": null,
+            "kind": null,
+            "major": null,
+            "organization_id": "55922989736964185f60a500",
+            "organization_name": "Philips",
+            "raw_address": null,
+            "start_date": "2005-01-01",
+            "title": "HR Manager",
+            "updated_at": "2023-08-31T07:46:55.978Z",
+            "id": "64f0456ff1f963000141319b",
+            "key": "64f0456ff1f963000141319b"
+          },
+          {
+            "_id": "64f0456ff1f963000141319c",
+            "created_at": "2023-08-31T07:46:55.978Z",
+            "current": false,
+            "degree": null,
+            "description": null,
+            "emails": null,
+            "end_date": "2005-01-01",
+            "grade_level": null,
+            "kind": null,
+            "major": null,
+            "organization_id": "5f4a62f2dba7a2000174bb3e",
+            "organization_name": "Florida Hospital",
+            "raw_address": null,
+            "start_date": "2003-01-01",
+            "title": "HR Manager",
+            "updated_at": "2023-08-31T07:46:55.978Z",
+            "id": "64f0456ff1f963000141319c",
+            "key": "64f0456ff1f963000141319c"
+          },
+          {
+            "_id": "64f0456ff1f963000141319d",
+            "created_at": "2023-08-31T07:46:55.978Z",
+            "current": false,
+            "degree": null,
+            "description": null,
+            "emails": null,
+            "end_date": "2003-01-01",
+            "grade_level": null,
+            "kind": null,
+            "major": null,
+            "organization_id": "5ed35fcc9fe2bf00018533cd",
+            "organization_name": "JPMorgan Chase",
+            "raw_address": null,
+            "start_date": "1997-01-01",
+            "title": "Sr. Recruiter",
+            "updated_at": "2023-08-31T07:46:55.978Z",
+            "id": "64f0456ff1f963000141319d",
+            "key": "64f0456ff1f963000141319d"
+          }
+        ],
+        "state": "Florida",
+        "city": "Clermont",
+        "country": "United States",
+        "organization": {
+          "id": "54a135a069702d2f9f0f2101",
+          "name": "Akerman LLP",
+          "website_url": "http://www.akerman.com",
+          "blog_url": null,
+          "angellist_url": null,
+          "linkedin_url": "http://www.linkedin.com/company/akerman",
+          "twitter_url": "https://twitter.com/Akerman_Law",
+          "facebook_url": "https://facebook.com/Akerman-LLP-189891151039200/",
+          "primary_phone": {
+            "number": "+1-305-374-5600",
+            "source": "Owler"
+          },
+          "languages": [
+            "English"
+          ],
+          "alexa_ranking": 590735,
+          "phone": "+1-305-374-5600",
+          "linkedin_uid": "15863",
+          "founded_year": 1920,
+          "publicly_traded_symbol": null,
+          "publicly_traded_exchange": null,
+          "logo_url": "https://zenprospect-production.s3.amazonaws.com/uploads/pictures/64bf78d48c81f20001e93c29/picture",
+          "crunchbase_url": null,
+          "primary_domain": "akerman.com",
+          "sanitized_phone": "+13053745600"
+        },
+        "phone_numbers": [
+          {
+            "raw_number": "+1-305-374-5600",
+            "sanitized_number": "+13053745600",
+            "type": "work_hq",
+            "position": 0,
+            "status": "no_status",
+            "dnc_status": null,
+            "dnc_other_info": null
+          }
+        ],
+        "intent_strength": null,
+        "show_intent": true,
+        "revealed_for_current_team": true,
+        "departments": [
+          "c_suite",
+          "master_human_resources"
+        ],
+        "subdepartments": [
+          "human_resources_executive",
+          "human_resources",
+          "talent_management"
+        ],
+        "functions": [
+          "human_resources"
+        ],
+        "seniority": "c_suite"
+      }
+    }
+  ]
+}

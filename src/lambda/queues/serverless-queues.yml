@@ -1,0 +1,7 @@
+Resources:
+  basicQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: basicQueue.fifo
+      FifoQueue: true
+      ContentBasedDeduplication: false
