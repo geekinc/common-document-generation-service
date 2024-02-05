@@ -16,7 +16,7 @@ basicQueueDispatcher:
         path: /api/invoke
         method: post
         cors: true
-        authorizer: jwtAuthorizer
+        authorizer: combinedAuthorizer
         documentation:
           description: "Authenticate a user and return a JWT"
           tags:
