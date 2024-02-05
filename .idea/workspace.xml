@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abe94d3a-d248-48f8-bb41-83aacf9d5806" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/serverless/docs/api/openapi.json" beforeDir="false" afterPath="$PROJECT_DIR$/serverless/docs/api/openapi.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverless/docs/api/postman.json" beforeDir="false" afterPath="$PROJECT_DIR$/serverless/docs/api/postman.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lambda/queues/serverless-functions.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/lambda/queues/serverless-functions.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +24,6 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
-  </component>
-  <component name="PackageJsonUpdateNotifier">
-    <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -52,11 +48,11 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;reworked-serverless-and-frontend&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;staging&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.15.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.15.13&quot;,
-    &quot;last_opened_file_path&quot;: &quot;//wsl.localhost/Ubuntu/home/binkster/repo/dynamic_outbound_sales/apollo-search/serverless/src/__tests__/lambda/auth&quot;,
+    &quot;last_opened_file_path&quot;: &quot;//wsl.localhost/Ubuntu/home/binkster/repo/geek/common-document-generation-service&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -88,11 +84,11 @@
       <recent name="\\wsl.localhost\Ubuntu\home\binkster\repo\dynamic_outbound_sales\apollo-search\serverless\src\lambda\auth" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="\\wsl.localhost\Ubuntu\home\binkster\repo\geek\common-document-generation-service" />
       <recent name="\\wsl.localhost\Ubuntu\home\binkster\repo\dynamic_outbound_sales\apollo-search\serverless\src\__tests__\lambda\login" />
       <recent name="\\wsl.localhost\Ubuntu\home\binkster\repo\dynamic_outbound_sales\apollo-search\serverless\src\lambda\auth" />
       <recent name="\\wsl.localhost\Ubuntu\home\binkster\repo\dynamic_outbound_sales\apollo-search\serverless\src\lambda\login" />
       <recent name="\\wsl.localhost\Ubuntu\home\binkster\repo\dynamic_outbound_sales\apollo-search\serverless\local-dev" />
-      <recent name="\\wsl.localhost\Ubuntu\home\binkster\repo\dynamic_outbound_sales\apollo-search\serverless\src\__tests__\lambda\auth" />
     </key>
   </component>
   <component name="RunManager" selected="Node.js.scratch_26.cjs">
@@ -248,6 +244,8 @@
       <workItem from="1706985815791" duration="28343000" />
       <workItem from="1707077410669" duration="78000" />
       <workItem from="1707077509058" duration="12787000" />
+      <workItem from="1707106946997" duration="1208000" />
+      <workItem from="1707108189342" duration="704000" />
     </task>
     <servers />
   </component>

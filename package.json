@@ -1,5 +1,5 @@
 {
-  "name": "apollo-search-api",
+  "name": "common-document-generation-service",
   "version": "1.0.0",
   "description": "Express API using AWS Lambda",
   "author": "Ben Inkster",
