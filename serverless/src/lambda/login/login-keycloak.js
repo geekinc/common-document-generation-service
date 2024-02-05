@@ -3,6 +3,7 @@ import { logger } from "../../lib/logger-lib.js";
 import Users from '../../lib/user-lib.js';
 import * as jose from 'jose';
 import bcrypt from 'bcrypt';
+import { authenticate } from '../../lib/keycloak-lib.js';
 
 /***********************************************************************************************************************
  * Security Requirements:
@@ -27,20 +28,18 @@ export async function main(event, context) {
             firstName: user.firstName,
             lastName: user.lastName,
             role: user.role,
-            token: ""
+            token: "",
+            refreshToken: ""
         }
 
         try {
-            let result = await bcrypt.compare(password, user.password)
 
-            if (result) {
-                const secret = new TextEncoder().encode(process.env.APP_SECRET);
+            let result = await authenticate(username, password);
 
-                localUser.token = await new jose
-                    .SignJWT(localUser)
-                    .setExpirationTime('30d')
-                    .setProtectedHeader({ alg: "HS256" })
-                    .sign(secret);
+            if (result.status === 'success') {
+
+                localUser.token = result.data.access_token;
+                localUser.refreshToken = result.data.refresh_token;
 
                 return response.success(localUser);
             } else {

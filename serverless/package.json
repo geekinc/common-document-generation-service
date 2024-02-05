@@ -21,7 +21,11 @@
   "nodemonConfig": {
     "restartable": false,
     "ext": "js,cjs,ejs,json,hbs,html,yaml,yml",
-    "ignore": ["docs/**", "local-dev/**", "node_modules/**"],
+    "ignore": [
+      "docs/**",
+      "local-dev/**",
+      "node_modules/**"
+    ],
     "events": {
       "start": "echo \"Start event\"",
       "crash": "echo \"Crash event\"",
@@ -39,6 +43,7 @@
     "joi": "^17.12.1",
     "jose": "^5.2.0",
     "jsonwebtoken": "^9.0.2",
+    "keycloak-connect": "^23.0.6",
     "mysql2": "^3.9.1",
     "njwt": "^1.0.0",
     "nnode": "^0.3.3",
@@ -47,6 +52,7 @@
     "serverless-dotenv-plugin": "^6.0.0",
     "serverless-mysql": "^1.5.5",
     "sqlite3": "^5.1.7",
+    "tcomad-oidc": "^4.2.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

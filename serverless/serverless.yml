@@ -73,8 +73,8 @@ plugins:
 
 
 functions:
-  - ${file(./src/lambda/serverless-authorizer.yml)}
-  - ${file(./src/lambda/auth/serverless-functions.yml)}
+  - ${file(./src/lambda/auth/serverless-authorizer.yml)}
+  - ${file(./src/lambda/login/serverless-functions.yml)}
   - ${file(./src/lambda/armpit/serverless-functions.yml)}
   - ${file(./src/lambda/queues/serverless-functions.yml)}
 
