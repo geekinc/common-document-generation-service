@@ -1,5 +1,5 @@
-const { Event, Context } = require('../../lib/serverless-lib.js');
-const { armpitCount } = require('../../lambda/armpit/armpit-count.js');
+const { Event, Context } = require('../../../lib/serverless-lib.js');
+const { armpitCount } = require('../../../lambda/armpit/armpit-count.js');
 
 /**
  * Test the armpitCount method with a basic response
@@ -17,7 +17,7 @@ test('armpitCount - basic response', async () => {
 
     // Check the response
     expect(result.statusCode).toBe(200);
-    expect(result.body).toBe(event.pathParameters.count);
+    expect(result.body).toBe(event.pathParameters.count + ' armpits counted');
 });
 
 /**

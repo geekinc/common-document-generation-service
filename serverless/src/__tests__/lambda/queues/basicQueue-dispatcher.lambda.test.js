@@ -1,5 +1,5 @@
-import {Context, Event} from "../../lib/serverless-lib.js";
-const { handler } = require('../../lambda/queues/basicQueue-dispatcher.js');
+import {Context, Event} from "../../../lib/serverless-lib.js";
+const { handler } = require('../../../lambda/queues/basicQueue-dispatcher.js');
 
 /**
  * Set up the mock to catch the SQS call

@@ -1,0 +1,8 @@
+jwtAuthorizer:
+  handler: src/lambda/auth/authorizer-jwt.handler             # Local JWT authorizer
+
+oidcAuthorizer:
+  handler: src/lambda/auth/authorizer-oidc.handler            # OIDC authorizer - currently validating against Keycloak
+
+combinedAuthorizer:
+  handler: src/lambda/auth/authorizer-combined.handler        # Combined authorizer - currently validating against Keycloak, then JWT

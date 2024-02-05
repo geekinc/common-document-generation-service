@@ -1,5 +1,5 @@
-const { Event, Context } = require('../../lib/serverless-lib.js');
-const { armpit } = require('../../lambda/armpit/armpit.js');
+const { Event, Context } = require('../../../lib/serverless-lib.js');
+const { armpit } = require('../../../lambda/armpit/armpit.js');
 
 /**
  * Test the armpit method with a basic response

@@ -1,4 +1,0 @@
-jwtAuthorizer:
-  handler: src/auth/authorizer.handler
-
-

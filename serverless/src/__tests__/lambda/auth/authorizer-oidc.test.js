@@ -1,21 +1,19 @@
-const {Event, Context} = require("../../lib/serverless-lib.js");
-const { handler } = require("../../auth/authorizer.js");
 import * as jose from 'jose';
+import { authenticate } from "../../../lib/keycloak-lib.js";
+
+const { Event, Context } = require("../../../lib/serverless-lib.js");
+const { handler } = require("../../../lambda/auth/authorizer-oidc.js");
+
 
 let generatedToken = "created in beforeAll()";
 
 // Generate a valid token for use with the following tests
 beforeAll(async () => {
-    const secret = new TextEncoder().encode(process.env.APP_SECRET);
-
-    generatedToken = await new jose
-        .SignJWT({ id: 1, username: "foo", role: "ADMIN"})
-        .setExpirationTime('1d')
-        .setProtectedHeader({ alg: "HS256" })
-        .sign(secret);
+    let result = await authenticate('foo', '456');
+    generatedToken = result.data.access_token;
 });
 
-test('authorizer - unauthorized (no header)', async () => {
+test('authorizer-oidc - unauthorized (no header)', async () => {
     let event = new Event();
     let context = new Context();
     let result;
@@ -27,7 +25,7 @@ test('authorizer - unauthorized (no header)', async () => {
     expect(result).toBe(false);
 });
 
-test('authorizer - unauthorized (empty header)', async () => {
+test('authorizer-oidc - unauthorized (empty header)', async () => {
     let event = new Event();
     let context = new Context();
     let result;
@@ -42,7 +40,7 @@ test('authorizer - unauthorized (empty header)', async () => {
     expect(result).toBe(false);
 });
 
-test('authorizer - unauthorized (badly formatted bearer token)', async () => {
+test('authorizer-oidc - unauthorized (badly formatted bearer token)', async () => {
     let event = new Event();
     let context = new Context();
     let result;
@@ -57,26 +55,10 @@ test('authorizer - unauthorized (badly formatted bearer token)', async () => {
     expect(result).toBe(false);
 });
 
-test('authorizer - authorized', async () => {
+test('authorizer-oidc - authorized', async () => {
     let event = new Event();
     let context = new Context();
-    let result;
-
-    // Set the bearer token
-    event.authorizationToken = 'Bearer ' + generatedToken;
-
-    // Call our method
-    await handler(event, context, (callbackData) => { result = callbackData });
-
-    // Check the response
-    expect(result).toBe(null);
-});
-
-test('authorizer - authorized', async () => {
-    let event = new Event();
-    let context = new Context();
-    let result;
-    let policy;
+    let result, policy;
 
     // Set the bearer token
     event.authorizationToken = 'Bearer ' + generatedToken;
@@ -92,11 +74,29 @@ test('authorizer - authorized', async () => {
     expect(policy.principalId).toBe(1);
 });
 
-test('authorizer - authorized specific resource', async () => {
+test('authorizer-oidc - authorized callbacks', async () => {
     let event = new Event();
     let context = new Context();
-    let result;
-    let policy;
+    let result, policy;
+
+    // Set the bearer token
+    event.authorizationToken = 'Bearer ' + generatedToken;
+
+    // Call our method
+    await handler(event, context, (callbackData, callbackPolicy) => {
+        result = callbackData;
+        policy = callbackPolicy
+    });
+
+    // Check the response
+    expect(result).toBe(null);
+    expect(policy.principalId).toBe(1);
+});
+
+test('authorizer-oidc - authorized specific resource', async () => {
+    let event = new Event();
+    let context = new Context();
+    let result, policy;
 
     // Set the bearer token
     event.authorizationToken = 'Bearer ' + generatedToken;

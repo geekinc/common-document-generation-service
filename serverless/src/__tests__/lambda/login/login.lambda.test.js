@@ -1,5 +1,5 @@
-const { Event, Context } = require('../../lib/serverless-lib.js');
-import { main } from '../../lambda/auth/login.js';
+import { main } from '../../../lambda/login/login-jwt.js';
+const { Event, Context } = require('../../../lib/serverless-lib.js');
 
 // Mock console methods for testing
 // (this lets us throw an exception and use console.error to capture the error message)

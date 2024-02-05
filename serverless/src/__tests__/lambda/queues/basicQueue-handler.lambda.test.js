@@ -1,5 +1,5 @@
-import {Context, Event} from "../../lib/serverless-lib.js";
-const { promise, callback } = require('../../lambda/queues/basicQueue-handler.js');
+import {Context, Event} from "../../../lib/serverless-lib.js";
+const { promise, callback } = require('../../../lambda/queues/basicQueue-handler.js');
 
 /**
  * This tests the "happy path" functionality with a defined callback
@@ -15,7 +15,7 @@ test('basicQueue async callback - simple call to fetch results', async () => {
 /**
  * This tests the "happy path" functionality from the main promise
  */
-test('basicQueue async callback - simple call to fetch results', async () => {
+test('basicQueue async promise - simple call to fetch results', async () => {
     let event = new Event();
     let context = new Context();
 

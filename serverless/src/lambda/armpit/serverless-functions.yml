@@ -5,7 +5,7 @@ armpit:
         path: /api/armpit
         method: get
         cors: true
-#        authorizer: jwtAuthorizer
+        authorizer: combinedAuthorizer
         documentation:
           description: "Confirms the functionality of the API - returns the anachronistic word for armpit (oxter)"
           tags:
