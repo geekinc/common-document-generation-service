@@ -1,6 +1,6 @@
-# serverless-saas-api
+# Common Document Generation Service
 
-This is a serverless API for a SaaS application. It is built using the Serverless Framework.
+This is a flexible serverless API to generate documents based on data and templates. It is built using the Serverless Framework.
 
 ## Getting Started
 
@@ -34,20 +34,26 @@ The codebase uses the `serverless-dotenv-plugin` to load environment variables f
 The `.env` file should be created in the root of the project and should contain the following variables:
 
 ```bash
-STAGE=dev                       # The stage you are running the serverless API in
-IS_OFFLINE=true                 # This is used to determine if the serverless API is running locally  
+STAGE=dev                             # The stage you are running the serverless API in
 
-SQS_ACCESS_KEY_ID=local         # These values are used to connect to the local ElasticMQ instance
+SQS_ACCESS_KEY_ID=local               # These values are used to connect to the local ElasticMQ instance
 SQS_SECRET_ACCESS_KEY=local
-AWS_DEPLOY_REGION=us-east-1     # NOTE: this is the default for the local system - production can be different
+AWS_DEPLOY_REGION=us-east-1           # NOTE: this is the default for the local system - production can be different
 
-APP_SECRET=secret               # This is used to sign JWT tokens (it should not be "secret" in production)
-SALT_ROUNDS=10                  # This is used to hash passwords (10 is a good default value)
+APP_SECRET=secret                     # This is used to sign JWT tokens (it should not be "secret" in production)
+SALT_ROUNDS=10                        # This is used to hash passwords (10 is a good default value)
 
-MYSQL_HOST=localhost            # These values are used to connect to the local MySQL instance
+MYSQL_HOST=localhost                  # These values are used to connect to the local MySQL instance
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=Sunshine123!
 MYSQL_DATABASE=dynamic
+
+KEYCLOAK_URL=http://localhost:8080    # These values are used to connect to the local Keycloak instance
+KEYCLOAK_REALM=master
+KEYCLOAK_CLIENT_ID=local-client
+KEYCLOAK_CLIENT_SECRET=1f88bd14-7e7f-45e7-be27-d680da6e48d8
+
+
 ```
 
 
