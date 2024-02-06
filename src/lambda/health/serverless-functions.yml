@@ -1,0 +1,42 @@
+health:
+  handler: src/lambda/health/health.handler
+  events:
+    - http:
+        path: /api/health
+        method: get
+        cors: true
+        authorizer: combinedAuthorizer
+        documentation:
+          description: "This endpoint is used to see if the API is up and running."
+          tags:
+            - System Health
+          requestModels:
+            application/json: "CreateContentBody"
+          headerParams:
+            - name: "Authorization"
+              description: "(BearerAuth and OpenID)"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "An empty response with a 200 status"
+              responseModels:
+                application/json: RawSuccessResponse
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: UnauthorizedResponse
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message the system is down"
+              responseModels:
+                application/json: ErrorResponse
+

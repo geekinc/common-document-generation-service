@@ -92,6 +92,7 @@ plugins:
 functions:
   - ${file(./src/lambda/auth/serverless-authorizer.yml)}
   - ${file(./src/lambda/login/serverless-functions.yml)}
+  - ${file(./src/lambda/health/serverless-functions.yml)}
   - ${file(./src/lambda/armpit/serverless-functions.yml)}
   - ${file(./src/lambda/queues/serverless-functions.yml)}
   - ${file(./src/lambda/templates/serverless-functions.yml)}
