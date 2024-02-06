@@ -1,6 +1,6 @@
 documentation:
   version: "v1.0.0"
-  title: "Serverless SaaS API"
+  title: "Common Document Generation Service (Serverless)"
   description: "API designed to handle the needs of a small to medium sized SaaS application"
   contact:
     name: "Ben Inkster"

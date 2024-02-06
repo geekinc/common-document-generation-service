@@ -1,4 +1,4 @@
-service: serverless-saas-api
+service: common-document-generation-service
 
 frameworkVersion: "3.38.0"
 configValidationMode: error
@@ -37,6 +37,12 @@ provider:
             - SQS:GetQueueUrl
             - SQS:ListQueues
           Resource: "*"
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+          Resource: "*"
+
   httpApi:
     authorizers:
       jwtAuthorizer:
@@ -61,6 +67,11 @@ custom:
     secretAccessKey: ${env:SQS_SECRET_ACCESS_KEY}
     skipCacheInvalidation: false
     debug: true
+  serverless-offline-s3:
+    endpoint: http://127.0.0.1:9000
+    region: us-east-1
+    accessKey: minioadmin
+    secretKey: minioadmin
   documentation: ${file(serverless.openapi.yml):documentation}
 
 
@@ -68,6 +79,7 @@ plugins:
   - serverless-dotenv-plugin
   - serverless-offline-direct-lambda
   - serverless-offline-sqs
+  - serverless-offline-s3
   - serverless-offline
   - serverless-openapi-documenter
 
@@ -81,3 +93,4 @@ functions:
 
 resources:
   - ${file(./src/lambda/queues/serverless-queues.yml)}
+  - ${file(./src/lambda/templates/serverless-s3.yml)}

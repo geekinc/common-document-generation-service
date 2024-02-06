@@ -87,7 +87,7 @@
           }
         }
       },
-      "ab9c59c9-8083-47ac-9b6c-749bdd102642": {
+      "cbb0d1fc-5eaa-4723-b250-e69a862c54b7": {
         "type": "object",
         "properties": {
           "username": {
@@ -100,7 +100,7 @@
           }
         }
       },
-      "d868dee4-af60-4250-83cc-47b879a6b77b": {
+      "b7066749-4721-4bd7-b434-3de2c0332309": {
         "type": "object",
         "properties": {
           "id": {
@@ -126,7 +126,7 @@
         "type": "boolean",
         "default": true
       },
-      "f6786b42-1e39-4420-a24e-e2cce6529ab2": {
+      "9639b3fe-1880-4477-a9c5-fa2aee1dab94": {
         "type": "object",
         "properties": {
           "username": {
@@ -139,7 +139,7 @@
           }
         }
       },
-      "bcd9d01d-e1f3-4713-bb17-597501abcb30": {
+      "3a996d05-8fde-4180-b2ae-9c1398943b0b": {
         "type": "object",
         "properties": {
           "id": {
@@ -163,7 +163,7 @@
         "type": "string",
         "pattern": "^[-0-9_]+$"
       },
-      "e91f5721-c676-47ab-b82c-4394c0514ece": {
+      "2d1019ca-9fef-43d5-9d82-53f2a7ed757c": {
         "type": "object",
         "properties": {
           "destination": {
@@ -180,7 +180,7 @@
           }
         }
       },
-      "2dd8460c-495a-477b-b377-efd4bd2b6dd1": {
+      "5704c672-f720-4620-b851-d959cde48dfd": {
         "type": "object",
         "properties": {
           "message": {
@@ -220,7 +220,7 @@
           "message": "Unauthorized"
         }
       },
-      "error-9e9b53c7-3e91-4d4a-b254-59c8a57666fc": {
+      "error-22cf6427-8362-48f5-ab6c-91f998ac0d53": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -228,7 +228,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-727d8aef-0445-44f9-8f97-6578b2220c25": {
+      "error-6a479a83-216b-4df0-98ce-584169033c6a": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -236,7 +236,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-7f737a04-9a74-412f-9f56-aba68896cbb1": {
+      "error-c71a3537-bb22-4c10-85be-8b7846b43f3e": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -247,7 +247,7 @@
     }
   },
   "info": {
-    "title": "Serverless SaaS API",
+    "title": "Common Document Generation Service (Serverless)",
     "description": "API designed to handle the needs of a small to medium sized SaaS application",
     "version": "v1.0.0",
     "termsOfService": "https://geekinc.ca",
@@ -273,7 +273,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ab9c59c9-8083-47ac-9b6c-749bdd102642"
+                "$ref": "#/components/schemas/cbb0d1fc-5eaa-4723-b250-e69a862c54b7"
               }
             }
           }
@@ -284,7 +284,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/d868dee4-af60-4250-83cc-47b879a6b77b"
+                  "$ref": "#/components/schemas/b7066749-4721-4bd7-b434-3de2c0332309"
                 }
               }
             },
@@ -367,8 +367,8 @@
     "/api/login-jwt": {
       "post": {
         "summary": "",
-        "description": "Authenticate a user and return a JWT",
-        "operationId": "jwt",
+        "description": "Authenticate a user using the user table and return a JWT",
+        "operationId": "loginJWT",
         "parameters": [],
         "tags": [
           "Authentication"
@@ -379,7 +379,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/f6786b42-1e39-4420-a24e-e2cce6529ab2"
+                "$ref": "#/components/schemas/9639b3fe-1880-4477-a9c5-fa2aee1dab94"
               }
             }
           }
@@ -390,7 +390,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/bcd9d01d-e1f3-4713-bb17-597501abcb30"
+                  "$ref": "#/components/schemas/3a996d05-8fde-4180-b2ae-9c1398943b0b"
                 }
               }
             },
@@ -549,7 +549,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-9e9b53c7-3e91-4d4a-b254-59c8a57666fc"
+                    "$ref": "#/components/examples/error-22cf6427-8362-48f5-ab6c-91f998ac0d53"
                   }
                 },
                 "schema": {
@@ -692,7 +692,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-727d8aef-0445-44f9-8f97-6578b2220c25"
+                    "$ref": "#/components/examples/error-6a479a83-216b-4df0-98ce-584169033c6a"
                   }
                 },
                 "schema": {
@@ -772,7 +772,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/e91f5721-c676-47ab-b82c-4394c0514ece"
+                "$ref": "#/components/schemas/2d1019ca-9fef-43d5-9d82-53f2a7ed757c"
               }
             }
           }
@@ -783,7 +783,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/2dd8460c-495a-477b-b377-efd4bd2b6dd1"
+                  "$ref": "#/components/schemas/5704c672-f720-4620-b851-d959cde48dfd"
                 }
               }
             },
@@ -837,7 +837,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-7f737a04-9a74-412f-9f56-aba68896cbb1"
+                    "$ref": "#/components/examples/error-c71a3537-bb22-4c10-85be-8b7846b43f3e"
                   }
                 },
                 "schema": {

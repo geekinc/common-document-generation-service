@@ -61,7 +61,7 @@ login:
                 application/json: ErrorResponse
 
 
-login-jwt:
+loginJWT:
   handler: src/lambda/login/login-jwt.main
   events:
     - http:
@@ -69,7 +69,7 @@ login-jwt:
         method: post
         cors: true
         documentation:
-          description: "Authenticate a user and return a JWT"
+          description: "Authenticate a user using the user table and return a JWT"
           tags:
             - Authentication
           requestBody:

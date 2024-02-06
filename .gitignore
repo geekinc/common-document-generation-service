@@ -6,3 +6,5 @@
 /.build/
 /.serverless/
 /.idea/
+
+/local-dev/data/cdgs-templates/
