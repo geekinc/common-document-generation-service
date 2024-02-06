@@ -1,0 +1,11 @@
+templateUpload:
+  handler: src/lambda/templates/template-upload.handler
+  timeout: 30
+  events:
+    - http:
+        path: /api/template
+        method: post
+        cors: true
+#        authorizer: combinedAuthorizer
+  role: UploadRole
+

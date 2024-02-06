@@ -6,7 +6,9 @@ This is a flexible serverless API to generate documents based on data and templa
 
 ### Prerequisites
 
-* Node.js (>= v16.20.0)
+Quick install for Geek: `asdf local nodejs 18.16.1`
+
+* Node.js (>= v18.16.1)
 * NPM (>= 8.3.0)
 * Docker (>= 25.0.2)
 * AWS CLI (>= 2.2.4)

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { createRemoteJWKSet, importJWK, jwtVerify } from "jose";
-import * as jose from "jose";
 
 const authenticate = async (username, password) => {
     return await axios.post(
@@ -29,17 +28,12 @@ const authenticate = async (username, password) => {
 // Huge help understanding the process of verifying a keycloak token from this site:
 // https://www.janua.fr/keycloak-access-token-verification-example/
 const verify = async (token) => {
-    let rsaPublicKey;
+    const rsaPublicKeys = await createRemoteJWKSet(
+        new URL(process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/certs')
+    );
 
     try {
-        const keys = await axios.get(process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/certs', {})
-        rsaPublicKey = await importJWK(keys.data.keys[0], 'RS256');
-    } catch (e) {
-        return { status: 'error', data: 'Error getting public key' };
-    }
-
-    try {
-        const { payload, protectedHeader } = await jwtVerify( token, rsaPublicKey );
+        const { payload, protectedHeader } = await jwtVerify( token, rsaPublicKeys);
         return { status: 'success', data: payload };
     } catch (e) {
         return { status: 'error', data: 'Invalid token' };

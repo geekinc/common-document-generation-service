@@ -116,7 +116,7 @@ test('keycloak-lib - verify invalid realm', async () => {
 
     expect(result).toHaveProperty('status');
     expect(result.status).toBe('error');
-    expect(result.data).toBe('Error getting public key');
+    expect(result.data).toBe('Invalid token');
 
     process.env.KEYCLOAK_REALM = savedRealm;
 });

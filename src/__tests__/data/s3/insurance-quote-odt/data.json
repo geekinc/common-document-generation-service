@@ -1,0 +1,52 @@
+{
+  "companyName": "JohnInsurance & Co",
+  "period": 2,
+  "sD": 1659041229,
+  "id":2891,
+  "insured": {
+    "name": "Jean Michel",
+    "street": "23, Sycamore Street",
+    "city": "New York",
+    "phone": "+33 2 38 99 18 23"
+  },
+  "showPropertyDamage": false,
+  "propertyDamage": [
+    {
+      "type": "Fire"
+    },
+    {
+      "type": "Wind"
+    },
+    {
+      "type": "Hail"
+    },
+    {
+      "type": "Water"
+    }
+  ],
+  "options" : [
+    {
+      "type": "Furniture",
+      "note": "/",
+      "cost": 1200
+    },
+    {
+      "type": "Appliances",
+      "note": "/",
+      "cost": 400
+    },
+    {
+      "type": "Clothing",
+      "note": "/",
+      "cost": 300
+    },
+    {
+      "type": "Dishes",
+      "note": "in some cases",
+      "cost": 300
+    }
+  ],
+  "optionsTotalHT": 2200,
+  "optionsTaxes": 10,
+  "optionsTotal": 2420
+}

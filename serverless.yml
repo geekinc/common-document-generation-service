@@ -11,6 +11,10 @@ package:
 provider:
   name: aws
   runtime: nodejs16.x
+  lambdaHashingVersion: 20201221
+  apiGateway:
+    binaryMediaTypes:
+      - 'multipart/form-data'
   stage: dev
   region: us-east-1
   memorySize: 128
@@ -39,25 +43,19 @@ provider:
           Resource: "*"
         - Effect: Allow
           Action:
-            - s3:GetObject
-            - s3:PutObject
+            - s3:*
           Resource: "*"
 
-  httpApi:
-    authorizers:
-      jwtAuthorizer:
-        type: request
-        functionName: jwtAuthorizer
-        enableSimpleResponses: true
+#  httpApi:
+#    authorizers:
+#      jwtAuthorizer:
+#        type: request
+#        functionName: jwtAuthorizer
+#        enableSimpleResponses: true
 
 custom:
   dotenv:
     logging: false
-  serverless-offline:
-    httpPort: 3500
-    ignoreJWTSignature: true
-    useChildProcesses: true
-    debug: true
   serverless-offline-sqs:
     autoCreate: true
     apiVersion: '2012-11-05'
@@ -67,11 +65,17 @@ custom:
     secretAccessKey: ${env:SQS_SECRET_ACCESS_KEY}
     skipCacheInvalidation: false
     debug: true
-  serverless-offline-s3:
-    endpoint: http://127.0.0.1:9000
-    region: us-east-1
-    accessKey: minioadmin
-    secretKey: minioadmin
+  s3:
+    address: 'localhost'
+    port: 4569
+    accessKeyId: ${env:S3_ACCESS_KEY_ID}
+    secretAccessKey: ${env:S3_SECRET_ACCESS_KEY}
+    directory: './local-dev/serverless-s3-local'
+  serverless-offline:
+    httpPort: 3500
+    ignoreJWTSignature: true
+    useChildProcesses: true
+    debug: true
   documentation: ${file(serverless.openapi.yml):documentation}
 
 
@@ -79,7 +83,8 @@ plugins:
   - serverless-dotenv-plugin
   - serverless-offline-direct-lambda
   - serverless-offline-sqs
-  - serverless-offline-s3
+#  - serverless-offline-s3
+  - serverless-s3-local
   - serverless-offline
   - serverless-openapi-documenter
 
@@ -89,7 +94,7 @@ functions:
   - ${file(./src/lambda/login/serverless-functions.yml)}
   - ${file(./src/lambda/armpit/serverless-functions.yml)}
   - ${file(./src/lambda/queues/serverless-functions.yml)}
-
+  - ${file(./src/lambda/templates/serverless-functions.yml)}
 
 resources:
   - ${file(./src/lambda/queues/serverless-queues.yml)}
