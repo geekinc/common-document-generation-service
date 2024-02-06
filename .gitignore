@@ -7,4 +7,4 @@
 /.serverless/
 /.idea/
 
-/local-dev/data/cdgs-templates/
+/local-dev/serverless-s3-local/cdgs-templates/

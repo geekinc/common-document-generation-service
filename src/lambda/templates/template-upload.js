@@ -4,26 +4,30 @@ const s3 = new AWS.S3({
     s3ForcePathStyle: true,
     accessKeyId: process.env.S3_ACCESS_KEY_ID,
     secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    endpoint: new AWS.Endpoint(process.env.S3_ENDPOINT),
+    endpoint: process.env.S3_ENDPOINT,
 });
-
 
 export async function handler (event) {
 
-    const data = await parser.parse(event);
-    let files = [];
+    // Grab the data from the multipart form
+    let data = await parser.parse(event);
+    data = data.files;
 
-    for (let i = 0; i < data.files.length; i++) {
-        if (data.files[i].filename) {
+    let files = [];
+    for (let i = 0; i < data.length; i++) {
+        /* istanbul ignore next */  // Transpiled code means code coverage is not 100% without this
+        if (data[i].filename) {
             try {
-                await s3.putObject({Bucket: process.env.S3_BUCKET, Key: data.files[i].filename, ACL: 'public-read', Body: data.files[i].content}).promise();
-                files.push({link: `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/${data.files[i].filename}`});
+                await s3.putObject({
+                    Bucket: process.env.S3_BUCKET,
+                    Key: data[i].filename,
+                    ACL: 'public-read',
+                    Body: data[i].data
+                }).promise();
             } catch (err) {
-                return {
-                    statusCode: 500,
-                    body: JSON.stringify({message: err.stack})
-                }
+                return { statusCode: 500, body: JSON.stringify({message: err.stack}) }
             }
+            files.push({link: `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/${data[i].filename}`});
         }
     }
 
