@@ -11,15 +11,13 @@ const s3 = new AWS.S3({
 export async function handler (event) {
 
     const data = await parser.parse(event);
+    let files = [];
 
     for (let i = 0; i < data.files.length; i++) {
         if (data.files[i].filename) {
             try {
                 await s3.putObject({Bucket: process.env.S3_BUCKET, Key: data.files[i].filename, ACL: 'public-read', Body: data.files[i].content}).promise();
-                return {
-                    statusCode: 200,
-                    body: JSON.stringify({link: `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/${data.files[i].filename}`})
-                }
+                files.push({link: `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/${data.files[i].filename}`});
             } catch (err) {
                 return {
                     statusCode: 500,
@@ -27,6 +25,11 @@ export async function handler (event) {
                 }
             }
         }
+    }
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify(files)
     }
 
 }
