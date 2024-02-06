@@ -2,15 +2,12 @@ import AWS from "aws-sdk";
 import Joi from "joi";
 import { v4 as uuidv4 } from 'uuid';
 import { logger } from "../../lib/logger-lib.js";
-
 import { success, failure } from "../../lib/response-lib.cjs";
-
-// const awsHelper = require("../utils/aws.helper.js");
 
 const bodySchema = Joi.object({
     destination: Joi
         .string()
-        .valid("basicQueue", "basicQueue.fifo")
+        .valid(process.env.SQS_QUEUE_NAME, `${process.env.SQS_QUEUE_NAME}.fifo`)
         .description("The destination you want to forward the payload to")
         .required(),
     payload: Joi
@@ -52,7 +49,7 @@ export async function handler (event, context) {
 
     const id = uuidv4();
     let sqsOutput = await sqs.sendMessage({
-        QueueUrl: 'http://localhost:9324/queue/basicQueue.fifo',
+        QueueUrl: `${process.env.SQS_ENDPOINT}/queue/${process.env.SQS_QUEUE_NAME}.fifo`,
         MessageBody: body,
         MessageGroupId: id,
         MessageDeduplicationId: id,
