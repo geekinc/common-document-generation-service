@@ -22,7 +22,7 @@ export async function handler (event) {
                     Bucket: process.env.S3_BUCKET,
                     Key: data[i].filename,
                     ACL: 'public-read',
-                    Body: data[i].data
+                    Body: data[i].content
                 }).promise();
             } catch (err) {
                 return { statusCode: 500, body: JSON.stringify({message: err.stack}) }
