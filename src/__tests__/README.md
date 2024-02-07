@@ -27,9 +27,8 @@ The tests are run using the `npm run test` command from the root of the project.
 If you want to do quick testing while developing, you can run the tests using the `npm run jest` command. This will
 only execute the Jest tests without starting and stopping the docker containers.
 
----
-**NOTE**
+**NOTE:**
+
 If you run `npm run jest` make certain that the docker containers are already running. 
 You can start them manually using `npm run pretest`. 
 To stop them, you can use `npm run posttest`.
-___

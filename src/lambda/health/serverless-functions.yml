@@ -40,3 +40,45 @@ health:
               responseModels:
                 application/json: ErrorResponse
 
+file-types:
+  handler: src/lambda/health/file-types.handler
+  events:
+    - http:
+        path: /api/fileTypes
+        method: get
+        cors: true
+        authorizer: combinedAuthorizer
+        documentation:
+          description: "Returns a dictionary of supported input template file types and output file types."
+          tags:
+            - File Types
+          requestModels:
+            application/json: "CreateContentBody"
+          headerParams:
+            - name: "Authorization"
+              description: "(BearerAuth and OpenID)"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "An empty response with a 200 status"
+              responseModels:
+                application/json: RawSuccessResponse
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: UnauthorizedResponse
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message the system is down"
+              responseModels:
+                application/json: ErrorResponse
+

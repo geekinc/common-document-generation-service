@@ -22,6 +22,8 @@ documentation:
   tags:
     - name: System Health
       description: "Endpoints to check the health of the system"
+    - name: File Types
+      description: "Endpoints to check the supported file types defined by the Carbone JS library."
     - name: Authentication
       description: "Endpoints to handle user authentication"
     - name: Queue Management

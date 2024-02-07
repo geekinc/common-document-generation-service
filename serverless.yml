@@ -46,13 +46,6 @@ provider:
             - s3:*
           Resource: "*"
 
-#  httpApi:
-#    authorizers:
-#      jwtAuthorizer:
-#        type: request
-#        functionName: jwtAuthorizer
-#        enableSimpleResponses: true
-
 custom:
   dotenv:
     logging: false
@@ -83,7 +76,6 @@ plugins:
   - serverless-dotenv-plugin
   - serverless-offline-direct-lambda
   - serverless-offline-sqs
-#  - serverless-offline-s3
   - serverless-s3-local
   - serverless-offline
   - serverless-openapi-documenter
@@ -93,9 +85,9 @@ functions:
   - ${file(./src/lambda/auth/serverless-authorizer.yml)}
   - ${file(./src/lambda/login/serverless-functions.yml)}
   - ${file(./src/lambda/health/serverless-functions.yml)}
-  - ${file(./src/lambda/armpit/serverless-functions.yml)}
   - ${file(./src/lambda/queues/serverless-functions.yml)}
   - ${file(./src/lambda/templates/serverless-functions.yml)}
+
 
 resources:
   - ${file(./src/lambda/queues/serverless-queues.yml)}

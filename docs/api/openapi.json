@@ -87,7 +87,7 @@
           }
         }
       },
-      "cbb0d1fc-5eaa-4723-b250-e69a862c54b7": {
+      "6bb35cba-0b83-4dff-87e7-b2c984df3a65": {
         "type": "object",
         "properties": {
           "username": {
@@ -100,7 +100,7 @@
           }
         }
       },
-      "b7066749-4721-4bd7-b434-3de2c0332309": {
+      "efdff6ef-23dd-4d78-bd44-0cf743d2f0c1": {
         "type": "object",
         "properties": {
           "id": {
@@ -126,7 +126,7 @@
         "type": "boolean",
         "default": true
       },
-      "9639b3fe-1880-4477-a9c5-fa2aee1dab94": {
+      "b19dc8aa-2485-4a43-9ee2-bc9c565c0519": {
         "type": "object",
         "properties": {
           "username": {
@@ -139,7 +139,7 @@
           }
         }
       },
-      "3a996d05-8fde-4180-b2ae-9c1398943b0b": {
+      "77ca9176-81a8-4689-9504-679f6a5a0b25": {
         "type": "object",
         "properties": {
           "id": {
@@ -159,11 +159,7 @@
       "Authorization": {
         "type": "string"
       },
-      "count": {
-        "type": "string",
-        "pattern": "^[-0-9_]+$"
-      },
-      "2d1019ca-9fef-43d5-9d82-53f2a7ed757c": {
+      "734fa624-873d-44ee-9de0-183d22d54f16": {
         "type": "object",
         "properties": {
           "destination": {
@@ -180,7 +176,7 @@
           }
         }
       },
-      "5704c672-f720-4620-b851-d959cde48dfd": {
+      "26f99436-85e1-4703-ad9d-da84a28bc4d9": {
         "type": "object",
         "properties": {
           "message": {
@@ -220,7 +216,7 @@
           "message": "Unauthorized"
         }
       },
-      "error-22cf6427-8362-48f5-ab6c-91f998ac0d53": {
+      "error-54d83522-8bfd-4747-9420-189dae6a04b5": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -228,7 +224,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-6a479a83-216b-4df0-98ce-584169033c6a": {
+      "error-f9787e9d-284f-4b9e-ba0c-4aed02cb3560": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -236,7 +232,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-c71a3537-bb22-4c10-85be-8b7846b43f3e": {
+      "error-be28f069-d2c2-44e5-b414-6698733d1a5f": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -273,7 +269,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/cbb0d1fc-5eaa-4723-b250-e69a862c54b7"
+                "$ref": "#/components/schemas/6bb35cba-0b83-4dff-87e7-b2c984df3a65"
               }
             }
           }
@@ -284,7 +280,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/b7066749-4721-4bd7-b434-3de2c0332309"
+                  "$ref": "#/components/schemas/efdff6ef-23dd-4d78-bd44-0cf743d2f0c1"
                 }
               }
             },
@@ -379,7 +375,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/9639b3fe-1880-4477-a9c5-fa2aee1dab94"
+                "$ref": "#/components/schemas/b19dc8aa-2485-4a43-9ee2-bc9c565c0519"
               }
             }
           }
@@ -390,7 +386,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/3a996d05-8fde-4180-b2ae-9c1398943b0b"
+                  "$ref": "#/components/schemas/77ca9176-81a8-4689-9504-679f6a5a0b25"
                 }
               }
             },
@@ -470,16 +466,16 @@
         }
       }
     },
-    "/api/armpit": {
+    "/api/health": {
       "get": {
         "summary": "",
-        "description": "Confirms the functionality of the API - returns the anachronistic word for armpit (oxter)",
-        "operationId": "armpit",
+        "description": "This endpoint is used to see if the API is up and running.",
+        "operationId": "health",
         "parameters": [
           {
             "name": "Authorization",
             "in": "header",
-            "description": "A bearer token containing a JWT for the user",
+            "description": "(BearerAuth and OpenID)",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/Authorization"
@@ -491,7 +487,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A simple one word response",
+            "description": "An empty response with a 200 status",
             "content": {
               "application/json": {
                 "schema": {
@@ -549,7 +545,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-22cf6427-8362-48f5-ab6c-91f998ac0d53"
+                    "$ref": "#/components/examples/error-54d83522-8bfd-4747-9420-189dae6a04b5"
                   }
                 },
                 "schema": {
@@ -573,7 +569,7 @@
             }
           },
           "500": {
-            "description": "An error message when returning the word fails",
+            "description": "An error message the system is down",
             "content": {
               "application/json": {
                 "examples": {
@@ -604,25 +600,16 @@
         }
       }
     },
-    "/api/armpit/{count}": {
+    "/api/fileTypes": {
       "get": {
         "summary": "",
-        "description": "Returns a simple number of armpits - the number of armpits is passed in the URL as a parameter",
-        "operationId": "armpitCount",
+        "description": "Returns a dictionary of supported input template file types and output file types.",
+        "operationId": "types",
         "parameters": [
-          {
-            "name": "count",
-            "in": "path",
-            "description": "The number of armpits to return",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/count"
-            }
-          },
           {
             "name": "Authorization",
             "in": "header",
-            "description": "A bearer token containing a JWT for the user",
+            "description": "(BearerAuth and OpenID)",
             "required": true,
             "schema": {
               "$ref": "#/components/schemas/Authorization"
@@ -630,11 +617,11 @@
           }
         ],
         "tags": [
-          "System Health"
+          "File Types"
         ],
         "responses": {
           "200": {
-            "description": "A phrase describing the number of armpits",
+            "description": "An empty response with a 200 status",
             "content": {
               "application/json": {
                 "schema": {
@@ -692,7 +679,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-6a479a83-216b-4df0-98ce-584169033c6a"
+                    "$ref": "#/components/examples/error-f9787e9d-284f-4b9e-ba0c-4aed02cb3560"
                   }
                 },
                 "schema": {
@@ -716,7 +703,7 @@
             }
           },
           "500": {
-            "description": "An error message returning the response fails",
+            "description": "An error message the system is down",
             "content": {
               "application/json": {
                 "examples": {
@@ -772,7 +759,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/2d1019ca-9fef-43d5-9d82-53f2a7ed757c"
+                "$ref": "#/components/schemas/734fa624-873d-44ee-9de0-183d22d54f16"
               }
             }
           }
@@ -783,7 +770,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/5704c672-f720-4620-b851-d959cde48dfd"
+                  "$ref": "#/components/schemas/26f99436-85e1-4703-ad9d-da84a28bc4d9"
                 }
               }
             },
@@ -837,7 +824,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-c71a3537-bb22-4c10-85be-8b7846b43f3e"
+                    "$ref": "#/components/examples/error-be28f069-d2c2-44e5-b414-6698733d1a5f"
                   }
                 },
                 "schema": {
@@ -912,6 +899,10 @@
     {
       "name": "System Health",
       "description": "Endpoints to check the health of the system"
+    },
+    {
+      "name": "File Types",
+      "description": "Endpoints to check the supported file types defined by the Carbone JS library."
     },
     {
       "name": "Authentication",
