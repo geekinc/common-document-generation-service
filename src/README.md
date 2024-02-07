@@ -9,9 +9,6 @@ This is where we put all of the code that makes up the serverless API.  The code
   - The tests are run using the `npm run test` command.
   - The tests are run using the `npm run jest` command - this will require MySQL endpoints to run.
   - More information about the tests can be found in the [./\__tests__/README.md](./__tests__/README.md) file.
-- `controllers`
-  - **This directory contains the code for the controllers.**
-  - The controllers are responsible for handling the requests and returning the appropriate responses.
 - `lambda`      
   - **This directory contains the code for the lambda functions.**  
   - The lambda functions are responsible for handling the requests and returning the appropriate responses.
