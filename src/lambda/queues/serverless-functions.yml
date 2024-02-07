@@ -4,7 +4,7 @@ basicQueueHandler:
     - sqs:
         arn:
           Fn::GetAtt:
-            - basicQueue
+            - cdgsQueueResource
             - Arn
 
 

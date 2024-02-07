@@ -10,7 +10,7 @@ package:
 
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs18.x
   lambdaHashingVersion: 20201221
   apiGateway:
     binaryMediaTypes:
@@ -21,6 +21,7 @@ provider:
   timeout: 10
   environment:
     stage: ${env:STAGE}
+    SQS_QUEUE_NAME: ${env:SQS_QUEUE_NAME}
   iam:
     role:
       statements:

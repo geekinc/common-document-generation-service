@@ -1,7 +1,7 @@
 Resources:
-  basicQueue:
+  cdgsQueueResource:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: basicQueue.fifo
+      QueueName: ${env:SQS_QUEUE_NAME}.fifo
       FifoQueue: true
       ContentBasedDeduplication: false
