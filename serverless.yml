@@ -47,6 +47,7 @@ provider:
           Resource: "*"
 
 custom:
+  resultTtlInSeconds: 0
   dotenv:
     logging: false
   serverless-offline-sqs:
