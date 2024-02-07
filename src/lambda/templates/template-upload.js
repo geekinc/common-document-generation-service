@@ -1,11 +1,20 @@
 import AWS from "aws-sdk";
 import parser from 'partparse';
-const s3 = new AWS.S3({
-    s3ForcePathStyle: true,
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-    endpoint: process.env.S3_ENDPOINT,
-});
+let s3;
+
+if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local config
+    s3 = new AWS.S3({
+        s3ForcePathStyle: true,
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        endpoint: process.env.S3_ENDPOINT,
+    });
+} else {                                                            // AWS config
+    s3 = new AWS.S3({
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    });
+}
 
 export async function handler (event) {
 
