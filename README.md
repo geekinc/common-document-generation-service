@@ -1,4 +1,4 @@
-# Common Document Generation Service (Serverless Framework)
+# Common Document Generation Service <br>(Serverless Framework)
 
 This is a flexible serverless API to generate documents based on data and templates. It is built using the Serverless Framework.
 
