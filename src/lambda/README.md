@@ -46,7 +46,9 @@ armpit:
         path: /api/armpit
         method: get
         cors: true
-        authorizer: combinedAuthorizer
+        authorizer:
+          name: combinedAuthorizer
+          resultTtlInSeconds: ${self:custom.resultTtlInSeconds}
 ```
 
 This means that the `armpit` endpoint is a `GET` request that is available at `http://localhost:3500/dev/api/armpit`.

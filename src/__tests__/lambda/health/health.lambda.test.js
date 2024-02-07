@@ -1,5 +1,6 @@
 const { Event, Context } = require('../../../lib/serverless-lib.js');
 const { handler } = require('../../../lambda/health/health.js');
+process.env.LOG_LEVEL = 'off';
 
 /**
  * Test the health method with a basic response

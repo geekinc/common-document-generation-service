@@ -1,4 +1,5 @@
 import { dao } from "../../lib/dao-mysql-lib.cjs";
+process.env.LOG_LEVEL = 'off';
 
 test('dao-lib - simple SQL tests', async () => {
     let result = await dao.run("SHOW GLOBAL STATUS LIKE 'Uptime'");

@@ -7,7 +7,9 @@ templateUpload:
         path: /api/template
         method: post
         cors: true
-#        authorizer: combinedAuthorizer
+        authorizer:
+          name: combinedAuthorizer
+          resultTtlInSeconds: ${self:custom.resultTtlInSeconds}
         documentation:
           description: "Submit a template for processing"
           tags:

@@ -1,5 +1,6 @@
 import { main } from '../../../lambda/login/login-jwt.js';
 const { Event, Context } = require('../../../lib/serverless-lib.js');
+process.env.LOG_LEVEL = 'off';
 
 // Mock console methods for testing
 // (this lets us throw an exception and use console.error to capture the error message)
