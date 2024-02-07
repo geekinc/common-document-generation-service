@@ -1,5 +1,6 @@
 import {Context, Event} from "../../../lib/serverless-lib.js";
 const { handler } = require('../../../lambda/queues/basicQueue-dispatcher.js');
+process.env.LOG_LEVEL = 'off';
 
 /**
  * Set up the mock to catch the SQS call

@@ -89,6 +89,11 @@ functions:
   - ${file(./src/lambda/templates/serverless-functions.yml)}
 
 
+# A reference for any AWS CloudFormation resource type templates that are not natively supported by the Serverless Framework
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html
 resources:
   - ${file(./src/lambda/queues/serverless-queues.yml)}
   - ${file(./src/lambda/templates/serverless-s3.yml)}
+
+# A graphical tool to help visualize the architecture of the resources
+# https://console.aws.amazon.com/cloudformation/designer/

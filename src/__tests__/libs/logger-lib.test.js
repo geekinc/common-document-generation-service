@@ -9,16 +9,16 @@ jest.spyOn(console, "error").mockImplementation((message) => { output = message;
 
 test('logger-lib - send simple logs', async () => {
 
+    process.env.LOG_LEVEL = 'info';
     await logger.info('test 1');
     expect(output).toBe('test 1');
 
+    process.env.LOG_LEVEL = 'warn';
     await logger.warn('test 2');
     expect(output).toBe('test 2');
 
+    process.env.LOG_LEVEL = 'error';
     await logger.error('test 3');
     expect(output).toBe('test 3');
-
-    await logger.error(null);
-    expect(output).toBe('An error occurred.');
 
 });

@@ -1,5 +1,6 @@
 import {Context, Event} from "../../../lib/serverless-lib.js";
 const { promise, callback } = require('../../../lambda/queues/basicQueue-handler.js');
+process.env.LOG_LEVEL = 'off';
 
 /**
  * This tests the "happy path" functionality with a defined callback

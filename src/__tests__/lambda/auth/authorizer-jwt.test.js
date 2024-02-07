@@ -1,4 +1,5 @@
 import * as jose from 'jose';
+process.env.LOG_LEVEL = 'off';
 
 const {Event, Context} = require("../../../lib/serverless-lib.js");
 const { handler } = require("../../../lambda/auth/authorizer-jwt.js");

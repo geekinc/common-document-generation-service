@@ -1,4 +1,5 @@
 import { authenticate, verify } from "../../lib/keycloak-lib.js";
+process.env.LOG_LEVEL = 'off';
 
 test('keycloak-lib - authenticate a known user', async () => {
 

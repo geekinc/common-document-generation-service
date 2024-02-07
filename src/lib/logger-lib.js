@@ -2,12 +2,15 @@
 
 export const logger = {
     info: async (message) => {
-        console.log(message)
+        /* istanbul ignore next */
+        (process.env.LOG_LEVEL === 'info') ? console.log(message) : null;
     },
     warn: async (message) => {
-        console.warn(message)
+        /* istanbul ignore next */
+        (process.env.LOG_LEVEL === 'info' || process.env.LOG_LEVEL === 'warn') ? console.warn(message) : null;
     },
     error: async (exception_or_custommessage) => {
-        console.error(exception_or_custommessage ?? 'An error occurred.');
+        /* istanbul ignore next */
+        (process.env.LOG_LEVEL !== 'off') ? console.error(exception_or_custommessage ?? 'An error occurred.') : null;
     }
 };

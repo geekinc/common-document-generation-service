@@ -1,5 +1,6 @@
 import {Context, Event} from "../../../lib/serverless-lib.js";
 const { handler } = require('../../../lambda/templates/template-upload.js');
+process.env.LOG_LEVEL = 'off';
 
 // Mock an exception from S3 for these tests
 jest.mock('aws-sdk', () => {

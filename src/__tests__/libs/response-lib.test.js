@@ -1,4 +1,5 @@
 import { success, failure, response } from "../../lib/response-lib.cjs";
+process.env.LOG_LEVEL = 'off';
 
 test('response-lib - instantiate objects', async () => {
     let result;

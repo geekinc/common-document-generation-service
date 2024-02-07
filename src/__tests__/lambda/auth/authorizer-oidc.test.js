@@ -1,5 +1,6 @@
 import * as jose from 'jose';
 import { authenticate } from "../../../lib/keycloak-lib.js";
+process.env.LOG_LEVEL = 'off';
 
 const { Event, Context } = require("../../../lib/serverless-lib.js");
 const { handler } = require("../../../lambda/auth/authorizer-oidc.js");

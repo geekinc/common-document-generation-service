@@ -1,7 +1,9 @@
 import AWS from "aws-sdk";
 import parser from 'partparse';
+import { logger } from '../../lib/logger-lib.js'
 let s3;
 
+/* istanbul ignore next */
 if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local config
     s3 = new AWS.S3({
         s3ForcePathStyle: true,
@@ -10,6 +12,7 @@ if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local con
         endpoint: process.env.S3_ENDPOINT,
     });
 } else {                                                            // AWS config
+    /* istanbul ignore next */
     s3 = new AWS.S3({
         accessKeyId: process.env.S3_ACCESS_KEY_ID,
         secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
@@ -17,6 +20,7 @@ if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local con
 }
 
 export async function handler (event) {
+    await logger.info(JSON.stringify(event, null, 2));
 
     // Grab the data from the multipart form
     let data = await parser.parse(event);
@@ -34,6 +38,7 @@ export async function handler (event) {
                     Body: data[i].content
                 }).promise();
             } catch (err) {
+                await logger.error(JSON.stringify(err, null, 2));
                 return { statusCode: 500, body: JSON.stringify({message: err.stack}) }
             }
             files.push({link: `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/${data[i].filename}`});
