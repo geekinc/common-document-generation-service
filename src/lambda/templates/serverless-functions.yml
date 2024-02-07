@@ -7,7 +7,7 @@ templateUpload:
         path: /api/template
         method: post
         cors: true
-#        authorizer: combinedAuthorizer
+        authorizer: combinedAuthorizer
         documentation:
           description: "Submit a template for processing"
           tags:
