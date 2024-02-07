@@ -6,7 +6,11 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: cdgs-templates
-      AccessControl: PublicWrite
+      PublicAccessBlockConfiguration:   # Grant access to the bucket
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
       CorsConfiguration:
         CorsRules:
           - AllowedMethods:
