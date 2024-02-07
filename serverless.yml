@@ -95,6 +95,7 @@ functions:
 resources:
   - ${file(./src/lambda/queues/serverless-queues.yml)}
   - ${file(./src/lambda/templates/serverless-s3.yml)}
+  - ${file(./src/lambda/templates/serverless-s3-roles.yml)}
 
 # A graphical tool to help visualize the architecture of the resources
 # https://console.aws.amazon.com/cloudformation/designer/

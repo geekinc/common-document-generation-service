@@ -1,4 +1,4 @@
-import AWS from "aws-sdk";
+import AWS from "aws-sdk";  // Reference: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/
 import Joi from "joi";
 import { v4 as uuidv4 } from 'uuid';
 import { logger } from "../../lib/logger-lib.js";
