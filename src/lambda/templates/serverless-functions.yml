@@ -1,11 +1,90 @@
 templateUpload:
   handler: src/lambda/templates/template-upload.handler
   timeout: 30
+  role: UploadRole
   events:
     - http:
         path: /api/template
         method: post
         cors: true
 #        authorizer: combinedAuthorizer
-  role: UploadRole
+        documentation:
+          description: "Submit a template for processing"
+          tags:
+            - Queue Management
+          requestBody:
+            description: "One or more files to be uploaded to the system"
+            required: true
+          requestModels:
+            multiform/form-data:
+              schema:
+                type: object
+                properties:
+                  file:
+                    type: string
+                    format: binary
+                required:
+                  - file
+          headerParams:
+            - name: "Authorization"
+              description: "A bearer token containing a JWT for the user"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A response object including details of the SQS message"
+              responseModels:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                      data:
+                        type: object
+                        properties:
+                          sqsOutput:
+                            type: object
+                            properties:
+                              MD5OfMessageBody:
+                                type: string
+                              MD5OfMessageAttributes:
+                                type: string
+                              MessageId:
+                                type: string
+                              SequenceNumber:
+                                type: string  # returned as a string i.e. "0"
+                  examples:
+                    - name: content
+                      description: "Successful invocation response"
+                      value: {
+                        "message": "Message sent",
+                        "data": {
+                          "sqsOutput": {
+                            "MD5OfMessageBody": "3e2a9ec0f22237f3d6e6ab589bb73ccb",
+                            "MD5OfMessageAttributes": "2f3dd1acb5f3bb8a1ffb690e5ce644ec",
+                            "MessageId": "d7659013-0ddc-447d-9a4d-ef3a05c9bd15",
+                            "SequenceNumber": "0"
+                          }
+                        }
+                      }
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: "UnauthorizedResponse"
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message returning the response fails"
+              responseModels:
+                application/json: "ErrorResponse"
+
+
 

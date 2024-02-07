@@ -87,7 +87,7 @@
           }
         }
       },
-      "6bb35cba-0b83-4dff-87e7-b2c984df3a65": {
+      "78399452-e6ff-4ea0-9dcd-fadf44d2ae42": {
         "type": "object",
         "properties": {
           "username": {
@@ -100,7 +100,7 @@
           }
         }
       },
-      "efdff6ef-23dd-4d78-bd44-0cf743d2f0c1": {
+      "fbd190ca-9921-4913-8d40-60b51e4816d6": {
         "type": "object",
         "properties": {
           "id": {
@@ -126,7 +126,7 @@
         "type": "boolean",
         "default": true
       },
-      "b19dc8aa-2485-4a43-9ee2-bc9c565c0519": {
+      "7b456dd4-088a-41a6-bc63-59d8451c5ad2": {
         "type": "object",
         "properties": {
           "username": {
@@ -139,7 +139,7 @@
           }
         }
       },
-      "77ca9176-81a8-4689-9504-679f6a5a0b25": {
+      "11e75735-db76-4ddb-b1ca-0be53d1910db": {
         "type": "object",
         "properties": {
           "id": {
@@ -159,7 +159,7 @@
       "Authorization": {
         "type": "string"
       },
-      "734fa624-873d-44ee-9de0-183d22d54f16": {
+      "e75a839e-b58f-44ec-85a3-438d1cb48ba5": {
         "type": "object",
         "properties": {
           "destination": {
@@ -176,7 +176,49 @@
           }
         }
       },
-      "26f99436-85e1-4703-ad9d-da84a28bc4d9": {
+      "8b35788e-e450-4794-94e8-f9e15bf8625b": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "sqsOutput": {
+                "type": "object",
+                "properties": {
+                  "MD5OfMessageBody": {
+                    "type": "string"
+                  },
+                  "MD5OfMessageAttributes": {
+                    "type": "string"
+                  },
+                  "MessageId": {
+                    "type": "string"
+                  },
+                  "SequenceNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "5d473c91-09d1-4239-abea-c9d2110ec274": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary"
+          }
+        },
+        "required": [
+          "file"
+        ]
+      },
+      "8ab593e6-743d-4c4a-9936-fa88da782478": {
         "type": "object",
         "properties": {
           "message": {
@@ -216,7 +258,7 @@
           "message": "Unauthorized"
         }
       },
-      "error-54d83522-8bfd-4747-9420-189dae6a04b5": {
+      "error-e90ce8b1-2e4e-4aa3-8fde-f35042d5ef6a": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -224,7 +266,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-f9787e9d-284f-4b9e-ba0c-4aed02cb3560": {
+      "error-4bc08ace-16ac-45f1-87f6-e7d4953758bd": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -232,7 +274,15 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-be28f069-d2c2-44e5-b414-6698733d1a5f": {
+      "error-5933158e-6da7-4b7a-9421-08d0822dd5c1": {
+        "description": "An error message",
+        "value": {
+          "statusCode": 403,
+          "error": "Forbidden",
+          "message": "User is not authorized to access this resource"
+        }
+      },
+      "error-fbd639c8-e36d-4f3f-a83e-258dabd577b5": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -269,7 +319,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/6bb35cba-0b83-4dff-87e7-b2c984df3a65"
+                "$ref": "#/components/schemas/78399452-e6ff-4ea0-9dcd-fadf44d2ae42"
               }
             }
           }
@@ -280,7 +330,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/efdff6ef-23dd-4d78-bd44-0cf743d2f0c1"
+                  "$ref": "#/components/schemas/fbd190ca-9921-4913-8d40-60b51e4816d6"
                 }
               }
             },
@@ -375,7 +425,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/b19dc8aa-2485-4a43-9ee2-bc9c565c0519"
+                "$ref": "#/components/schemas/7b456dd4-088a-41a6-bc63-59d8451c5ad2"
               }
             }
           }
@@ -386,7 +436,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/77ca9176-81a8-4689-9504-679f6a5a0b25"
+                  "$ref": "#/components/schemas/11e75735-db76-4ddb-b1ca-0be53d1910db"
                 }
               }
             },
@@ -545,7 +595,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-54d83522-8bfd-4747-9420-189dae6a04b5"
+                    "$ref": "#/components/examples/error-e90ce8b1-2e4e-4aa3-8fde-f35042d5ef6a"
                   }
                 },
                 "schema": {
@@ -679,7 +729,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-f9787e9d-284f-4b9e-ba0c-4aed02cb3560"
+                    "$ref": "#/components/examples/error-4bc08ace-16ac-45f1-87f6-e7d4953758bd"
                   }
                 },
                 "schema": {
@@ -759,7 +809,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/734fa624-873d-44ee-9de0-183d22d54f16"
+                "$ref": "#/components/schemas/e75a839e-b58f-44ec-85a3-438d1cb48ba5"
               }
             }
           }
@@ -770,7 +820,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/26f99436-85e1-4703-ad9d-da84a28bc4d9"
+                  "$ref": "#/components/schemas/8b35788e-e450-4794-94e8-f9e15bf8625b"
                 }
               }
             },
@@ -824,7 +874,152 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-be28f069-d2c2-44e5-b414-6698733d1a5f"
+                    "$ref": "#/components/examples/error-5933158e-6da7-4b7a-9421-08d0822dd5c1"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An error message returning the response fails",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "$ref": "#/components/examples/error"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/template": {
+      "post": {
+        "summary": "",
+        "description": "Submit a template for processing",
+        "operationId": "templateUpload",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "A bearer token containing a JWT for the user",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Authorization"
+            }
+          }
+        ],
+        "tags": [
+          "Queue Management"
+        ],
+        "requestBody": {
+          "description": "One or more files to be uploaded to the system",
+          "required": true,
+          "content": {
+            "multiform/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/5d473c91-09d1-4239-abea-c9d2110ec274"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A response object including details of the SQS message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/8ab593e6-743d-4c4a-9936-fa88da782478"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "$ref": "#/components/examples/error"
+                  }
+                },
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedResponse"
+                }
+              }
+            },
+            "headers": {
+              "Access-Control-Allow-Origin": {
+                "description": "The Access-Control-Allow-Origin response header indicates whether the response can be shared with requesting code from the given [origin](https://developer.mozilla.org/en-US/docs/Glossary/Origin). - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Origin"
+                }
+              },
+              "Access-Control-Allow-Credentials": {
+                "description": "The Access-Control-Allow-Credentials response header tells browsers whether to expose the response to the frontend JavaScript code when the request's credentials mode ([Request.credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials)) is include. - [MDN Link](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)",
+                "schema": {
+                  "$ref": "#/components/schemas/Access-Control-Allow-Credentials"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "$ref": "#/components/examples/error-fbd639c8-e36d-4f3f-a83e-258dabd577b5"
                   }
                 },
                 "schema": {
