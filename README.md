@@ -1,4 +1,4 @@
-# Common Document Generation Service
+# Common Document Generation Service (Serverless Framework)
 
 This is a flexible serverless API to generate documents based on data and templates. It is built using the Serverless Framework.
 
@@ -6,7 +6,7 @@ This is a flexible serverless API to generate documents based on data and templa
 
 ### Prerequisites
 
-Quick install for Geek: `asdf local nodejs 18.16.1`
+Quick install for Geek team: `asdf local nodejs 18.16.1`
 
 * Node.js (>= v18.16.1)
 * NPM (>= 8.3.0)
