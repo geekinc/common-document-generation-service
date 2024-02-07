@@ -80,16 +80,6 @@ that is configured on the KeyCloak realm.  The public key is used to verify the 
 To access the public keys, make sure the KeyCloak server is running and then go to 
 [http://localhost:8080/realms/master/protocol/openid-connect/certs](http://localhost:8080/realms/master/protocol/openid-connect/certs).
 
----
-**NOTE**
-If you would like to test without a KeyCloak or OpenID Connect server, you can use the `login-jwt` endpoint.
-The user is validated against a BCrypted password stored in the MySQL database. Once validated, the server
-returns a JWT. This token is signed using the `APP_SECRET` environment variable.
-This means that the token is secure and cannot be tampered with.
-It also means, you will need to fetch a new token every time you start the server.
-The token will be valid for the duration of the `EXP` claim in the token. 
-(currently 30 days - it will last for the whole time the local server is running for developing locally)
----
 
 Then you can use the token to access the `armpit` endpoint:
 
@@ -105,3 +95,16 @@ The response will look like:
 ```
 oxter
 ```
+
+**NOTE:**
+
+If you would like to test without a KeyCloak or OpenID Connect server, you can use the `login-jwt` endpoint.
+
+The user is validated against a BCrypted password stored in the MySQL database. Once validated, the server
+returns a JWT. This token is signed using the `APP_SECRET` environment variable.
+
+This means that the token is secure and cannot be tampered with.
+It also means, you will need to fetch a new token every time you start the server.
+The token will be valid for the duration of the `EXP` claim in the token. 
+(currently 30 days - it will last for the whole time the local server is running for developing locally)
+
