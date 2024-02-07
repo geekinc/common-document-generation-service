@@ -1,4 +1,4 @@
-USE `dynamic`;
+USE `cdgs`;
 
 -- Delete the current data to start fresh
 TRUNCATE TABLE `user`;
@@ -16,5 +16,5 @@ VALUES ('bar', '$2b$10$BzXfGmp0.zXyPB5JGGxfouCq8zTx1R.fmPs/tI1ODvkqvI8nwmDBS', '
 -- Insert a test user who is NOT enabled
 INSERT INTO `user`
 (`username`, `password`, `role`, `firstname`, `lastname`, `enabled`)
-VALUES ('bat', '$2b$10$BzXfGmp0.zXyPB5JGGxfouCq8zTx1R.fmPs/tI1ODvkqvI8nwmDBS', 'USER', 'User', 'McUserson', false);
+VALUES ('bat', '$2b$10$BzXfGmp0.zXyPB5JGGxfouCq8zTx1R.fmPs/tI1ODvkqvI8nwmDBS', 'USER', 'Eustace', 'Scrubb', false);
 

@@ -2,13 +2,13 @@
 
 -- -----------------------------------------------------
 CREATE DATABASE
-    IF NOT EXISTS `dynamic`
+    IF NOT EXISTS `cdgs`
     DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-USE `dynamic`;
+USE `cdgs`;
 -- -----------------------------------------------------
 
--- Table `dynamic`.`user`
+-- Table `cdgs`.`user`
 CREATE TABLE
     IF NOT EXISTS `user`
 (
