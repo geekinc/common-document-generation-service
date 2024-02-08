@@ -30,8 +30,6 @@ test('user-lib - get a non-existent user', async () => {
         expect(e.message).toBe('Error getting user');
     }
 
-    console.log(output);
-
     // Check the response for the expected error
     expect(output.code).toBe(undefined);
 
