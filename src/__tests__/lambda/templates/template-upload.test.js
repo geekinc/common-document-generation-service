@@ -191,8 +191,8 @@ test('template-upload - upload multiple binary files', async () => {
     expect(result.statusCode).toBe(200);
     expect(JSON.parse(result.body)).toStrictEqual(
         [
-            {link: `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/tiny.png`},
-            {link: `${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/tiny.gif`}
+            {link: `${process.env.S3_ENDPOINT}/tiny.png`},
+            {link: `${process.env.S3_ENDPOINT}/tiny.gif`}
         ]
     );
 });

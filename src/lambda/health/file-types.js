@@ -1,5 +1,5 @@
 import { response } from "../../lib/response-lib.cjs";
-import { fileTypes } from "../../lib/carbone-lib.js";
+import { fileTypes, sandboxFileTypes } from "../../lib/carbone-lib.js";
 
 /**
  * filetypes - output the supported file types for the Carbone JS library
@@ -8,9 +8,8 @@ import { fileTypes } from "../../lib/carbone-lib.js";
  * @returns {Promise<void>}
  */
 export async function handler (event, context) {
-    if (fileTypes instanceof Object) {
-        return response.success({ dictionary: fileTypes });
-    } else {
-       return response.failure({ detail: 'Unable to get file types dictionary' });
+    if (process.env.CARBONE_KEY.includes('test')) {
+        return response.success({ dictionary: sandboxFileTypes });
     }
+    return response.success({ dictionary: fileTypes });
 }
