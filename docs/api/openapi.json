@@ -87,7 +87,7 @@
           }
         }
       },
-      "78399452-e6ff-4ea0-9dcd-fadf44d2ae42": {
+      "e9ade4df-6dad-4143-8da5-546f40074b88": {
         "type": "object",
         "properties": {
           "username": {
@@ -100,7 +100,7 @@
           }
         }
       },
-      "fbd190ca-9921-4913-8d40-60b51e4816d6": {
+      "16e69b17-e606-4e33-9edd-01632a73ce8a": {
         "type": "object",
         "properties": {
           "id": {
@@ -126,7 +126,7 @@
         "type": "boolean",
         "default": true
       },
-      "7b456dd4-088a-41a6-bc63-59d8451c5ad2": {
+      "0ded1b27-0271-421d-9e46-fc9a81713ad4": {
         "type": "object",
         "properties": {
           "username": {
@@ -139,7 +139,7 @@
           }
         }
       },
-      "11e75735-db76-4ddb-b1ca-0be53d1910db": {
+      "84c914e7-b242-4897-a288-bceb1e7acf79": {
         "type": "object",
         "properties": {
           "id": {
@@ -159,7 +159,7 @@
       "Authorization": {
         "type": "string"
       },
-      "e75a839e-b58f-44ec-85a3-438d1cb48ba5": {
+      "e325f9bc-1d6b-466b-8ea9-7370e642ed55": {
         "type": "object",
         "properties": {
           "destination": {
@@ -176,7 +176,7 @@
           }
         }
       },
-      "8b35788e-e450-4794-94e8-f9e15bf8625b": {
+      "648a9c09-ed57-43f4-a4e6-1cf2157ff62c": {
         "type": "object",
         "properties": {
           "message": {
@@ -206,7 +206,7 @@
           }
         }
       },
-      "5d473c91-09d1-4239-abea-c9d2110ec274": {
+      "ff36ea47-f9a1-486e-9ed4-eae1f0e20514": {
         "type": "object",
         "properties": {
           "file": {
@@ -218,7 +218,7 @@
           "file"
         ]
       },
-      "8ab593e6-743d-4c4a-9936-fa88da782478": {
+      "1f9a6491-c3c9-4cb5-8d85-88830d64cdbe": {
         "type": "object",
         "properties": {
           "message": {
@@ -258,7 +258,7 @@
           "message": "Unauthorized"
         }
       },
-      "error-e90ce8b1-2e4e-4aa3-8fde-f35042d5ef6a": {
+      "error-92237850-a59e-47f7-9fff-2dcc6a3b9429": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -266,7 +266,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-4bc08ace-16ac-45f1-87f6-e7d4953758bd": {
+      "error-c0625bbb-b1a2-415b-8751-cb8406796cd8": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -274,7 +274,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-5933158e-6da7-4b7a-9421-08d0822dd5c1": {
+      "error-1482d515-8b89-48f2-8832-9f6834945cce": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -282,7 +282,7 @@
           "message": "User is not authorized to access this resource"
         }
       },
-      "error-fbd639c8-e36d-4f3f-a83e-258dabd577b5": {
+      "error-6c5f5ef6-65ed-4ec4-ae27-010e8b8c8ff3": {
         "description": "An error message",
         "value": {
           "statusCode": 403,
@@ -319,7 +319,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/78399452-e6ff-4ea0-9dcd-fadf44d2ae42"
+                "$ref": "#/components/schemas/e9ade4df-6dad-4143-8da5-546f40074b88"
               }
             }
           }
@@ -330,7 +330,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/fbd190ca-9921-4913-8d40-60b51e4816d6"
+                  "$ref": "#/components/schemas/16e69b17-e606-4e33-9edd-01632a73ce8a"
                 }
               }
             },
@@ -425,7 +425,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/7b456dd4-088a-41a6-bc63-59d8451c5ad2"
+                "$ref": "#/components/schemas/0ded1b27-0271-421d-9e46-fc9a81713ad4"
               }
             }
           }
@@ -436,7 +436,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/11e75735-db76-4ddb-b1ca-0be53d1910db"
+                  "$ref": "#/components/schemas/84c914e7-b242-4897-a288-bceb1e7acf79"
                 }
               }
             },
@@ -595,7 +595,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-e90ce8b1-2e4e-4aa3-8fde-f35042d5ef6a"
+                    "$ref": "#/components/examples/error-92237850-a59e-47f7-9fff-2dcc6a3b9429"
                   }
                 },
                 "schema": {
@@ -729,7 +729,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-4bc08ace-16ac-45f1-87f6-e7d4953758bd"
+                    "$ref": "#/components/examples/error-c0625bbb-b1a2-415b-8751-cb8406796cd8"
                   }
                 },
                 "schema": {
@@ -809,7 +809,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/e75a839e-b58f-44ec-85a3-438d1cb48ba5"
+                "$ref": "#/components/schemas/e325f9bc-1d6b-466b-8ea9-7370e642ed55"
               }
             }
           }
@@ -820,7 +820,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/8b35788e-e450-4794-94e8-f9e15bf8625b"
+                  "$ref": "#/components/schemas/648a9c09-ed57-43f4-a4e6-1cf2157ff62c"
                 }
               }
             },
@@ -874,7 +874,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-5933158e-6da7-4b7a-9421-08d0822dd5c1"
+                    "$ref": "#/components/examples/error-1482d515-8b89-48f2-8832-9f6834945cce"
                   }
                 },
                 "schema": {
@@ -954,7 +954,7 @@
           "content": {
             "multiform/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/5d473c91-09d1-4239-abea-c9d2110ec274"
+                "$ref": "#/components/schemas/ff36ea47-f9a1-486e-9ed4-eae1f0e20514"
               }
             }
           }
@@ -965,7 +965,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/8ab593e6-743d-4c4a-9936-fa88da782478"
+                  "$ref": "#/components/schemas/1f9a6491-c3c9-4cb5-8d85-88830d64cdbe"
                 }
               }
             },
@@ -1019,7 +1019,7 @@
               "application/json": {
                 "examples": {
                   "error": {
-                    "$ref": "#/components/examples/error-fbd639c8-e36d-4f3f-a83e-258dabd577b5"
+                    "$ref": "#/components/examples/error-6c5f5ef6-65ed-4ec4-ae27-010e8b8c8ff3"
                   }
                 },
                 "schema": {

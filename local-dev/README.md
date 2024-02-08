@@ -8,6 +8,31 @@ In production, each of these instances would be replaced by a cloud service.
 
 The details of the configuration and data for each of these instances can be found in the `.env` file in the root of this project.
 
+## Carbone API
+Carbone is a powerful low-code templating engine which works in all XML-based document (docx, odt, ods, xml, ...)
+It can also convert your report to reliable PDFs and any other document formats.
+
+The shell commands in the `./carbone` directory are used to start and configure the Carbone instance.
+
+This is the ideal architecture for the production version of this application. It's a separate service that can be scaled
+independently of the rest of the application.  It's also a service that can be 1-to-1 replaced with a different service 
+if needed. A fact that we are taking advantage of in the local development environment.
+
+Since the server is directly compatible with the Carbone API, and this system is designed for local testing, we are using
+a sandbox account on the Carbone Cloud API.  This is a free account that is designed for testing and development.
+
+We want this repository to be as easy to use as possible. Carbone is a powerful tool, and making it performant on a local
+docker instance would require sharing the licence key.  So, instead we opted to use the Carbone Cloud API to avoid this issue.
+
+To configure the local instance, you will need to set up a free account at [https://carbone.io/](https://carbone.io/)
+
+Once done, you can then past the API key into the `.env` file in the root of this project.
+
+```bash
+CARBONE_KEY=<your-api-key-here>
+CARBONE_URL=https://api.carbone.io
+```
+
 ## ElasticMQ
 
 ElasicMQ is a message queue that is used to send messages between the lambda functions.  We use it to simulate

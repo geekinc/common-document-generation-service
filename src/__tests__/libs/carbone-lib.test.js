@@ -79,6 +79,9 @@ let templateId, renderId;
 beforeAll(async () => {
     // Add template and fetch id
     let result = await addTemplate(templateFile);
+
+    console.log(result);
+
     templateId = result.data.data.templateId;
 
     // Generate the document and fetch renderId
