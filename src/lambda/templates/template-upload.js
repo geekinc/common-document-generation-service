@@ -31,7 +31,13 @@ if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local con
 export async function handler (event, context, callback) {
     await logger.info(JSON.stringify(event, null, 2));
 
-    const user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
+    let user;
+    /* istanbul ignore next */
+    if (event.requestContext && event.requestContext.authorizer) {
+        user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
+    } else {
+        user = 'no-user';
+    }
 
     let private_status = false;
     if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('private')) {

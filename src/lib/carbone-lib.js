@@ -1,9 +1,12 @@
 // Notes on Carbone installation: https://www.npmjs.com/package/carbone/v/1.1.0
-// Carbone API: https://carbone.io/api/
+// Carbone API: https://carbone.io/api-reference.html
 
 import axios from 'axios';
 import { logger } from './logger-lib.js';
 import * as fs from "fs";
+import os from "os";
+import {unixTimestamp} from "./utils-lib.js";
+import request from "request";
 
 export const fileTypes = Object.freeze({
     csv: ['csv', 'doc', 'docx', 'html', 'odt', 'pdf', 'rtf', 'txt'],
@@ -185,7 +188,8 @@ export async function retrieveDocument(documentId) {
             headers: {
                 'Authorization': 'Bearer ' + process.env.CARBONE_KEY,
                 'carbone-version': '4'
-            }
+            },
+            responseType: 'arraybuffer'
         })
         .then(async function (response) {
             return { status: 'success', data: response.data };

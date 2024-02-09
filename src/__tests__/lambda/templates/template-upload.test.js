@@ -18,6 +18,13 @@ jest.mock('aws-sdk', () => {
  */
 test('template-upload - upload a single text based file', async () => {
     let event = new Event();
+    event.requestContext = {
+        authorizer: {
+            claims: {
+                username: 'foo'
+            }
+        }
+    };
     let context = new Context();
 
     // Set the JSON body
@@ -59,6 +66,13 @@ test('template-upload - upload a single text based file', async () => {
  */
 test('template-upload - upload multiple text based files', async () => {
     let event = new Event();
+    event.requestContext = {
+        authorizer: {
+            claims: {
+                username: 'foo'
+            }
+        }
+    };
     let context = new Context();
 
     // Set the JSON body
@@ -120,6 +134,13 @@ test('template-upload - upload multiple text based files', async () => {
  */
 test('template-upload - upload a single binary file', async () => {
     let event = new Event();
+    event.requestContext = {
+        authorizer: {
+            claims: {
+                username: 'foo'
+            }
+        }
+    };
     let context = new Context();
 
     // Set the JSON body
@@ -156,6 +177,13 @@ test('template-upload - upload a single binary file', async () => {
  */
 test('template-upload - upload multiple binary files', async () => {
     let event = new Event();
+    event.requestContext = {
+        authorizer: {
+            claims: {
+                username: 'foo'
+            }
+        }
+    };
     let context = new Context();
 
     // Set the JSON body
