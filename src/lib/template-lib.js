@@ -6,7 +6,10 @@ export default class Templates {
 
     static async getTemplateByFilename(filename)  {
         try {
-            return await dao.run("SELECT * FROM template WHERE filename = ?", [filename]);
+            return await dao.run(
+                "SELECT * FROM template WHERE filename = ? ORDER BY created_timestamp DESC",
+                [filename]
+            );
         } catch (e)  /* istanbul ignore next */ {
             await logger.error(e);
             throw new Error('Database error');
@@ -15,7 +18,23 @@ export default class Templates {
 
     static async getTemplateById(id)  {
         try {
-            return await dao.run("SELECT * FROM template WHERE id = ?", [id]);
+            return await dao.run(
+                "SELECT * FROM template WHERE id = ? ORDER BY created_timestamp DESC",
+                [id]
+            );
+        } catch (e)  /* istanbul ignore next */ {
+            await logger.error(e);
+            throw new Error('Database error');
+        }
+    }
+
+    static async getTemplateByHash(hash)  {
+        try {
+            const cleanHash = hash.replace(/[^a-zA-Z0-9]/g, '').trim();
+            return await dao.run(
+                "SELECT * FROM template WHERE carbone_id = ? ORDER BY created_timestamp DESC",
+                [cleanHash]
+            );
         } catch (e)  /* istanbul ignore next */ {
             await logger.error(e);
             throw new Error('Database error');

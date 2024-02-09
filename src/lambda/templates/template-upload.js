@@ -32,8 +32,16 @@ export async function handler (event, context, callback) {
     await logger.info(JSON.stringify(event, null, 2));
 
     const user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
-    const private_status = event.queryStringParameters.private ? event.queryStringParameters.private : false
-    const strict = event.queryStringParameters.strict ? event.queryStringParameters.strict : false;
+
+    let private_status = false;
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('private')) {
+        private_status = truthy(event.queryStringParameters.private);
+    }
+
+    let strict = false;
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('strict')) {
+        strict = truthy(event.queryStringParameters.strict);
+    }
 
     // Grab the data from the multipart form
     let data = await parser.parse(event);
@@ -45,13 +53,14 @@ export async function handler (event, context, callback) {
         /* istanbul ignore next */
         if (data[i].filename) {
             try {
+                const timestamp = unixTimestamp();
                 await s3.putObject({
                     Bucket: process.env.S3_BUCKET,
-                    Key: data[i].filename,
+                    Key: "template-" + timestamp.toString() + "-" + data[0].filename,
                     ACL: 'public-read',
                     Body: data[i].content
                 }).promise();
-                const processed = await process_file(data[i], user, private_status, strict);
+                const processed = await process_file(data[i], user, private_status, strict, timestamp);
                 fileHashes.push(processed[0]);
             } catch (err) {
                 await logger.error(JSON.stringify(err, null, 2));
@@ -71,12 +80,11 @@ export async function handler (event, context, callback) {
     }
 }
 
-async function process_file(file_data, user, private_status, strict) {
+async function process_file(file_data, user, private_status, strict, timestamp) {
     await logger.info('template-upload.process_file() - called');
 
     // Create a new template record to reflect the new file
     let templateResult;
-    const timestamp = unixTimestamp();
     const templateData = {
         filename: file_data.filename,
         filetype: file_data.contentType,

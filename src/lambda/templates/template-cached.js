@@ -33,11 +33,44 @@ export async function handler (event, context, callback) {
 
     const user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
     const hash = event.pathParameters.uid;
+    let download = false;
+    if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('download')) {
+        download = event.queryStringParameters.download !== false;
+    }
 
-    // TODO: build check cache functionality and authentication validation here
+    // Determine if the template is already in the database
+    const templates = await Templates.getTemplateByHash(hash);
+    if (templates.length === 0) {
+        return {
+            statusCode: 404,
+            body: JSON.stringify({error: 'Template not found'})
+        }
+    }
+
+    console.log(templates);
+
+    if (download) {
+        const template = templates[0];
+        const params = {
+            Bucket: process.env.S3_BUCKET,
+            Key: template.storage_location
+        };
+
+        const object = await s3.getObject(params).promise();
+        console.log(object);
+        return {
+            statusCode: 200,
+            headers: {
+                "Content-Type": template.filetype,
+                "Content-Disposition": `inline; filename="${template.filename}"`
+            },
+            body: object.Body.toString("base64"),
+            isBase64Encoded: true
+        }
+    }
 
     return {
         statusCode: 200,
-        body: JSON.stringify({carbone_id: hash})
+        body: 'OK'
     }
 }

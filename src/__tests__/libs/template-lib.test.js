@@ -18,7 +18,8 @@ beforeAll(async () => {
         filename: "tiny.gif",
         filetype: "image/gif",
         storage_location: "template-" + timestamp.toString() + "-tiny.gif",
-        created_on: timestamp
+        created_on: timestamp,
+        carbone_id: '3e28bed1bf184741b8055575708a82ca'
     }
 
     let result = await Templates.createTemplate(templateData, 'foo');
@@ -94,6 +95,16 @@ test('template-lib - get a template by filename', async () => {
  **/
 test('template-lib - get a template by id', async () => {
     let result = await Templates.getTemplateById(templateId);
+    expect(result[0].filename).toBe('tiny.gif');
+});
+
+
+/**
+ * Happy path - find a template we know exists by carbone hash (carbone_id)
+ *
+ **/
+test('template-lib - get a template by hash', async () => {
+    let result = await Templates.getTemplateByHash('3e28bed1bf184741b8055575708a82ca');
     expect(result[0].filename).toBe('tiny.gif');
 });
 
