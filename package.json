@@ -9,11 +9,11 @@
     "dockerstop": "cd local-dev && ./local-stop.sh && cd ..",
     "prestart": "cd local-dev && ./local-start.sh && cd ..",
     "start": "nodemon ./node_modules/serverless/bin/serverless offline start",
-    "quickstart": "nodemon ./node_modules/serverless/bin/serverless offline start",
+    "quickstart": "serverless openapi generate -o ./docs/api/openapi.json -f json -a 3.0.3 -p ./docs/api/postman.json && nodemon ./node_modules/serverless/bin/serverless offline start",
     "poststart": "cd local-dev && ./local-stop.sh && cd ..",
     "pretest": "cd local-dev && ./local-start.sh && cd ..",
     "test": "jest --coverage --openHandlesTimeout=60000 --force-exit",
-    "jest": "jest --coverage --openHandlesTimeout=60000",
+    "jest": "serverless openapi generate -o ./docs/api/openapi.json -f json -a 3.0.3 -p ./docs/api/postman.json && jest --coverage --openHandlesTimeout=60000",
     "posttest": "cd local-dev && ./local-stop.sh && cd ..",
     "deploy": "serverless deploy",
     "openapi": "serverless openapi generate -o ./docs/api/openapi.json -f json -a 3.0.3 -p ./docs/api/postman.json"

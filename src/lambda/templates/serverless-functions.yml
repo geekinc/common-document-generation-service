@@ -13,7 +13,7 @@ templateUpload:
         documentation:
           description: "Submit a template for processing"
           tags:
-            - Queue Management
+            - Template Management
           requestBody:
             description: "One or more files to be uploaded to the system"
             required: true
@@ -103,7 +103,7 @@ templateDelete:
         documentation:
           description: "This endpoint returns OK if a file has been removed from cache."
           tags:
-            - Queue Management
+            - Template Management
           headerParams:
             - name: "Authorization"
               description: "A bearer token containing a JWT for the user"
@@ -158,7 +158,7 @@ templateCached:
         documentation:
           description: "This endpoint returns OK if a file has been removed from cache."
           tags:
-            - Queue Management
+            - Template Management
           headerParams:
             - name: "Authorization"
               description: "A bearer token containing a JWT for the user"
@@ -213,7 +213,7 @@ templateRenderId:
         documentation:
           description: "This endpoint returns OK if a file has been removed from cache."
           tags:
-            - Queue Management
+            - Template Management
           headerParams:
             - name: "Authorization"
               description: "A bearer token containing a JWT for the user"
@@ -268,7 +268,7 @@ templateRenderInline:
         documentation:
           description: "This endpoint returns OK if a file has been removed from cache."
           tags:
-            - Queue Management
+            - Template Management
           headerParams:
             - name: "Authorization"
               description: "A bearer token containing a JWT for the user"

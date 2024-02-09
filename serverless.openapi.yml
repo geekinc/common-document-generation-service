@@ -27,7 +27,9 @@ documentation:
     - name: Authentication
       description: "Endpoints to handle user authentication"
     - name: Queue Management
-      description: "Endpoints to manage the queues in the system"
+      description: "Endpoints to manage the queue messages in the system"
+    - name: Template Management
+      description: "Endpoints to manage the templates in the system"
   models:
     - name: EmptyContentBody  # This is a model for an empty request body - there is a definition, but it is not used
       content:
