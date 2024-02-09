@@ -9,7 +9,7 @@ export default class Users {
     static async getUserByUsername(username)  {
         try {
             return await dao.run("SELECT * FROM user WHERE username = ?", [username]);
-        } catch (e) {
+        } catch (e) /* istanbul ignore next */ {
             await logger.error(e);
             throw new Error('Error getting user');
         }

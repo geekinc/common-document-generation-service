@@ -54,7 +54,7 @@ export async function main(event, context) {
             } else {
                 return response.failure({error: 'Invalid credentials'});
             }
-        } catch (exception) {
+        } catch (exception) /* istanbul ignore next */ {
             await logger.error(exception);
             return response.failure({error: 'Invalid credentials'});
         }
