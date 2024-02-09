@@ -34,10 +34,41 @@ export async function handler (event, context, callback) {
     const user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
     const hash = event.pathParameters.uid;
 
-    // TODO: build delete functionality and authentication validation here
+    // Determine if the template is already in the database
+    const templates = await Templates.getTemplateByHash(hash);
+    if (templates.length === 0) {
+        return {
+            statusCode: 404,
+            body: JSON.stringify({error: 'Template not found'})
+        }
+    }
+    const template = templates[0];
+
+    // Delete the template from S3
+    try {
+        const params = {
+            Bucket: process.env.S3_BUCKET,
+            Key: template.storage_location
+        };
+        await s3.deleteObject(params).promise();
+    } catch (e) /* istanbul ignore next */ {
+        // Regardless of the error, we want to continue
+        // But we don't want an error to be thrown
+        await logger.error('Error deleting template from S3: ' + e);
+    }
+
+    // Delete the template from the database
+    try {
+        await Templates.deleteTemplate(template.id);
+    } catch (e) /* istanbul ignore next */ {
+        return {
+            statusCode: 500,
+            body: JSON.stringify({error: e})
+        }
+    }
 
     return {
         statusCode: 200,
-        body: JSON.stringify({carbone_id: hash})
+        body: 'OK'
     }
 }
