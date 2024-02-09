@@ -4,6 +4,12 @@ This is a flexible serverless API to generate documents based on data and templa
 
 ## Getting Started
 
+### OpenAPI Specification
+
+The API is documented using the OpenAPI Specification.  You can find the specification in the [./docs/api/openapi.json](./docs/api/openapi.json) file.
+
+The current version can be viewed directly here: [CDGS (v1.0.0) OpenAPI Viewer](https://app.swaggerhub.com/apis/geekinc/CDGS/v1.0.0)
+
 ### Prerequisites
 
 Quick install for Geek team: `asdf local nodejs 18.16.1`
