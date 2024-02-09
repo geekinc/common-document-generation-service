@@ -110,10 +110,23 @@ templateDelete:
               required: true
               schema:
                 type: "string"
+          pathParams:
+            - name: "uid"
+              description: "The unique identifier of the file to be removed from cache"
+              required: true
+              schema:
+                type: "string"
           methodResponses:
             - statusCode: 200
               responseBody:
                 description: "A response object containing the message 'OK'"
+              responseModels:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
             - statusCode: 401
               responseBody:
                 description: "Unauthorized"
@@ -152,10 +165,23 @@ templateCached:
               required: true
               schema:
                 type: "string"
+          pathParams:
+            - name: "uid"
+              description: "The unique identifier of the file to be checked in the cache"
+              required: true
+              schema:
+                type: "string"
           methodResponses:
             - statusCode: 200
               responseBody:
                 description: "A response object containing the message 'OK'"
+              responseModels:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
             - statusCode: 401
               responseBody:
                 description: "Unauthorized"
@@ -194,10 +220,23 @@ templateRenderId:
               required: true
               schema:
                 type: "string"
+          pathParams:
+            - name: "uid"
+              description: "The unique identifier of the file to be rendered"
+              required: true
+              schema:
+                type: "string"
           methodResponses:
             - statusCode: 200
               responseBody:
                 description: "A response object containing the message 'OK'"
+              responseModels:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
             - statusCode: 401
               responseBody:
                 description: "Unauthorized"
@@ -240,6 +279,13 @@ templateRenderInline:
             - statusCode: 200
               responseBody:
                 description: "A response object containing the message 'OK'"
+              responseModels:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
             - statusCode: 401
               responseBody:
                 description: "Unauthorized"
