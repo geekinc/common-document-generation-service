@@ -93,12 +93,10 @@ export const prettyStringify = (obj, indent = 2) => JSON.stringify(obj, null, in
 /**
  * @function truthy
  * Returns true if the element name in the object contains a truthy value
- * @param {string} name The attribute name
- * @param {object} obj The object to evaluate
+ * @param {any} value The input to evaluate
  * @returns {boolean} True if truthy, false otherwise
  */
-export const truthy = (name, obj = {}) => {
-    const value = obj[name] || false;
+export const truthy = (value) => {
     return (value === true || value === 'true' || value === '1' || value === 'yes' || value === 'y' || value === 't' || value === 1);
 }
 

@@ -57,6 +57,7 @@ export default class Templates {
                 'INSERT INTO template (filename, storage_location, created_by) VALUES (?, ?, ?)',
                 [filename, storage_location, created_by]
             );
+            await this.processOptionalFields(fields, result.insertId);
         } catch (e)  /* istanbul ignore next */ {
             await logger.error(e);
             throw new Error('Database error');
@@ -71,7 +72,26 @@ export default class Templates {
             throw new Error('Missing id parameter');
         }
 
-        // Fetch the data from the fields object
+        try {
+            await this.processOptionalFields(fields, id);
+            return await dao.run('SELECT * FROM template WHERE id = ?', [id]);
+        } catch (e)  /* istanbul ignore next */ {
+            await logger.error(e);
+            throw new Error('Database error');
+        }
+    }
+
+    static deleteTemplate = async (id) => {
+        try {
+            return await dao.run('DELETE FROM template WHERE id = ?', [id]);
+        } catch (e)  /* istanbul ignore next */ {
+            await logger.error(e);
+            throw new Error('Database error');
+        }
+    }
+
+    static processOptionalFields = async (fields, id) => {
+
         const { filename, storage_location, carbone_id, filetype, private_status, strict } = fields;
 
         // if the optional fields are present, execute the query
@@ -128,22 +148,8 @@ export default class Templates {
                 throw new Error('Database error');
             }
         }
-
-        try {
-            return await dao.run('SELECT * FROM template WHERE id = ?', [id]);
-        } catch (e)  /* istanbul ignore next */ {
-            await logger.error(e);
-            throw new Error('Database error');
-        }
-    }
-
-    static deleteTemplate = async (id) => {
-        try {
-            return await dao.run('DELETE FROM template WHERE id = ?', [id]);
-        } catch (e)  /* istanbul ignore next */ {
-            await logger.error(e);
-            throw new Error('Database error');
-        }
     }
 
 }
+
+

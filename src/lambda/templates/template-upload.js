@@ -2,7 +2,7 @@ import AWS from "aws-sdk";  // Reference: https://docs.aws.amazon.com/AWSJavaScr
 import parser from 'partparse';
 import { logger } from '../../lib/logger-lib.js'
 import Templates from '../../lib/template-lib.js';
-import {unixTimestamp} from "../../lib/utils-lib.js";
+import { truthy, unixTimestamp } from "../../lib/utils-lib.js";
 import * as carbone from '../../lib/carbone-lib.js';
 import os from 'os'
 import * as fs from "fs";
@@ -31,6 +31,13 @@ if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local con
 export async function handler (event, context, callback) {
     await logger.info(JSON.stringify(event, null, 2));
 
+    const user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
+    const private_status = event.queryStringParameters.private ? event.queryStringParameters.private : false
+    const strict = event.queryStringParameters.strict ? event.queryStringParameters.strict : false;
+
+    console.log('private_status: ' + private_status);
+    console.log('strict: ' + strict);
+
     // Grab the data from the multipart form
     let data = await parser.parse(event);
     data = data.files;
@@ -47,7 +54,7 @@ export async function handler (event, context, callback) {
                     ACL: 'public-read',
                     Body: data[i].content
                 }).promise();
-                const processed = await process_file(data[i]);
+                const processed = await process_file(data[i], user, private_status, strict);
                 fileHashes.push(processed[0]);
             } catch (err) {
                 await logger.error(JSON.stringify(err, null, 2));
@@ -67,8 +74,12 @@ export async function handler (event, context, callback) {
     }
 }
 
-async function process_file(file_data, user) {
+async function process_file(file_data, user, private_status, strict) {
     await logger.info('template-upload.process_file() - called');
+
+    console.log('private_status: ' + truthy(private_status));
+    console.log('strict: ' + strict);
+    console.log('strict: ' + truthy(strict));
 
     // Create a new template record to reflect the new file
     let templateResult;
@@ -76,11 +87,13 @@ async function process_file(file_data, user) {
     const templateData = {
         filename: file_data.filename,
         filetype: file_data.contentType,
+        private_status: truthy(private_status) ? 1 : 0,
+        strict: truthy(strict) ? 1 : 0,
         storage_location: "template-" + timestamp.toString() + "-" + file_data.filename,
         created_on: timestamp
     }
     try {
-        templateResult = await Templates.createTemplate(templateData, 'foo');
+        templateResult = await Templates.createTemplate(templateData, user);
     } catch (err) /* istanbul ignore next */ {
         await logger.error('template-upload.process_file() - Templates.createTemplate exception with error: ' + err);
         throw new Error(err);
