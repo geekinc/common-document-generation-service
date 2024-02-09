@@ -35,9 +35,6 @@ export async function handler (event, context, callback) {
     const private_status = event.queryStringParameters.private ? event.queryStringParameters.private : false
     const strict = event.queryStringParameters.strict ? event.queryStringParameters.strict : false;
 
-    console.log('private_status: ' + private_status);
-    console.log('strict: ' + strict);
-
     // Grab the data from the multipart form
     let data = await parser.parse(event);
     data = data.files;
@@ -76,10 +73,6 @@ export async function handler (event, context, callback) {
 
 async function process_file(file_data, user, private_status, strict) {
     await logger.info('template-upload.process_file() - called');
-
-    console.log('private_status: ' + truthy(private_status));
-    console.log('strict: ' + strict);
-    console.log('strict: ' + truthy(strict));
 
     // Create a new template record to reflect the new file
     let templateResult;

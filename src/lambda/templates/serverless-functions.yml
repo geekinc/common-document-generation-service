@@ -88,5 +88,173 @@ templateUpload:
               responseModels:
                 application/json: "ErrorResponse"
 
+templateDelete:
+  handler: src/lambda/templates/template-delete.handler
+  timeout: 30
+  role: UploadRole
+  events:
+    - http:
+        path: /api/template/{uid}
+        method: delete
+        cors: true
+        authorizer:
+          name: combinedAuthorizer
+          resultTtlInSeconds: ${self:custom.resultTtlInSeconds}
+        documentation:
+          description: "This endpoint returns OK if a file has been removed from cache."
+          tags:
+            - Queue Management
+          headerParams:
+            - name: "Authorization"
+              description: "A bearer token containing a JWT for the user"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A response object containing the message 'OK'"
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: "UnauthorizedResponse"
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message returning the response fails"
+              responseModels:
+                application/json: "ErrorResponse"
+
+templateCached:
+  handler: src/lambda/templates/template-cached.handler
+  timeout: 30
+  role: UploadRole
+  events:
+    - http:
+        path: /api/template/{uid}
+        method: get
+        cors: true
+        authorizer:
+          name: combinedAuthorizer
+          resultTtlInSeconds: ${self:custom.resultTtlInSeconds}
+        documentation:
+          description: "This endpoint returns OK if a file has been removed from cache."
+          tags:
+            - Queue Management
+          headerParams:
+            - name: "Authorization"
+              description: "A bearer token containing a JWT for the user"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A response object containing the message 'OK'"
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: "UnauthorizedResponse"
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message returning the response fails"
+              responseModels:
+                application/json: "ErrorResponse"
+
+templateRenderId:
+  handler: src/lambda/templates/template-render-id.handler
+  timeout: 30
+  role: UploadRole
+  events:
+    - http:
+        path: /api/template/{uid}/render
+        method: post
+        cors: true
+        authorizer:
+          name: combinedAuthorizer
+          resultTtlInSeconds: ${self:custom.resultTtlInSeconds}
+        documentation:
+          description: "This endpoint returns OK if a file has been removed from cache."
+          tags:
+            - Queue Management
+          headerParams:
+            - name: "Authorization"
+              description: "A bearer token containing a JWT for the user"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A response object containing the message 'OK'"
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: "UnauthorizedResponse"
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message returning the response fails"
+              responseModels:
+                application/json: "ErrorResponse"
+
+templateRenderInline:
+  handler: src/lambda/templates/template-render-inline.handler
+  timeout: 30
+  role: UploadRole
+  events:
+    - http:
+        path: /api/template/render
+        method: post
+        cors: true
+        authorizer:
+          name: combinedAuthorizer
+          resultTtlInSeconds: ${self:custom.resultTtlInSeconds}
+        documentation:
+          description: "This endpoint returns OK if a file has been removed from cache."
+          tags:
+            - Queue Management
+          headerParams:
+            - name: "Authorization"
+              description: "A bearer token containing a JWT for the user"
+              required: true
+              schema:
+                type: "string"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A response object containing the message 'OK'"
+            - statusCode: 401
+              responseBody:
+                description: "Unauthorized"
+              responseModels:
+                application/json: "UnauthorizedResponse"
+            - statusCode: 403
+              responseBody:
+                description: "Forbidden"
+              responseModels:
+                application/json: ForbiddenResponse
+            - statusCode: 500
+              responseBody:
+                description: "An error message returning the response fails"
+              responseModels:
+                application/json: "ErrorResponse"
+
 
 
