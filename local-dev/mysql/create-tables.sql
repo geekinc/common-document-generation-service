@@ -60,8 +60,8 @@ CREATE TABLE
     IF NOT EXISTS `log`
 (
    id                   INT auto_increment NOT NULL,
+   log_level            varchar(100) NULL,
    message              MEDIUMTEXT NULL,
-   created_by           varchar(100) NULL,
    created_timestamp    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
    PRIMARY KEY (id)

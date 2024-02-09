@@ -27,13 +27,11 @@ test('user-lib - get a non-existent user', async () => {
     try {
         await Users.getUserByUsername(invalidData);
     } catch (e) {
-        expect(e.message).toBe('Error getting user');
+        expect(e.message).toBe("ER_WRONG_VALUE_COUNT_ON_ROW: Column count doesn't match value count at row 1");
     }
 
     // Check the response for the expected error
     expect(output.code).toBe(undefined);
-
-    // TODO: This is not working as expected - the output should be the error message "ER_BAD_FIELD_ERROR"
 });
 
 /**

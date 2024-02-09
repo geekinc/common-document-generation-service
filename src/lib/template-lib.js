@@ -1,6 +1,6 @@
 import { dao } from "./dao-mysql-lib.cjs";
 import { logger } from "./logger-lib.js";
-
+process.env.LOG_LEVEL = 'off';
 
 export default class Templates {
 

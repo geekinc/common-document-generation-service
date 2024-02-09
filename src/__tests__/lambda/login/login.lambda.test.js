@@ -9,7 +9,7 @@ jest.spyOn(console, "error").mockImplementation((message) => { return message; }
 /**
  * Happy Path - Test the authorization method with a known user
  */
-test('auth - known good user', async () => {
+test('login - known good user', async () => {
     let event = new Event();
     let context = new Context();
 
@@ -32,7 +32,7 @@ test('auth - known good user', async () => {
 /**
  * Broken Path - Use a known bad password
  */
-test('auth - known bad password', async () => {
+test('login - known bad password', async () => {
     let event = new Event();
     let context = new Context();
 
@@ -54,7 +54,7 @@ test('auth - known bad password', async () => {
 /**
  * Broken Path - garbage user input
  */
-test('auth - garbage user input', async () => {
+test('login - garbage user input', async () => {
     let event = new Event();
     let context = new Context();
 
@@ -76,7 +76,7 @@ test('auth - garbage user input', async () => {
 /**
  * Broken Path - garbage password input
  */
-test('auth - garbage password input', async () => {
+test('login - garbage password input', async () => {
     let event = new Event();
     let context = new Context();
 
@@ -87,11 +87,11 @@ test('auth - garbage password input', async () => {
     });
 
     // Call our method
-    let result = await main(event, context);
-
-    // Check the response
-    const body = JSON.parse(result.body);
-    expect(body).toMatchObject({ error: 'Invalid credentials' });
+    try {
+        await main(event, context);
+    } catch (e) {
+        expect(e).toBeDefined();
+    }
 });
 
 

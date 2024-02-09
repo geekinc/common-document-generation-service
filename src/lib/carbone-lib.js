@@ -45,7 +45,8 @@ export async function addTemplate(template) {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        .then(function (response) {
+        .then(async function (response) {
+            await logger.warn('carbone-lib.addTemplate() - response: ' + JSON.stringify(response.data));
             return { status: 'success', data: response.data };
         })
         .catch(function (error) {
@@ -85,7 +86,7 @@ export async function fetchTemplate(templateId) {
                 'carbone-version': '4'
             }
         })
-        .then(function (response) {
+        .then(async function (response) {
             return { status: 'success', data: response.data };
         })
         .catch(function (error) {
@@ -104,7 +105,8 @@ export async function fetchStatus() {
                 'carbone-version': '4'
             }
         })
-        .then(function (response) {
+        .then(async function (response) {
+            await logger.warn('carbone-lib.fetchStatus() - response: ' + JSON.stringify(response.data));
             return { status: 'success', data: response.data };
         })
         .catch(function (error) {
@@ -164,7 +166,8 @@ export async function generateDocument(template, data, options) {
                 'Content-Type': 'application/json'
             }
         })
-        .then(function (response) {
+        .then(async function (response) {
+            await logger.warn('carbone-lib.generateDocument() - response: ' + JSON.stringify(response.data));
             return { status: 'success', data: response.data };
         })
         .catch(function (error) {
@@ -184,7 +187,7 @@ export async function retrieveDocument(documentId) {
                 'carbone-version': '4'
             }
         })
-        .then(function (response) {
+        .then(async function (response) {
             return { status: 'success', data: response.data };
         })
         .catch(function (error) {

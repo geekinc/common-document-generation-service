@@ -28,3 +28,30 @@ console.log('This line is not covered by tests');
 /* istanbul ignore next */
 if (environment === 'production') { console.log('not covered by tests - because it can\'t be executed by the local tests'); }
 ```
+
+### 2.2. Logger
+
+The logger is a simple library to abstract away the console logging.  It is used to make it easier to
+turn off logging in production.  It also makes it easier to test the logging.
+
+In addition, the logger can be extended to log to other services (e.g. loggly, papertrail, etc.)
+We have shown an example of this using the MySQL database.
+
+Currently, there is logic around the log levels and whether or not to push the logs to the console.
+That logic does not extend to the logger database calls.  Everything gets written every time.
+
+This can be modified by updating the LOG_LEVEL environment variable.
+
+**IMPORTANT:** The logger will only accept text.  If you try to push binary data in without encoding it
+in some way (Base64 or hex as text), the logger will throw an error.
+
+The message field in the database is a MEDUIMTEXT field.  This means that it can hold up to 16MB of data.
+
+.env file:
+```
+LOG_LEVEL=info
+-or-
+LOG_LEVEL=warn
+-or-
+LOG_LEVEL=off
+```
