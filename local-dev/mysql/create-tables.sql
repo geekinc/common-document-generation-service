@@ -8,7 +8,6 @@ CREATE DATABASE
 USE `cdgs`;
 -- -----------------------------------------------------
 
--- Table `cdgs`.`user`
 CREATE TABLE
     IF NOT EXISTS `user`
 (
@@ -24,7 +23,6 @@ CREATE TABLE
 );
 
 
--- Table `dynamic`.`user_metadata`
 CREATE TABLE
     IF NOT EXISTS `user_metadata`
 (
@@ -39,3 +37,33 @@ CREATE TABLE
 
     PRIMARY KEY (`id`)
 );
+
+
+CREATE TABLE
+    IF NOT EXISTS `template`
+(
+   id                   INT auto_increment NOT NULL,
+   carbone_id           varchar(100) NULL,
+   filename             varchar(100) NULL,
+   filetype             varchar(100) NULL,
+   storage_location     varchar(255) NULL,
+   private_status       tinyint(1) DEFAULT 0,
+   strict               tinyint(1) DEFAULT 0,
+   created_by           varchar(100) NULL,
+   created_timestamp    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+   PRIMARY KEY (id)
+);
+
+
+CREATE TABLE
+    IF NOT EXISTS `log`
+(
+   id                   INT auto_increment NOT NULL,
+   message              MEDIUMTEXT NULL,
+   created_by           varchar(100) NULL,
+   created_timestamp    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+   PRIMARY KEY (id)
+);
+

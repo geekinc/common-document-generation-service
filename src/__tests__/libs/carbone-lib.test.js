@@ -80,8 +80,6 @@ beforeAll(async () => {
     // Add template and fetch id
     let result = await addTemplate(templateFile);
 
-    console.log(result);
-
     templateId = result.data.data.templateId;
 
     // Generate the document and fetch renderId
@@ -147,7 +145,11 @@ test('carbone-lib - delete non-existent template', async () => {
  */
 test('carbone-lib - add & fetch template', async () => {
 
-    let fetchResult = await fetchTemplate(templateId);
+    // Add template and fetch id
+    let result = await addTemplate(templateFile);
+    const localTemplateId = result.data.data.templateId;
+
+    let fetchResult = await fetchTemplate(localTemplateId);
 
     // Look for a successful response with actual data returned
     expect(fetchResult.status).toBe('success');

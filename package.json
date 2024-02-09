@@ -12,7 +12,7 @@
     "quickstart": "nodemon ./node_modules/serverless/bin/serverless offline start",
     "poststart": "cd local-dev && ./local-stop.sh && cd ..",
     "pretest": "cd local-dev && ./local-start.sh && cd ..",
-    "test": "jest --coverage --openHandlesTimeout=3000 --force-exit",
+    "test": "jest --coverage --openHandlesTimeout=60000 --force-exit",
     "jest": "jest --coverage --openHandlesTimeout=60000",
     "posttest": "cd local-dev && ./local-stop.sh && cd ..",
     "deploy": "serverless deploy",

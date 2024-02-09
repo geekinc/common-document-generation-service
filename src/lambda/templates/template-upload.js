@@ -20,6 +20,10 @@ if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local con
     });
 }
 
+// Process the template upload
+// For each file in the multipart form, upload to S3 and return the link
+// Take the link and update the template database
+//
 export async function handler (event) {
     await logger.info(JSON.stringify(event, null, 2));
 

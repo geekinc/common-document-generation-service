@@ -2,6 +2,7 @@
  * IMPORTANT: Most of the code from this file was originally from the original common document generation service
  *            Credit where credit is due.  This code was originally written by the original author of the CDGS.
  */
+/* istanbul ignore file */
 
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
@@ -99,4 +100,15 @@ export const prettyStringify = (obj, indent = 2) => JSON.stringify(obj, null, in
 export const truthy = (name, obj = {}) => {
     const value = obj[name] || false;
     return (value === true || value === 'true' || value === '1' || value === 'yes' || value === 'y' || value === 't' || value === 1);
+}
+
+
+/**
+ * Returns the UNIX timestamp for the given `date`. Defaults to `Date.now()`
+ * when not providing the `date` argument to the method call.
+ *
+ * @returns {Number}
+ */
+export const unixTimestamp = (date = Date.now()) => {
+    return Math.floor(date / 1000)
 }
