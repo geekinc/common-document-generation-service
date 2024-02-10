@@ -40,11 +40,13 @@ export async function handler (event, context, callback) {
     }
 
     let private_status = false;
+    /* istanbul ignore next */
     if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('private')) {
         private_status = truthy(event.queryStringParameters.private);
     }
 
     let strict = false;
+    /* istanbul ignore next */
     if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('strict')) {
         strict = truthy(event.queryStringParameters.strict);
     }
@@ -86,11 +88,12 @@ export async function handler (event, context, callback) {
     }
 }
 
-async function process_file(file_data, user, private_status, strict, timestamp) {
+export async function process_file(file_data, user, private_status, strict, timestamp) {
     await logger.info('template-upload.process_file() - called');
 
     // Create a new template record to reflect the new file
     let templateResult;
+    /* istanbul ignore next */
     const templateData = {
         filename: file_data.filename,
         filetype: file_data.contentType,

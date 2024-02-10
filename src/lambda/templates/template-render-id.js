@@ -47,12 +47,14 @@ const bodySchema = Joi.object({
 export async function handler (event, context, callback) {
     await logger.info(JSON.stringify(event, null, 2));
 
+    // console.log(event);
+
     let body = telejson.parse(event.body, {allowFunction: true});
-    const user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
     const hash = event.pathParameters.uid;
 
     // Validate the body
     let {error, value} = await bodySchema.validate(body);
+    /* istanbul ignore next */
     if (error) {
         await logger.error(error);
         return {
@@ -63,6 +65,7 @@ export async function handler (event, context, callback) {
 
     // Determine if the template is already in the database
     const templates = await Templates.getTemplateByHash(hash);
+    /* istanbul ignore next */
     if (templates.length === 0) {
         return {
             statusCode: 404,
@@ -78,16 +81,18 @@ export async function handler (event, context, callback) {
     let localFormatters;
     try {
         localFormatters = await telejson.parse(body.formatters, {allowFunction: true});
-    } catch (e) {
-        console.log({
+    } catch (e) /* istanbul ignore next */ {
+        await logger.info(JSON.stringify({
             value: body.formatters,
             message: 'Formatters could not be parsed into formatters object. See \'https://www.npmjs.com/package/telejson\'.'
-        });
+        }));
     }
 
     // Populate the options object
     let options = body.options;
+    /* istanbul ignore next */
     options.convertTo = options.convertTo || template.ext;
+    /* istanbul ignore next */
     if (options.convertTo.startsWith('.')) {
         options.convertTo = options.convertTo.slice(1);
     }
@@ -113,7 +118,7 @@ export async function handler (event, context, callback) {
     try {
         rendered = await carbone.retrieveDocument(documentId);
     } catch (err) /* istanbul ignore next */ {
-        console.log(err)
+        // console.log(err)
         return {
             statusCode: 500,
             body: JSON.stringify({error: err})

@@ -170,7 +170,7 @@ export async function generateDocument(template, data, options) {
             }
         })
         .then(async function (response) {
-            await logger.warn('carbone-lib.generateDocument() - response: ' + JSON.stringify(response.data));
+            // await logger.warn('carbone-lib.generateDocument() - response: ' + JSON.stringify(response.data));
             return { status: 'success', data: response.data };
         })
         .catch(function (error) {

@@ -1,7 +1,7 @@
 
 const Request = class {
     body = {};
-    pathParams = {};
+    pathParameters = {};
     queryStringParameters = {};
     headers = {};
     httpMethod = "GET";
@@ -47,7 +47,7 @@ const Response = class {
 
 const Event = class {
     body = {};
-    pathParams = {};
+    pathParameters = {};
     queryStringParameters = {};
     headers = {};
     httpMethod = "GET";

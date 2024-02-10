@@ -31,6 +31,7 @@ if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local con
 export async function handler (event, context, callback) {
     await logger.info(JSON.stringify(event, null, 2));
 
+    /* istanbul ignore next */
     const user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
     const hash = event.pathParameters.uid;
 

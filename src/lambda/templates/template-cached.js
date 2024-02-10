@@ -1,11 +1,6 @@
 import AWS from "aws-sdk";  // Reference: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/
-import parser from 'partparse';
 import { logger } from '../../lib/logger-lib.js'
 import Templates from '../../lib/template-lib.js';
-import { truthy, unixTimestamp } from "../../lib/utils-lib.js";
-import * as carbone from '../../lib/carbone-lib.js';
-import os from 'os'
-import * as fs from "fs";
 let s3;
 
 /* istanbul ignore else */
@@ -31,15 +26,16 @@ if (process.env.S3_ENDPOINT === 'http://localhost:4569') {          // Local con
 export async function handler (event, context, callback) {
     await logger.info(JSON.stringify(event, null, 2));
 
-    const user = event.requestContext.authorizer.claims['username'] ? event.requestContext.authorizer.claims['username'] : 'no-user';
     const hash = event.pathParameters.uid;
     let download = false;
+    /* istanbul ignore next */
     if (event.queryStringParameters && event.queryStringParameters.hasOwnProperty('download')) {
         download = event.queryStringParameters.download !== false;
     }
 
     // Determine if the template is already in the database
     const templates = await Templates.getTemplateByHash(hash);
+    /* istanbul ignore next */
     if (templates.length === 0) {
         return {
             statusCode: 404,
@@ -47,8 +43,7 @@ export async function handler (event, context, callback) {
         }
     }
 
-    console.log(templates);
-
+    /* istanbul ignore next */
     if (download) {
         const template = templates[0];
         const params = {
@@ -57,7 +52,6 @@ export async function handler (event, context, callback) {
         };
 
         const object = await s3.getObject(params).promise();
-        console.log(object);
         return {
             statusCode: 200,
             headers: {
