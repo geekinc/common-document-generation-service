@@ -77,24 +77,24 @@ export async function handler (event, context, callback) {
         }
     }
 
-    // Upload the Base64 encoded template
-    const localTemplate = body.template.content;
-    let bodyFormData = new FormData();
-    bodyFormData.append('template', localTemplate);
-    let axiosResponse = await axios({
-        method: "post",
-        url: process.env.API_SERVER + "/template",
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-    })
-        .then(function (response) {
-            //handle success
-            // console.log(response);
-        })
-        .catch(function (response) {
-            //handle error
-            // console.log(response);
-        });
+    // // Upload the Base64 encoded template
+    // const localTemplate = body.template.content;
+    // let bodyFormData = new FormData();
+    // bodyFormData.append('template', localTemplate);
+    // let axiosResponse = await axios({
+    //     method: "post",
+    //     url: process.env.API_SERVER + "/template",
+    //     data: bodyFormData,
+    //     headers: { "Content-Type": "multipart/form-data" },
+    // })
+    //     .then(function (response) {
+    //         //handle success
+    //         // console.log(response);
+    //     })
+    //     .catch(function (response) {
+    //         //handle error
+    //         // console.log(response);
+    //     });
 
     const timestamp = unixTimestamp();
     const file = {

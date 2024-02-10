@@ -2,6 +2,12 @@
 
 This is a flexible serverless API to generate documents based on data and templates. It is built using the Serverless Framework.
 
+See it in action in the video below:
+
+[![Video Demo](https://i.vimeocdn.com/video/1796492422-16c1125da262c52df650cc16ce8b4b245637166df0e6165ffee7bbff5e55cf4e-d?mw=960&mh=540)](https://vimeo.com/911786474/908e79aab3)
+
+[Watch Video](https://vimeo.com/911786474/908e79aab3)
+
 ## Getting Started
 
 ### OpenAPI Specification
@@ -86,11 +92,6 @@ While this creates a local API environment - including all the endpoints, it doe
 
 To solve this problem, we've created a `dev` stage that will create the necessary infrastructure for you.
 This infrastructure is emulated using several Docker containers, including MySQL and ElasticMQ (for local SQS execution).
-
-See it in action in the video below:
-
-[![Video Demo](https://i.vimeocdn.com/video/1796492422-16c1125da262c52df650cc16ce8b4b245637166df0e6165ffee7bbff5e55cf4e-d?mw=960&mh=540)](https://vimeo.com/911776556/5c25b0eeec)
-
 
 To start the server, you can run the following command:
 
