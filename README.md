@@ -87,6 +87,8 @@ While this creates a local API environment - including all the endpoints, it doe
 To solve this problem, we've created a `dev` stage that will create the necessary infrastructure for you.
 This infrastructure is emulated using several Docker containers, including MySQL and ElasticMQ (for local SQS execution).
 
+[![Video Demo](https://raw.githubusercontent.com/geekinc/common-document-generation-service/main/docs/assets/simple-video.png)](https://vimeo.com/911776556/5c25b0eeec?share=copy)
+
 To start the server, you can run the following command:
 
 ```bash
